@@ -23,6 +23,7 @@ explore: sends {
 # Define the dimensions and measures for the CUSTOMERS view #
 #############################################################
 view: sends {
+  sql_table_name: EMAIL_SENDS;;
   dimension: id {
     primary_key: yes
     type: string
