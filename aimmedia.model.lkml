@@ -1,5 +1,6 @@
 connection: "snowflake"
 
+##comment
 # include all the views
 include: "*.view"
 
