@@ -47,4 +47,11 @@ explore: sends {
         and ${sends.subscriber_id} = ${bounces.subscriber_id} ;;
     relationship: one_to_many
   }
+  join:  complaints {
+    type: left_outer
+    sql_on: ${sends.client_id} = ${complaints.client_id}
+        and ${sends.send_id} = ${complaints.send_id}
+        and ${sends.subscriber_id} = ${complaints.subscriber_id} ;;
+    relationship: one_to_many
+  }
   }

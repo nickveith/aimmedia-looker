@@ -63,6 +63,18 @@ view: sends {
     sql: ${TABLE}.TRIGGERED_SEND_EXTERNAL_ID ;;
   }
 
+  dimension: group {
+    type: string
+    sql: case when ${client_id} = 7231929 then 'AIM Parent'
+              when ${client_id} = 7233488 then 'Equine Group'
+              when ${client_id} = 7233491 then 'Healthy Living Group'
+              when ${client_id} = 7233492 then 'Home Group'
+              when ${client_id} = 7237799 then 'Marine Group'
+              when ${client_id} = 7233494 then 'Outdoor Group'
+              else 'Other'
+          end;;
+  }
+
   measure: sends {
     type: count
     drill_fields: [id]

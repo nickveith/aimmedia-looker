@@ -87,8 +87,28 @@ view: clicks {
     sql: ${TABLE}.URL_ID ;;
   }
 
-  measure: count {
+  measure: clicks {
     type: count
+    drill_fields: [id]
+  }
+
+  measure: unique_clicks {
+    type: count_distinct
+    sql: CONCAT(${client_id},' ',${send_id},' ',${subscriber_id});;
+    drill_fields: [id]
+  }
+
+  measure: click_through_rate {
+    type: number
+    value_format_name: percent_2
+    sql:  1.0 * ${unique_clicks} / nullif(${sends.unique_sends},0) ;;
+    drill_fields: [id]
+  }
+
+  measure: click_to_open_rate {
+    type: number
+    value_format_name: percent_2
+    sql:  1.0 * ${unique_clicks} / nullif(${opens.unique_opens},0) ;;
     drill_fields: [id]
   }
 }

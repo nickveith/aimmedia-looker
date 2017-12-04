@@ -4,25 +4,29 @@ view: opens {
   dimension: id {
     primary_key: yes
     type: string
+    hidden: yes
     sql: ${TABLE}.ID ;;
   }
 
   dimension: batch_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.BATCH_ID ;;
   }
 
   dimension: client_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.CLIENT_ID ;;
   }
 
   dimension: email_address {
     type: string
+    hidden: yes
     sql: ${TABLE}.EMAIL_ADDRESS ;;
   }
 
-  dimension: event_date {
+  dimension: open_date {
     type: string
     sql: ${TABLE}.EVENT_DATE ;;
   }
@@ -34,31 +38,37 @@ view: opens {
 
   dimension: is_unique {
     type: yesno
+    hidden: yes
     sql: ${TABLE}.IS_UNIQUE ;;
   }
 
   dimension: list_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.LIST_ID ;;
   }
 
   dimension: send_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.SEND_ID ;;
   }
 
   dimension: subscriber_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.SUBSCRIBER_ID ;;
   }
 
   dimension: subscriber_key {
     type: string
+    hidden: yes
     sql: ${TABLE}.SUBSCRIBER_KEY ;;
   }
 
   dimension: triggered_send_external_id {
     type: string
+    hidden: yes
     sql: ${TABLE}.TRIGGERED_SEND_EXTERNAL_ID ;;
   }
 
@@ -69,7 +79,7 @@ view: opens {
 
   measure: unique_opens {
     type: count_distinct
-    sql: ${id} ;;
+    sql: CONCAT(${client_id},' ',${send_id},' ',${subscriber_id});;
     drill_fields: [id]
   }
 

@@ -66,4 +66,22 @@ view: complaints {
     type: count
     drill_fields: [id]
   }
+
+  measure: complaints {
+    type: count
+    drill_fields: [id]
+  }
+
+  measure: unique_complaints {
+    type: count_distinct
+    sql: CONCAT(${client_id},' ',${send_id},' ',${subscriber_id});;
+    drill_fields: [id]
+  }
+
+  measure: complaint_rate {
+    type: number
+    value_format_name: percent_2
+    sql:  1.0 * ${unique_complaints} / nullif(${sends.unique_sends},0) ;;
+    drill_fields: [id]
+  }
 }
