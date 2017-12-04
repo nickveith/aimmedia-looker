@@ -1,5 +1,5 @@
-view: email_lists_staging {
-  sql_table_name: PUBLIC.EMAIL_LISTS_STAGING ;;
+view: lists {
+  sql_table_name: PUBLIC.EMAIL_LISTS ;;
 
   dimension: client_id {
     type: number

@@ -1,4 +1,4 @@
-view: email_bounce {
+view: bounces {
   sql_table_name: PUBLIC.EMAIL_BOUNCE ;;
 
   dimension: id {

@@ -1,4 +1,4 @@
-view: email_clicks {
+view: clicks {
   sql_table_name: PUBLIC.EMAIL_CLICKS ;;
 
   dimension: id {

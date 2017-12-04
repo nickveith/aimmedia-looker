@@ -1,4 +1,4 @@
-view: email_complaints {
+view: complaints {
   sql_table_name: PUBLIC.EMAIL_COMPLAINTS ;;
 
   dimension: id {

@@ -1,4 +1,4 @@
-view: email_send_jobs {
+view: send_jobs {
   sql_table_name: PUBLIC.EMAIL_SEND_JOBS ;;
 
   dimension: additional {

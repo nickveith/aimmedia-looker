@@ -1,4 +1,4 @@
-view: email_unsubs {
+view: unsubs {
   sql_table_name: PUBLIC.EMAIL_UNSUBS ;;
 
   dimension: id {
