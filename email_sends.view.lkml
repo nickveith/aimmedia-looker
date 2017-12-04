@@ -30,6 +30,7 @@ view: sends {
   dimension_group: event_date {
     type: time
     timeframes: [date,day_of_week,day_of_month, month_name, month, year, quarter_of_year]
+    drill_fields: [group]
     sql: ${TABLE}.EVENT_DATE ;;
   }
 
@@ -85,4 +86,5 @@ view: sends {
     sql: ${id} ;;
     drill_fields: [id]
   }
+
 }
