@@ -73,7 +73,7 @@ view: unsubs {
 
   measure: unique_unsubs {
     type: count_distinct
-    sql: CONCAT(${client_id},' ',${send_id},' ',${subscriber_id});;
+    sql: ${client_id}||' '||${send_id}||' '||${subscriber_id};;
     drill_fields: [id]
   }
 
