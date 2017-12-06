@@ -6,7 +6,14 @@ include: "*.view"
 # include all the dashboards
 include: "*.dashboard"
 
+# datagroup: default {
+#   sql_trigger: SELECT CURRENT_DATE ;;
+#   max_cache_age: "30 hours"
+# }
+# persist_with: default
+
 explore: sends {
+#   persist_with: default
   from: sends
   join:  lists {
     type: left_outer
