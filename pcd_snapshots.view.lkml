@@ -1,14 +1,10 @@
 view: pcd_snapshots {
   derived_table: {
+    datagroup_trigger: monthly
     sql:
-      SELECT *
-      FROM
-      (
       select
           "id"
           , 'contract 1' as contract_number
-          , "contract1 renewal start issue" as start_date
-          , "contract1 renewal expire" as expiration_date
           , "process date - contract 1" as process_date
           , "contract1 source key code" as source_key_code
           , nullif("contract1 contract indicator", '') as contract_indicator
@@ -29,8 +25,6 @@ view: pcd_snapshots {
       select
           "id"
           , 'contract 2' as contract_number
-          , "contract2 renewal start issue" as start_date
-          , "contract2 renewal expire" as expiration_date
           , "process date - contract 2" as process_date
           , "contract2 source key code" as source_key_code
           , null as contract_indicator
@@ -51,8 +45,6 @@ view: pcd_snapshots {
       select
           "id"
           , 'contract 3' as contract_number
-          , "contract3 renewal start issue" as start_date
-          , "contract3 renewal expire" as expiration_date
           , "process date - contract 3" as process_date
           , "contract3 source key code" as source_key_code
           , null as contract_indicator
@@ -73,8 +65,6 @@ view: pcd_snapshots {
       select
           "id"
           , 'contract 4' as contract_number
-          , "contract4 renewal start issue" as start_date
-          , "contract4 renewal expire" as expiration_date
           , "process date - contract 4" as process_date
           , "contract4 source key code" as source_key_code
           , null as contract_indicator
@@ -95,8 +85,6 @@ view: pcd_snapshots {
       select
           "id"
           , 'contract 5' as contract_number
-          , "contract5 renewal start issue" as start_date
-          , "contract5 renewal expire" as expiration_date
           , "process date - contract 5" as process_date
           , "contract5 source key code" as source_key_code
           , null as contract_indicator
@@ -117,8 +105,6 @@ view: pcd_snapshots {
       select
           "id"
           , 'contract 6' as contract_number
-          , "contract6 renewal start issue" as start_date
-          , "contract6 renewal expire" as expiration_date
           , "process date - contract 6" as process_date
           , "contract6 source key code" as source_key_code
           , null as contract_indicator
@@ -139,8 +125,6 @@ view: pcd_snapshots {
       select
           "id"
           , 'contract 7' as contract_number
-          , "contract7 renewal start issue" as start_date
-          , "contract7 renewal expire" as expiration_date
           , "process date - contract 7" as process_date
           , "contract7 source key code" as source_key_code
           , null as contract_indicator
@@ -161,8 +145,6 @@ view: pcd_snapshots {
       select
           "id"
           , 'contract 8' as contract_number
-          , "contract8 renewal start issue" as start_date
-          , "contract8 renewal expire" as expiration_date
           , "process date - contract 8" as process_date
           , "contract8 source key code" as source_key_code
           , null as contract_indicator
@@ -183,8 +165,6 @@ view: pcd_snapshots {
       select
           "id"
           , 'contract 9' as contract_number
-          , "contract9 renewal start issue" as start_date
-          , "contract9 renewal expire" as expiration_date
           , "process date - contract 9" as process_date
           , "contract9 source key code" as source_key_code
           , null as contract_indicator
@@ -200,14 +180,17 @@ view: pcd_snapshots {
           , "price - contract 9" as price
           , nullif("contract9 cowles earnings", '') as cowles_earnings
          from pcd_log pcd_log
-        ) a
-        limit 5000
  ;;
   }
 
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+  dimension: pk {
+    primary_key: yes
+    hidden: yes
+    sql: ${id}||'-'||${contract_number} ;;
   }
 
   dimension: id {
@@ -226,8 +209,8 @@ view: pcd_snapshots {
     datatype: yyyymmdd
     sql:
       DATEADD(day,
-            substring(${TABLE}.start_date,3,2)::real * (substring(${TABLE}.start_date,1,2)/${pcd_publisher.frequency}::real) * 30.42,
-            TO_DATE('20'||substring(${TABLE}.start_date,1,2)||'0101', 'YYYYMMDD')) ;;
+            substring(${start_issue},3,2)::real * (substring(${start_issue},1,2)/${pcd_publisher.frequency}::real) * 30.42,
+            TO_DATE('20'||substring(${start_issue},1,2)||'0101', 'YYYYMMDD')) ;;
   }
 
   dimension_group: expiration {
@@ -236,8 +219,8 @@ view: pcd_snapshots {
     datatype: yyyymmdd
     sql:
       DATEADD(day,
-              substring(${TABLE}.expiration_date,3,2)::real * (substring(${TABLE}.expiration_date,1,2)/${pcd_publisher.frequency}::real) * 30.42,
-              TO_DATE('20'||substring(${TABLE}.expiration_date,1,2)||'0101', 'YYYYMMDD')
+              substring(${expiration_issue},3,2)::real * (substring(${expiration_issue},1,2)/${pcd_publisher.frequency}::real) * 30.42,
+              TO_DATE('20'||substring(${expiration_issue},1,2)||'0101', 'YYYYMMDD')
               );;
   }
 
@@ -280,12 +263,12 @@ view: pcd_snapshots {
 
   dimension: start_issue {
     type: string
-    sql: ${TABLE}.START_ISSUE ;;
+    sql: nullif(${TABLE}.START_ISSUE,'') ;;
   }
 
   dimension: expiration_issue {
     type: string
-    sql: ${TABLE}.EXPIRATION_ISSUE ;;
+    sql: COALESCE(nullif(${TABLE}.EXPIRATION_ISSUE,''),'9999-12-31 23:59:59') ;;
   }
 
   dimension: remit_rate {
@@ -300,7 +283,9 @@ view: pcd_snapshots {
 
   dimension: copies {
     type: string
-    sql: ${TABLE}.COPIES::int ;;
+    ####removed ::int because of non-int values
+    sql: ${TABLE}.COPIES ;;
+
   }
 
   dimension: price {

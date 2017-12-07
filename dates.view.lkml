@@ -2,8 +2,8 @@
 
 view: numbers {
   derived_table: {
-#     persist_for: "500 hours"
-#     indexes: ["number"]
+    persist_for: "5000 hours"
+    indexes: ["number"]
     sql:
         SELECT
         p0.n
@@ -30,7 +30,7 @@ dimension: number {}
 
 view: dates {
   derived_table: {
-    persist_for: "500 hours"
+    persist_for: "5000 hours"
     indexes: ["series_date"]
     sql:
       SELECT
