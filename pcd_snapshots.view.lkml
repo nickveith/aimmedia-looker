@@ -201,7 +201,6 @@ view: pcd_snapshots {
           , nullif("contract9 cowles earnings", '') as cowles_earnings
          from pcd_log pcd_log
         ) a
-        WHERE "id" = '7aef2523de83d556994e2282f4bfcdd8'
         limit 5000
  ;;
   }
