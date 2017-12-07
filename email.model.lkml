@@ -67,28 +67,14 @@ explore: pcd_log {
   hidden: yes
 }
 
-explore: pcd_facts {
-  sql_always_where: ${pcd_facts.account_sequence} = 1 ;;
+explore: pcd_snapshots {
   label: "Accounts"
-  join: pcd_log {
-    from: pcd_log
-    view_label: "Accounts Current Facts"
-    type: inner
-    sql_on: ${pcd_log.id} = ${pcd_facts.id} ;;
-    relationship: one_to_many
-  }
   join: pcd_publisher {
     view_label: "Publisher"
     type: left_outer
-    sql_on: ${pcd_log.client_code} = ${pcd_publisher.client_code}
-      AND ${pcd_log.pub_code} = ${pcd_publisher.pub_code}
+    sql_on: ${pcd_snapshots.client_code} = ${pcd_publisher.client_code}
+      AND ${pcd_snapshots.pub_code} = ${pcd_publisher.pub_code}
       AND ${pcd_publisher.frequency} is not null;;
       relationship: many_to_one
-  }
-  join: pcd_snapshots {
-    view_label: "Accounts Historical"
-    type: inner
-    sql_on: ${pcd_facts.id} = ${pcd_snapshots.id} ;;
-    relationship: one_to_many
   }
 }
