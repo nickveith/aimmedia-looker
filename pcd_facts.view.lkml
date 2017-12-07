@@ -6,7 +6,8 @@ view: pcd_facts {
       SELECT
         "id"
         , rank() over (partition by "account number", "client-18" order by "week ending" desc) as account_sequence
-      FROM pcd_log;;
+      FROM pcd_log
+      "week ending" is not null;;
 
   }
   dimension: id {hidden:yes sql:${TABLE}."id";;}
