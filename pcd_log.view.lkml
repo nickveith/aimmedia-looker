@@ -139,7 +139,7 @@ view: pcd_log {
         , nullif(pub.frequency,'') as frequency
     FROM
       MATILLION.PUBLIC.PCD_LOG
-    LEFT JOIN MATILLION.PUBLIC.PCD_PUBLISHER pub
+    INNER JOIN MATILLION.PUBLIC.PCD_PUBLISHER pub
       on (PCD_LOG."client-18" = pub.CLIENT_CODE and PCD_LOG."pub-18" = pub.PUB_CODE)
     WHERE "week ending" is not null
     AND pub.frequency is not null
