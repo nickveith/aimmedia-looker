@@ -74,12 +74,14 @@ explore: sends {
   }
   }
 
-explore: dates {
+explore: snapshots {
+  from: calendar_date
+  view_name: calendar_date
   persist_with: monthly
-  label: "PCD Snapshots"
   join: pcd_snapshots {
+    view_label: "Snapshots"
     type: inner
     relationship: one_to_many
-    sql: ${dates.date_date} >= ${pcd_snapshots.start_date} AND ${dates.date_date} < ${pcd_snapshots.expiration_date} ;;
+    sql: ${calendar_date.calendar_date} >= ${pcd_snapshots.start_date} AND ${calendar_date.calendar_date} < ${pcd_snapshots.expiration_date} ;;
   }
 }
