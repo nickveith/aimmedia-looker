@@ -142,6 +142,7 @@ view: pcd_log {
     LEFT JOIN MATILLION.PUBLIC.PCD_PUBLISHER pub
       on (PCD_LOG."client-18" = pub.CLIENT_CODE and PCD_LOG."pub-18" = pub.PUB_CODE)
     WHERE "week ending" is not null
+    AND pub.frequency is not null
     AND PCD_LOG."id" NOT IN
       ('e82bcca09436fb140922594ccfb3cdb1',
       '706461a3dd8e036f074f3854f0a34471',
