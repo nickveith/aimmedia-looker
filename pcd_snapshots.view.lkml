@@ -1,6 +1,6 @@
 view: pcd_snapshots {
   derived_table: {
-#     datagroup_trigger: monthly
+    datagroup_trigger: monthly
   sql:
       SELECT * FROM
       (
@@ -305,12 +305,13 @@ dimension_group: start {
   sql: ${TABLE}.start_date ;;
 }
 
-dimension_group: expiration {
-  type: time
-  timeframes: [date, week, month, year, month_num, raw]
-  datatype: yyyymmdd
-  sql: ${TABLE}.expiration_date;;
-}
+# dimension_group: expiration {
+#   type: time
+#   timeframes: [date, week, month, year, month_num, raw]
+#   datatype: yyyymmdd
+#   sql: ${TABLE}.expiration_date;;
+# }
+dimension: expiration_date {}
 
 dimension_group: process {
   type: time
