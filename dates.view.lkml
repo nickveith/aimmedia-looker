@@ -3,7 +3,6 @@
 view: numbers {
   derived_table: {
     persist_for: "5000 hours"
-    indexes: ["number"]
     sql:
         SELECT
         p0.n
@@ -31,14 +30,14 @@ dimension: number {}
 view: dates {
   derived_table: {
     persist_for: "5000 hours"
-    indexes: ["series_date"]
     sql:
       SELECT
           DATE_ADD('2001-01-01', INTERVAL numbers.number DAY)
         as series_date
       FROM ${numbers.SQL_TABLE_NAME} AS numbers ;;
       }
-dimension_group: series_date {
+dimension_group: date {
+  label: "Date"
     type: time
     datatype: date
     }

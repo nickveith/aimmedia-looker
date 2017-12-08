@@ -73,5 +73,12 @@ explore: sends {
   }
   }
 
-explore: pcd_snapshots {
+explore: dates {
+  persist_with: monthly
+  label: "PCD Snapshots"
+  join: pcd_snapshots {
+    type: inner
+    relationship: one_to_many
+    sql: ${dates.date_date} >= ${pcd_snapshots.start_date} AND ${dates.date_date} < ${pcd_snapshots.expiration_date} ;;
+  }
 }
