@@ -77,6 +77,7 @@ explore: sends {
 explore: snapshots {
   from: calendar_date
   view_name: calendar_date
+  label: "Contract Snapshots"
   persist_with: monthly
   join: pcd_snapshots {
     view_label: "Snapshots"
@@ -84,4 +85,11 @@ explore: snapshots {
     relationship: one_to_many
     sql: ${calendar_date.calendar_date} >= ${pcd_snapshots.start_date} AND ${calendar_date.calendar_date} < ${pcd_snapshots.expiration_date} ;;
   }
+}
+
+
+explore: contracts {
+  from: pcd_log
+  label: "Contracts (Current)"
+  description: "Current status of all contracts"
 }
