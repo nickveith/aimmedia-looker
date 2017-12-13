@@ -53,9 +53,14 @@ view: pcd_snapshots{
       year
     ]
     convert_tz: no
-    sql: DATEADD(day,
+    sql:
+    CASE
+      WHEN TRY_TO_NUMERIC(${expiration_issue}) is null then null
+      ELSE
+        DATEADD(day,
         substring(${expiration_issue},3,2)::real * (substring(${expiration_issue},1,2)/${frequency}::real) * 30.42,
-        TO_DATE('20'||substring(${expiration_issue},1,2)||'0101', 'YYYYMMDD')) ;;
+        TO_DATE('20'||substring(${expiration_issue},1,2)||'0101', 'YYYYMMDD'))
+      END;;
   }
 
   dimension: expiration_issue {
@@ -136,10 +141,14 @@ view: pcd_snapshots{
     convert_tz: no
     datatype: yyyymmdd
     sql:
+    CASE
+      WHEN TRY_TO_NUMERIC(${start_issue}) is null then null
+      ELSE
       DATEADD(day,
         substring(${start_issue},3,2)::real * (substring(${start_issue},1,2)/${frequency}::real) * 30.42,
         TO_DATE('20'||substring(${start_issue},1,2)||'0101', 'YYYYMMDD')
-        ) ;;
+        )
+    END;;
   }
 
   dimension: start_issue {
