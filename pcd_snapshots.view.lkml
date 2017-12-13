@@ -5,6 +5,11 @@ view: pcd_snapshots{
     type: string
     sql: ${TABLE}.CLIENT_CODE ;;
   }
+  dimension: pk {
+    primary_key: yes
+    hidden: yes
+    sql: ${pcd_account_number} || '-' || ${primary_source} || '-' || ${client_code};;
+  }
 
   dimension: contract_indicator {
     type: string
@@ -105,7 +110,7 @@ view: pcd_snapshots{
 
   dimension: frequency {
     type: number
-    sql: ${TABLE}.PUB_FREQUENCY ;;
+    sql: TRY_TO_NUMERIC(${TABLE}.PUB_FREQUENCY) ;;
   }
 
   dimension: remit_rate {

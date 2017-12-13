@@ -290,7 +290,7 @@ dimension: pk {
 
 dimension: id {
   type: string
-  sql: ${TABLE}."id", "match code" as pcd_match_code, "account number" as pcd_account_number, "client-18" as client_code, "pub-18" as pub_code ;;
+  sql: ${TABLE}."id";;
 }
 
 dimension: contract_number {
