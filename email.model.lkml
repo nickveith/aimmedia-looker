@@ -83,7 +83,7 @@ explore: snapshots {
     view_label: "Snapshots"
     type: inner
     relationship: one_to_many
-    sql: ${calendar_date.calendar_date} >= ${pcd_snapshots.start_date} AND ${calendar_date.calendar_date} < ${pcd_snapshots.expiration_date} ;;
+    sql_on: ${calendar_date.calendar_date} >= ${pcd_snapshots.start_date} AND ${calendar_date.calendar_date} < ${pcd_snapshots.expiration_date} ;;
   }
 }
 

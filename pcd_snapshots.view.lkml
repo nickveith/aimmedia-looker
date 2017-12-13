@@ -50,8 +50,7 @@ view: pcd_snapshots{
     convert_tz: no
     sql: DATEADD(day,
         substring(${expiration_issue},3,2)::real * (substring(${expiration_issue},1,2)/${frequency}::real) * 30.42,
-        TO_DATE('20'||substring(${expiration_issue},1,2)||'0101', 'YYYYMMDD')
-        ) ;;
+        TO_DATE('20'||substring(${expiration_issue},1,2)||'0101', 'YYYYMMDD')) ;;
   }
 
   dimension: expiration_issue {
