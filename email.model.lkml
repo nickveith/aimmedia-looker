@@ -76,12 +76,17 @@ explore: sends {
 
 explore: snapshots {
   from: calendar_date
-  view_name: calendar_date
   persist_with: monthly
-  join: pcd_snapshots {
-    view_label: "Snapshots"
-    type: inner
+  join: pcd_contracts {
+    type: left_outer
+    sql_on: ${snapshots.calendar_date} >= ${pcd_contracts.start_date}
+        and ${snapshots.calendar_date} <  ${pcd_contracts.expiration_date} ;;
     relationship: one_to_many
-    sql: ${calendar_date.calendar_date} >= ${pcd_snapshots.start_date} AND ${calendar_date.calendar_date} < ${pcd_snapshots.expiration_date} ;;
+  }
+  join: pcd_publisher {
+    type: left_outer
+    sql_on: ${pcd_publisher.client_code} = ${pcd_contracts.client_code}
+        and ${pcd_publisher.pub_code} =  ${pcd_contracts.pub_code} ;;
+    relationship: one_to_many
   }
 }

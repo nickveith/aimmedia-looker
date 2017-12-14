@@ -1,0 +1,41 @@
+view: pcd_current {
+  sql_table_name: PUBLIC.PCD_CURRENT;;
+
+  dimension: pcd_account_number {
+    label: "PCD Account Number"
+    type: string
+    sql: ${TABLE}."account number" ;;
+  }
+  dimension: pcd_match_code {
+    label: "PCD Match Code"
+    type: string
+    sql: ${TABLE}."match code" ;;
+  }
+
+  dimension: client_code {
+    type: string
+    sql: ${TABLE}."client-18" ;;
+  }
+  dimension: pub_code {
+    type: string
+    sql: ${TABLE}."pub-18" ;;
+  }
+
+  dimension: week_ending {
+    type: string
+    sql: ${TABLE}."week ending" ;;
+  }
+  dimension: account_sequence {
+    hidden: yes
+  }
+
+  dimension: id {
+    label: "PCD ID"
+    primary_key: yes
+    type: string
+    sql: ${TABLE}."id" ;;
+  }
+  measure: count {
+    type: count
+  }
+}

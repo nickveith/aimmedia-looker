@@ -12,7 +12,7 @@ view: pcd_publisher {
     sql: ${TABLE}.PUB_CODE ;;
   }
 
-  dimension: name {
+  dimension: publication {
     type: string
     sql: ${TABLE}.NAME ;;
   }
@@ -32,10 +32,10 @@ view: pcd_publisher {
 #     sql: ${TABLE}.ACS_MEMBER_NUMBER ;;
 #   }
 #
-#   dimension: active {
-#     type: yesno
-#     sql: ${TABLE}.ACTIVE ;;
-#   }
+  dimension: active {
+    type: yesno
+    sql: ${TABLE}.ACTIVE ;;
+  }
 #
 #   dimension: address_correction_acs_code {
 #     type: string
@@ -72,10 +72,10 @@ view: pcd_publisher {
 #     sql: ${TABLE}.CANADA_RATE ;;
 #   }
 #
-#   dimension: circ_director {
-#     type: string
-#     sql: ${TABLE}.CIRC_DIRECTOR ;;
-#   }
+  dimension: circ_director {
+    type: string
+    sql: ${TABLE}.CIRC_DIRECTOR ;;
+  }
 #
 #
 #
@@ -101,20 +101,21 @@ view: pcd_publisher {
 #
 #
 #
-#   dimension: fulfillment_manager {
-#     type: string
-#     sql: ${TABLE}.FULFILLMENT_MANAGER ;;
-#   }
+  dimension: fulfillment_manager {
+    type: string
+    sql: ${TABLE}.FULFILLMENT_MANAGER ;;
+  }
 #
 #   dimension: gl_code {
 #     type: string
 #     sql: ${TABLE}.GL_CODE ;;
 #   }
 #
-#   dimension: group {
-#     type: string
-#     sql: ${TABLE}."GROUP" ;;
-#   }
+  dimension: group {
+    type: string
+    drill_fields: [publication]
+    sql: ${TABLE}."GROUP" ;;
+  }
 #
 #   dimension: international_rate {
 #     type: number
@@ -205,8 +206,7 @@ view: pcd_publisher {
 #     sql: ${TABLE}.ZIP_CODE ;;
 #   }
 #
-#   measure: count {
-#     type: count
-#     drill_fields: [name]
-#   }
+  measure: count {
+    type: count
+  }
 }

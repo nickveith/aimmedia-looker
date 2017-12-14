@@ -77,9 +77,14 @@ view: clicks {
     sql: ${TABLE}.TRIGGERED_SEND_EXTERNAL_KEY ;;
   }
 
-  dimension: url {
+  dimension: full_url {
     type: string
     sql: ${TABLE}.URL ;;
+  }
+
+  dimension: url {
+    type: string
+    sql: regexp_substr(${TABLE}.URL, '^https?://[^\?]+') ;;
   }
 
   dimension: url_id {

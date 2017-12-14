@@ -1,6 +1,6 @@
-include: "pcd_log.view.lkml"
-view: pcd_log_extended {
-  extends: [pcd_log]
+include: "pcd_current.view.lkml"
+view: pcd_current_extended {
+  extends: [pcd_current]
 
 
   dimension: fourteen {
