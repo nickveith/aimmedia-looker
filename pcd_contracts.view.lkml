@@ -1,7 +1,7 @@
 view: pcd_contracts {
   sql_table_name: PUBLIC.PCD_CONTRACTS;;
 
-  measure: count {
+  measure: contracts {
     type: count
     drill_fields: [detail*]
   }
