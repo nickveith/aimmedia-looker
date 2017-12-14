@@ -76,11 +76,13 @@ explore: sends {
 
 explore: snapshots {
   from: calendar_date
+  view_name: calendar_date
+  label: "Contract Snapshots"
   persist_with: monthly
   join: pcd_contracts {
     type: left_outer
-    sql_on: ${snapshots.calendar_date} >= ${pcd_contracts.start_date}
-        and ${snapshots.calendar_date} <  ${pcd_contracts.expiration_date} ;;
+    sql_on: ${calendar_date.calendar_date} >= ${pcd_contracts.start_date}
+        and ${calendar_date.calendar_date} < ${pcd_contracts.expiration_date} ;;
     relationship: one_to_many
   }
   join: pcd_publisher {
@@ -89,4 +91,11 @@ explore: snapshots {
         and ${pcd_publisher.pub_code} =  ${pcd_contracts.pub_code} ;;
     relationship: one_to_many
   }
+}
+
+
+explore: contracts {
+  from: pcd_log
+  label: "Contracts (Current)"
+  description: "Current status of all contracts"
 }
