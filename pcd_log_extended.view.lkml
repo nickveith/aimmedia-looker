@@ -864,11 +864,6 @@ view: pcd_current_extended {
     sql: ${TABLE}."original src - prim. src" ;;
   }
 
-  dimension: original_start_issue {
-    type: string
-    sql: ${TABLE}."original start issue" ;;
-  }
-
   dimension: overall_expire {
     type: string
     sql: ${TABLE}."overall expire" ;;

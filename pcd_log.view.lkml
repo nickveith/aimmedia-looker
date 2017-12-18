@@ -29,6 +29,11 @@ view: pcd_log {
     hidden: yes
   }
 
+  dimension: original_start_issue {
+    type: string
+    sql: ${TABLE}."original start issue" ;;
+  }
+
   dimension: id {
     label: "PCD ID"
     primary_key: yes
@@ -36,6 +41,32 @@ view: pcd_log {
     type: string
     sql: ${TABLE}."id" ;;
   }
+
+  dimension: subscription_status {
+    type: string
+    sql: CASE WHEN "trailer status low" = '0' THEN 'PENDING'
+              WHEN "trailer status low" = '1' THEN 'ACTIVE'
+              WHEN "trailer status low" = '2' THEN 'CANCEL-REFUND'
+              WHEN "trailer status low" = '3' THEN 'CANCEL-DUPLICATE SALE'
+              WHEN "trailer status low" = '4' THEN 'CREDIT SUSPEND'
+              WHEN "trailer status low" = '5' THEN 'PO UNDELIVERABLE'
+              WHEN "trailer status low" = '6' THEN 'CANCEL-SUBSCRIBER REQUEST'
+              WHEN "trailer status low" = '7' THEN 'EXPIRED'
+              ELSE NULL
+              END;;
+        }
+
+  dimension: subcriber_type {
+    type: string
+    sql: CASE WHEN "subscriber type" = '1' THEN 'REGULAR'
+              WHEN "subscriber type" = '2' THEN 'DONOR - SUBSCRIBER'
+              WHEN "subscriber type" = '3' THEN 'DONOR ONLY (DOES NOT SUBSCRIBE)'
+              WHEN "subscriber type" = '4' THEN 'DONOR & RECIPIENT'
+              WHEN "subscriber type" = '5' THEN 'RECIPIENT'
+              ELSE NULL
+              END;;
+    }
+
   measure: count {
     type: count
 #     drill_fields: [id, name, company_name]

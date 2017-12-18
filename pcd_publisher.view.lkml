@@ -115,6 +115,10 @@ view: pcd_publisher {
     type: string
     drill_fields: [publication]
     sql: ${TABLE}."GROUP" ;;
+    link: {
+      label: "Dashboard"
+      url: "/dashboards/2?Publication={{ value | encode_uri }}"
+    }
   }
 #
 #   dimension: international_rate {

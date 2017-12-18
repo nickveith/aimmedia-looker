@@ -12,11 +12,12 @@ view: pcd_contracts {
     type: string
     sql: ${TABLE}.pcd_account_number ||'-'|| ${TABLE}.process_date;;
   }
+  dimension: pcd_account_number {}
 
   dimension_group: start {
     type: time
     timeframes: [date, week, month, year, month_num, raw]
-    datatype: yyyymmdd
+    datatype: date
     sql: ${TABLE}.start_date ;;
   }
 
