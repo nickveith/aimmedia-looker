@@ -1,17 +1,40 @@
 view: pcd_contracts {
-  sql_table_name: PUBLIC.PCD_CONTRACTS;;
 
-  measure: contracts {
-    type: count
-    drill_fields: [detail*]
+  derived_table: {
+
+    sql: SELECT c.*
+              , co.process_date as original_contract_process_date
+              , co.start_date as original_contract_start
+           FROM (SELECT pcd_account_id || '-' || process_date as contract_id
+                      , *
+                      , RANK() OVER(PARTITION BY client_code, pub_code, pcd_account_number ORDER BY start_date ASC) AS contract_number
+                   FROM PUBLIC.PCD_CONTRACTS
+                        ) c
+                   JOIN (SELECT pcd_account_id || '-' || process_date as contract_id
+                              , *
+                              , RANK() OVER(PARTITION BY client_code, pub_code, pcd_account_number ORDER BY start_date ASC) AS contract_number
+                           FROM PUBLIC.PCD_CONTRACTS
+                                ) co on (c.pcd_account_id = co.pcd_account_id and co.contract_number = 1)
+            ;;
   }
 
-  dimension: contract {
-    primary_key: yes
-    hidden:  yes
+  dimension: contract_id {
     type: string
-    sql: ${TABLE}.pcd_account_number ||'-'|| ${TABLE}.process_date;;
+    primary_key: yes
+    hidden: yes
+    sql: ${TABLE}.contract_id ;;
   }
+
+  dimension: pcd_account_id {
+    type: string
+    sql:  ${TABLE}.pcd_account_id ;;
+  }
+
+  dimension: contract_number {
+    type:  number
+    sql: ${TABLE}.pcd_contract_number ;;
+  }
+
   dimension: pcd_account_number {}
 
   dimension_group: start {
@@ -33,7 +56,11 @@ view: pcd_contracts {
     type: time
     timeframes: [date, week, month, year, month_num, raw]
     datatype: date
-    sql: TO_DATE(substring(${TABLE}.process_date,2,6), 'YYMMDD') ;;
+    sql: TRY_TO_DATE(CASE WHEN substring(${TABLE}.process_date,2,2) in ('0','1','2','3','4','5') then '20' else '19' end ||
+                     substring(${TABLE}.process_date,2,2)||'-'||
+                     substring(${TABLE}.process_date,4,2)||'-'||
+                     substring(${TABLE}.process_date,6,2)
+                    ) ;;
   }
 
   dimension: source_key_code {
@@ -108,13 +135,36 @@ view: pcd_contracts {
   }
 
   dimension: price {
-    type: string
-    sql: (${TABLE}.PRICE::real/100)::real ;;
+    type: number
+    sql: PRICECOPIES ;;
   }
 
   dimension: cowles_earnings {
     type: string
     sql: ${TABLE}.COWLES_EARNINGS ;;
+  }
+
+
+  dimension: age_in_months {
+    type: number
+    sql: DATEDIFF(month, ${TABLE}.original_contract_process_date, ${process_date}) ;;
+  }
+
+  measure: contracts {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  measure: revenue {
+    type: sum
+    sql: ${price} ;;
+  }
+
+  set: measures {
+    fields: [
+      revenue,
+      contracts
+    ]
   }
 
   set: detail {

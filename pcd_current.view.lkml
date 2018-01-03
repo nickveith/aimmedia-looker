@@ -28,19 +28,21 @@ view: pcd_current {
   dimension_group: original_start_date {
     type: time
     datatype: date
-    sql: DATEADD( day
-               , (substring("original start issue",3,2)::real - 1) * (365/ coalesce(${pcd_publisher.frequency},12))
-               , TRY_TO_DATE('01-JAN-'||case when substring("original start issue",1,1) in ('0', '1', '2') then '20' else '19' end||substring("original start issue",1,2))
-             );; }
+    sql: CASE WHEN "original start issue" = '0000' then null
+              ELSE DATEADD( day
+                         , (TRY_TO_NUMBER(substring("original start issue",3,2)) - 1) * (365/ coalesce(${pcd_publisher.frequency},12))
+                         , TRY_TO_DATE('01-JAN-'||case when substring("original start issue",1,1) in ('0', '1', '2') then '20' else '19' end||substring("original start issue",1,2))
+                       )
+            END ;; }
 
-  dimension: age_in_months {
-    type: number
-    sql: DATEDIFF(month, ${original_start_date_date},${calendar_date.calendar_date}) ;;
+  dimension: original_start_issue {
+    type: string
+    sql: ${TABLE}."original start issue" ;;
   }
 
   dimension: week_ending {
-    type: string
-    sql: ${TABLE}."week ending" ;;
+    type: date
+    sql: TO_DATE(substring("week ending",2,6), 'YYMMDD');;
   }
 
   dimension: account_sequence {
@@ -80,8 +82,114 @@ view: pcd_current {
               END;;
   }
 
+  dimension: is_subscriber {
+    type: yesno
+    sql: CASE WHEN "subscriber type" = '3' THEN False
+              ELSE True
+              END;;
+  }
+
+  dimension: source_code {
+    type: string
+    sql: CASE WHEN "subscriber type" = '3' THEN 'ZZZ - Non Sub Donor'
+              WHEN substring("current source key code",1,1) = 'Z' THEN substring("current source key code",1,2)
+              ELSE substring("current source key code",1,1)
+              END;;
+  }
+
+  dimension: source_type {
+    type: string
+    sql: CASE WHEN "subscriber type" = '3' THEN 'OTHER'
+              WHEN substring("current source key code",1,1) = 'Z' THEN 'AGENCIES'
+              ELSE 'DIR. TO PUB.'
+              END;;
+  }
+
+  dimension: source_of_business {
+    type: string
+    sql: CASE
+              WHEN "subscriber type" = '3' THEN 'NO SUB DONOR'
+              ----
+              WHEN substring("current source key code",1,2) = 'Z1' THEN 'DIGITAL ORDERS'
+              WHEN substring("current source key code",1,2) = 'Z3' THEN 'ASSOC NON DEDUCT'
+              WHEN substring("current source key code",1,2) = 'Z4' THEN 'RESERVE AMER CLUB'
+              WHEN substring("current source key code",1,2) = 'Z6' THEN 'RESERVE AMERICA'
+              WHEN substring("current source key code",1,2) = 'ZD' THEN 'NAT PUB EXC'
+              WHEN substring("current source key code",1,2) = 'ZG' THEN 'NSS ONLINE AGENTS'
+              WHEN substring("current source key code",1,2) = 'ZH' THEN 'ONLINE-CONT'
+              WHEN substring("current source key code",1,2) = 'ZJ' THEN 'NSS REWARDS CS'
+              WHEN substring("current source key code",1,2) = 'ZL' THEN 'NSS OTHER'
+              WHEN substring("current source key code",1,2) = 'ZM' THEN 'PCH'
+              WHEN substring("current source key code",1,2) = 'ZO' THEN 'DMA OFFERS'
+              WHEN substring("current source key code",1,2) = 'ZP' THEN 'CASH FIELD'
+              WHEN substring("current source key code",1,2) = 'ZR' THEN 'SCHOOL PLAN'
+              WHEN substring("current source key code",1,2) = 'ZS' THEN 'CATALOG'
+              WHEN substring("current source key code",1,2) = 'ZT' THEN 'TELEMARKETING'
+              WHEN substring("current source key code",1,2) = 'ZV' THEN 'RECEPTION ROOM'
+              WHEN substring("current source key code",1,2) = 'ZY' THEN 'OLD RESERVE AMER'
+              ----
+              WHEN substring("current source key code",1,1) = '0' THEN 'DTP PKG INSERT'
+              WHEN substring("current source key code",1,1) = '1' THEN 'DTP CONVERSION'
+              WHEN substring("current source key code",1,1) = '2' THEN 'DIRECT MAIL'
+              WHEN substring("current source key code",1,1) = '3' THEN '2X Renewal'
+              WHEN substring("current source key code",1,1) = '4' THEN 'DM-NON AUTO REN'
+              WHEN substring("current source key code",1,1) = '6' THEN 'INSERT CARDS'
+              WHEN substring("current source key code",1,1) = '7' THEN 'XMAS GIFT'
+              WHEN substring("current source key code",1,1) = '8' THEN 'WHITE MAIL'
+              WHEN substring("current source key code",1,1) = 'A' THEN 'INSERT NEWSSTAND'
+              WHEN substring("current source key code",1,1) = 'C' THEN 'COMP'
+              WHEN substring("current source key code",1,1) = 'D' THEN '3X RENEWALS'
+              WHEN substring("current source key code",1,1) = 'E' THEN 'AGENCY CONVERSION'
+              WHEN substring("current source key code",1,1) = 'F' THEN 'NON XMAS GIFT'
+              WHEN substring("current source key code",1,1) = 'G' THEN '4X RENEWALS'
+              WHEN substring("current source key code",1,1) = 'I' THEN 'INTERNET'
+              WHEN substring("current source key code",1,1) = 'J' THEN 'AUTOMATIC RENEWALS'
+              WHEN substring("current source key code",1,1) = 'K' THEN 'UNRENEWED RECIPIENT'
+              WHEN substring("current source key code",1,1) = 'L' THEN 'REN OF AUTO REN'
+              WHEN substring("current source key code",1,1) = 'N' THEN 'EMAIL COMBO'
+              WHEN substring("current source key code",1,1) = 'O' THEN 'OUTSIDE INTERNET'
+              WHEN substring("current source key code",1,1) = 'S' THEN 'Email Promotion'
+              WHEN substring("current source key code",1,1) = 'U' THEN 'COA'
+              WHEN substring("current source key code",1,1) = 'Y' THEN 'PUBLIC - SPONSORED'
+              ----
+              ELSE NULL
+              END;;
+  }
+
   measure: count {
     type: count
+  }
+
+  measure: actives {
+    type: count
+    filters: {
+      field: subscription_status
+      value: "ACTIVE"
+      }
+    filters: {
+      field: is_subscriber
+      value: "yes"
+    }
+  }
+
+  measure: expired {
+    type: count
+    filters: {
+      field: subscription_status
+      value: "EXPIRED"
+    }
+    filters: {
+      field: is_subscriber
+      value: "yes"
+    }
+  }
+
+  measure: subscribers {
+    type: count
+    filters: {
+      field: is_subscriber
+      value: "yes"
+    }
   }
 
 }
