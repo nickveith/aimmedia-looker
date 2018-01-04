@@ -74,5 +74,21 @@ explore: current {
         and ${pcd_contracts.contract_number} = 1;;
     relationship: one_to_many
   }
+  join: pcd_current_extended {
+    view_label: "Subscribers"
+    from: pcd_current_extended
+    type: left_outer
+    fields: [pcd_current_extended.name
+            ,pcd_current_extended.email_addr_1
+            ,pcd_current_extended.company_name
+            ,pcd_current_extended.street_address
+            ,pcd_current_extended.city
+            ,pcd_current_extended.stateprovince
+            ,pcd_current_extended.country
+            ,pcd_current_extended.zip
+            ]
+    sql_on: ${pcd_current.record_id} = ${pcd_current_extended.record_id};;
+    relationship: one_to_one
+  }
 
 }

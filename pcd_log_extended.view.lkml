@@ -175,7 +175,7 @@ view: pcd_current_extended {
 
   dimension: city {
     type: string
-    sql: ${TABLE}.city ;;
+    sql: ${TABLE}."city" ;;
   }
 
   dimension: ckdigit18 {
@@ -607,7 +607,7 @@ view: pcd_current_extended {
   dimension: country {
     type: string
     map_layer_name: countries
-    sql: ${TABLE}.country ;;
+    sql: ${TABLE}."country" ;;
   }
 
   dimension: credit_card_data {
@@ -668,6 +668,11 @@ view: pcd_current_extended {
   dimension: donor_match_code {
     type: string
     sql: ${TABLE}."donor match code" ;;
+  }
+
+  dimension: name {
+    type: string
+    sql: ${TABLE}."name" ;;
   }
 
   dimension: email_addr_1 {
@@ -1146,11 +1151,6 @@ view: pcd_current_extended {
     sql: ${TABLE}."trailer status high" ;;
   }
 
-  dimension: trailer_status_low {
-    type: string
-    sql: ${TABLE}."trailer status low" ;;
-  }
-
   dimension: trans__dollars__trans_1 {
     type: string
     sql: ${TABLE}."trans. dollars - trans 1" ;;
@@ -1319,7 +1319,7 @@ view: pcd_current_extended {
 
   dimension: zip {
     type: zipcode
-    sql: ${TABLE}.zip ;;
+    sql: ${TABLE}."zip" ;;
   }
 
   dimension: zip4 {

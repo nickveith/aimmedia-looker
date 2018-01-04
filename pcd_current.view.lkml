@@ -30,8 +30,8 @@ view: pcd_current {
     datatype: date
     sql: CASE WHEN "original start issue" = '0000' then null
               ELSE DATEADD( day
-                         , (TRY_TO_NUMBER(substring("original start issue",3,2)) - 1) * (365/ coalesce(${pcd_publisher.frequency},12))
-                         , TRY_TO_DATE('01-JAN-'||case when substring("original start issue",1,1) in ('0', '1', '2') then '20' else '19' end||substring("original start issue",1,2))
+                         , (TRY_TO_NUMBER(substring( ${TABLE}."original start issue",3,2)) - 1) * (365/ coalesce(${pcd_publisher.frequency},12))
+                         , TRY_TO_DATE('01-JAN-'||case when substring(${TABLE}."original start issue",1,1) in ('0', '1', '2') then '20' else '19' end||substring(${TABLE}."original start issue",1,2))
                        )
             END ;; }
 
@@ -59,62 +59,62 @@ view: pcd_current {
 
   dimension: subscription_status {
     type: string
-    sql: CASE WHEN "trailer status low" = '0' THEN 'PENDING'
-              WHEN "trailer status low" = '1' THEN 'ACTIVE'
-              WHEN "trailer status low" = '2' THEN 'CANCEL-REFUND'
-              WHEN "trailer status low" = '3' THEN 'CANCEL-DUPLICATE SALE'
-              WHEN "trailer status low" = '4' THEN 'CREDIT SUSPEND'
-              WHEN "trailer status low" = '5' THEN 'PO UNDELIVERABLE'
-              WHEN "trailer status low" = '6' THEN 'CANCEL-SUBSCRIBER REQUEST'
-              WHEN "trailer status low" = '7' THEN 'EXPIRED'
+    sql: CASE WHEN  ${TABLE}."trailer status low" = '0' THEN 'PENDING'
+              WHEN  ${TABLE}."trailer status low" = '1' THEN 'ACTIVE'
+              WHEN  ${TABLE}."trailer status low" = '2' THEN 'CANCEL-REFUND'
+              WHEN  ${TABLE}."trailer status low" = '3' THEN 'CANCEL-DUPLICATE SALE'
+              WHEN  ${TABLE}."trailer status low" = '4' THEN 'CREDIT SUSPEND'
+              WHEN  ${TABLE}."trailer status low" = '5' THEN 'PO UNDELIVERABLE'
+              WHEN  ${TABLE}."trailer status low" = '6' THEN 'CANCEL-SUBSCRIBER REQUEST'
+              WHEN  ${TABLE}."trailer status low" = '7' THEN 'EXPIRED'
               ELSE NULL
               END;;
   }
 
   dimension: subcriber_type {
     type: string
-    sql: CASE WHEN "subscriber type" = '1' THEN 'REGULAR'
-              WHEN "subscriber type" = '2' THEN 'DONOR - SUBSCRIBER'
-              WHEN "subscriber type" = '3' THEN 'DONOR ONLY (DOES NOT SUBSCRIBE)'
-              WHEN "subscriber type" = '4' THEN 'DONOR & RECIPIENT'
-              WHEN "subscriber type" = '5' THEN 'RECIPIENT'
+    sql: CASE WHEN  ${TABLE}."subscriber type" = '1' THEN 'REGULAR'
+              WHEN  ${TABLE}."subscriber type" = '2' THEN 'DONOR - SUBSCRIBER'
+              WHEN  ${TABLE}."subscriber type" = '3' THEN 'DONOR ONLY (DOES NOT SUBSCRIBE)'
+              WHEN  ${TABLE}."subscriber type" = '4' THEN 'DONOR & RECIPIENT'
+              WHEN  ${TABLE}."subscriber type" = '5' THEN 'RECIPIENT'
               ELSE NULL
               END;;
   }
 
   dimension: promote_status {
     type: string
-    sql: CASE WHEN "promote flag" = 'N' THEN 'Do Not Promote Name'
-              WHEN "promote flag" = '1' THEN 'Do Not Rent'
-              WHEN "promote flag" = '2' THEN 'Do Not Call'
-              WHEN "promote flag" = '3' THEN 'Do Not Rent or Call'
-              WHEN "promote flag" = '4' THEN 'NA'
-              WHEN "promote flag" = '5' THEN 'Do Not Rent'
-              WHEN "promote flag" = '6' THEN 'Do Not Call'
-              WHEN "promote flag" = '7' THEN 'Do Not Rent or Call'
+    sql: CASE WHEN  ${TABLE}."promote flag" = 'N' THEN 'Do Not Promote Name'
+              WHEN  ${TABLE}."promote flag" = '1' THEN 'Do Not Rent'
+              WHEN  ${TABLE}."promote flag" = '2' THEN 'Do Not Call'
+              WHEN  ${TABLE}."promote flag" = '3' THEN 'Do Not Rent or Call'
+              WHEN  ${TABLE}."promote flag" = '4' THEN 'NA'
+              WHEN  ${TABLE}."promote flag" = '5' THEN 'Do Not Rent'
+              WHEN  ${TABLE}."promote flag" = '6' THEN 'Do Not Call'
+              WHEN  ${TABLE}."promote flag" = '7' THEN 'Do Not Rent or Call'
               ELSE NULL
               END;;
   }
 
   dimension: is_subscriber {
     type: yesno
-    sql: CASE WHEN "subscriber type" = '3' THEN False
+    sql: CASE WHEN  ${TABLE}."subscriber type" = '3' THEN False
               ELSE True
               END;;
   }
 
   dimension: source_code {
     type: string
-    sql: CASE WHEN "subscriber type" = '3' THEN 'ZZZ - Non Sub Donor'
-              WHEN substring("current source key code",1,1) = 'Z' THEN substring("current source key code",1,2)
-              ELSE substring("current source key code",1,1)
+    sql: CASE WHEN  ${TABLE}."subscriber type" = '3' THEN 'ZZZ - Non Sub Donor'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'Z' THEN substring("current source key code",1,2)
+              ELSE substring( ${TABLE}."current source key code",1,1)
               END;;
   }
 
   dimension: source_type {
     type: string
-    sql: CASE WHEN "subscriber type" = '3' THEN 'OTHER'
-              WHEN substring("current source key code",1,1) = 'Z' THEN 'AGENCIES'
+    sql: CASE WHEN ${TABLE}."subscriber type" = '3' THEN 'OTHER'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'Z' THEN 'AGENCIES'
               ELSE 'DIR. TO PUB.'
               END;;
   }
@@ -122,49 +122,49 @@ view: pcd_current {
   dimension: source_of_business {
     type: string
     sql: CASE
-              WHEN "subscriber type" = '3' THEN 'NO SUB DONOR'
+              WHEN  ${TABLE}"subscriber type" = '3' THEN 'NO SUB DONOR'
               ----
-              WHEN substring("current source key code",1,2) = 'Z1' THEN 'DIGITAL ORDERS'
-              WHEN substring("current source key code",1,2) = 'Z3' THEN 'ASSOC NON DEDUCT'
-              WHEN substring("current source key code",1,2) = 'Z4' THEN 'RESERVE AMER CLUB'
-              WHEN substring("current source key code",1,2) = 'Z6' THEN 'RESERVE AMERICA'
-              WHEN substring("current source key code",1,2) = 'ZD' THEN 'NAT PUB EXC'
-              WHEN substring("current source key code",1,2) = 'ZG' THEN 'NSS ONLINE AGENTS'
-              WHEN substring("current source key code",1,2) = 'ZH' THEN 'ONLINE-CONT'
-              WHEN substring("current source key code",1,2) = 'ZJ' THEN 'NSS REWARDS CS'
-              WHEN substring("current source key code",1,2) = 'ZL' THEN 'NSS OTHER'
-              WHEN substring("current source key code",1,2) = 'ZM' THEN 'PCH'
-              WHEN substring("current source key code",1,2) = 'ZO' THEN 'DMA OFFERS'
-              WHEN substring("current source key code",1,2) = 'ZP' THEN 'CASH FIELD'
-              WHEN substring("current source key code",1,2) = 'ZR' THEN 'SCHOOL PLAN'
-              WHEN substring("current source key code",1,2) = 'ZS' THEN 'CATALOG'
-              WHEN substring("current source key code",1,2) = 'ZT' THEN 'TELEMARKETING'
-              WHEN substring("current source key code",1,2) = 'ZV' THEN 'RECEPTION ROOM'
-              WHEN substring("current source key code",1,2) = 'ZY' THEN 'OLD RESERVE AMER'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'Z1' THEN 'DIGITAL ORDERS'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'Z3' THEN 'ASSOC NON DEDUCT'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'Z4' THEN 'RESERVE AMER CLUB'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'Z6' THEN 'RESERVE AMERICA'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZD' THEN 'NAT PUB EXC'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZG' THEN 'NSS ONLINE AGENTS'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZH' THEN 'ONLINE-CONT'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZJ' THEN 'NSS REWARDS CS'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZL' THEN 'NSS OTHER'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZM' THEN 'PCH'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZO' THEN 'DMA OFFERS'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZP' THEN 'CASH FIELD'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZR' THEN 'SCHOOL PLAN'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZS' THEN 'CATALOG'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZT' THEN 'TELEMARKETING'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZV' THEN 'RECEPTION ROOM'
+              WHEN substring( ${TABLE}."current source key code",1,2) = 'ZY' THEN 'OLD RESERVE AMER'
               ----
-              WHEN substring("current source key code",1,1) = '0' THEN 'DTP PKG INSERT'
-              WHEN substring("current source key code",1,1) = '1' THEN 'DTP CONVERSION'
-              WHEN substring("current source key code",1,1) = '2' THEN 'DIRECT MAIL'
-              WHEN substring("current source key code",1,1) = '3' THEN '2X Renewal'
-              WHEN substring("current source key code",1,1) = '4' THEN 'DM-NON AUTO REN'
-              WHEN substring("current source key code",1,1) = '6' THEN 'INSERT CARDS'
-              WHEN substring("current source key code",1,1) = '7' THEN 'XMAS GIFT'
-              WHEN substring("current source key code",1,1) = '8' THEN 'WHITE MAIL'
-              WHEN substring("current source key code",1,1) = 'A' THEN 'INSERT NEWSSTAND'
-              WHEN substring("current source key code",1,1) = 'C' THEN 'COMP'
-              WHEN substring("current source key code",1,1) = 'D' THEN '3X RENEWALS'
-              WHEN substring("current source key code",1,1) = 'E' THEN 'AGENCY CONVERSION'
-              WHEN substring("current source key code",1,1) = 'F' THEN 'NON XMAS GIFT'
-              WHEN substring("current source key code",1,1) = 'G' THEN '4X RENEWALS'
-              WHEN substring("current source key code",1,1) = 'I' THEN 'INTERNET'
-              WHEN substring("current source key code",1,1) = 'J' THEN 'AUTOMATIC RENEWALS'
-              WHEN substring("current source key code",1,1) = 'K' THEN 'UNRENEWED RECIPIENT'
-              WHEN substring("current source key code",1,1) = 'L' THEN 'REN OF AUTO REN'
-              WHEN substring("current source key code",1,1) = 'N' THEN 'EMAIL COMBO'
-              WHEN substring("current source key code",1,1) = 'O' THEN 'OUTSIDE INTERNET'
-              WHEN substring("current source key code",1,1) = 'S' THEN 'Email Promotion'
-              WHEN substring("current source key code",1,1) = 'U' THEN 'COA'
-              WHEN substring("current source key code",1,1) = 'Y' THEN 'PUBLIC - SPONSORED'
+              WHEN substring( ${TABLE}."current source key code",1,1) = '0' THEN 'DTP PKG INSERT'
+              WHEN substring( ${TABLE}."current source key code",1,1) = '1' THEN 'DTP CONVERSION'
+              WHEN substring( ${TABLE}."current source key code",1,1) = '2' THEN 'DIRECT MAIL'
+              WHEN substring( ${TABLE}."current source key code",1,1) = '3' THEN '2X Renewal'
+              WHEN substring( ${TABLE}."current source key code",1,1) = '4' THEN 'DM-NON AUTO REN'
+              WHEN substring( ${TABLE}."current source key code",1,1) = '6' THEN 'INSERT CARDS'
+              WHEN substring( ${TABLE}."current source key code",1,1) = '7' THEN 'XMAS GIFT'
+              WHEN substring( ${TABLE}."current source key code",1,1) = '8' THEN 'WHITE MAIL'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'A' THEN 'INSERT NEWSSTAND'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'C' THEN 'COMP'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'D' THEN '3X RENEWALS'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'E' THEN 'AGENCY CONVERSION'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'F' THEN 'NON XMAS GIFT'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'G' THEN '4X RENEWALS'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'I' THEN 'INTERNET'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'J' THEN 'AUTOMATIC RENEWALS'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'K' THEN 'UNRENEWED RECIPIENT'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'L' THEN 'REN OF AUTO REN'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'N' THEN 'EMAIL COMBO'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'O' THEN 'OUTSIDE INTERNET'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'S' THEN 'Email Promotion'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'U' THEN 'COA'
+              WHEN substring( ${TABLE}."current source key code",1,1) = 'Y' THEN 'PUBLIC - SPONSORED'
               ----
               ELSE NULL
               END;;
@@ -190,7 +190,7 @@ view: pcd_current {
     type: count
     filters: {
       field: subscription_status
-      value: "EXPIRED"
+      value:  "EXPIRED"
     }
     filters: {
       field: is_subscriber
