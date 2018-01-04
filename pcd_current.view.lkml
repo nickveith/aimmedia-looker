@@ -82,6 +82,20 @@ view: pcd_current {
               END;;
   }
 
+  dimension: promote_status {
+    type: string
+    sql: CASE WHEN "promote flag" = 'N' THEN 'Do Not Promote Name'
+              WHEN "promote flag" = '1' THEN 'Do Not Rent'
+              WHEN "promote flag" = '2' THEN 'Do Not Call'
+              WHEN "promote flag" = '3' THEN 'Do Not Rent or Call'
+              WHEN "promote flag" = '4' THEN 'NA'
+              WHEN "promote flag" = '5' THEN 'Do Not Rent'
+              WHEN "promote flag" = '6' THEN 'Do Not Call'
+              WHEN "promote flag" = '7' THEN 'Do Not Rent or Call'
+              ELSE NULL
+              END;;
+  }
+
   dimension: is_subscriber {
     type: yesno
     sql: CASE WHEN "subscriber type" = '3' THEN False
