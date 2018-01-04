@@ -40,6 +40,11 @@ view: pcd_current {
     sql: ${TABLE}."original start issue" ;;
   }
 
+  dimension: overall_expire {
+    type: string
+    sql: ${TABLE}."overall expire" ;;
+  }
+
   dimension: week_ending {
     type: date
     sql: TO_DATE(substring("week ending",2,6), 'YYMMDD');;

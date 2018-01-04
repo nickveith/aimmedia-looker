@@ -869,11 +869,6 @@ view: pcd_current_extended {
     sql: ${TABLE}."original src - prim. src" ;;
   }
 
-  dimension: overall_expire {
-    type: string
-    sql: ${TABLE}."overall expire" ;;
-  }
-
   dimension: phone_number {
     type: string
     sql: ${TABLE}."phone number" ;;
