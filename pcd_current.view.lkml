@@ -127,7 +127,7 @@ view: pcd_current {
   dimension: source_of_business {
     type: string
     sql: CASE
-              WHEN  ${TABLE}"subscriber type" = '3' THEN 'NO SUB DONOR'
+              WHEN  ${TABLE}."subscriber type" = '3' THEN 'NO SUB DONOR'
               ----
               WHEN substring( ${TABLE}."current source key code",1,2) = 'Z1' THEN 'DIGITAL ORDERS'
               WHEN substring( ${TABLE}."current source key code",1,2) = 'Z3' THEN 'ASSOC NON DEDUCT'
