@@ -1,88 +1,107 @@
 view: ga_reporting {
   sql_table_name: PUBLIC.GA_REPORTING ;;
 
-  dimension: avg_session_duration {
+  dimension: property_id {
     type: number
-    sql: ${TABLE}.AvgSessionDuration ;;
-  }
-
-  dimension: bounce_rate {
-    type: number
-    sql: ${TABLE}.BounceRate ;;
+    sql: ${TABLE}."PROPERTY_ID" ;;
   }
 
   dimension: browser {
     type: string
-    sql: ${TABLE}.Browser ;;
+    sql: ${TABLE}."Browser" ;;
+  }
+
+  dimension: channel {
+    type: string
+    sql: ${TABLE}."ChannelGrouping" ;;
   }
 
   dimension: campaign {
     type: string
-    sql: ${TABLE}.Campaign ;;
-  }
-
-  dimension: channel_grouping {
-    type: string
-    sql: ${TABLE}.ChannelGrouping ;;
-  }
-
-  dimension: date {
-    type: string
-    sql: ${TABLE}.Date ;;
-  }
-
-  dimension: device_category {
-    type: string
-    sql: ${TABLE}.DeviceCategory ;;
-  }
-
-  dimension: medium {
-    type: string
-    sql: ${TABLE}.Medium ;;
-  }
-
-  dimension: new_users {
-    type: number
-    sql: ${TABLE}.NewUsers ;;
-  }
-
-  dimension: pageviews_per_session {
-    type: number
-    sql: ${TABLE}.PageviewsPerSession ;;
-  }
-
-  dimension: property_id {
-    type: number
-    sql: ${TABLE}.PROPERTY_ID ;;
-  }
-
-  dimension: sessions {
-    type: number
-    sql: ${TABLE}.Sessions ;;
+    sql: ${TABLE}."Campaign" ;;
   }
 
   dimension: source {
     type: string
-    sql: ${TABLE}.Source ;;
+    sql: ${TABLE}."Source" ;;
   }
 
-  dimension: transaction_revenue {
-    type: number
-    sql: ${TABLE}.TransactionRevenue ;;
+  dimension: medium {
+    type: string
+    sql: ${TABLE}."Medium" ;;
   }
 
-  dimension: transactions {
-    type: number
-    sql: ${TABLE}.Transactions ;;
+  dimension: device_category {
+    type: string
+    sql: ${TABLE}."DeviceCategory" ;;
   }
 
-  dimension: users {
+  dimension: date {
+    type: date
+    sql: ${TABLE}."Date"::date ;;
+  }
+
+  ####################################
+
+  measure: new_users {
     type: number
-    sql: ${TABLE}.Users ;;
+    sql: SUM(${TABLE}."NewUsers") ;;
+  }
+
+  measure: pageviews_per_session {
+    type: number
+    sql: SUM(${TABLE}."PageviewsPerSession" * ${TABLE}."Sessions") / ${TABLE}."Sessions" ;;
+  }
+
+  measure: avg_session_duration {
+    type: number
+    sql: SUM(${TABLE}."AvgSessionDuration") ;;
+  }
+
+  measure: bounces {
+    type: number
+    sql: SUM(${TABLE}."BounceRate" * ${TABLE}."Sessions") ;;
+  }
+
+  measure: bounce_rate {
+    type: number
+    sql: ${bounces} / ${sessions} ;;
+  }
+
+  measure: transaction_revenue {
+    type: number
+    sql: SUM(${TABLE}."TransactionRevenue") ;;
+  }
+
+  measure: transactions {
+    type: number
+    sql: SUM(${TABLE}."Transactions") ;;
+  }
+
+  measure: sessions {
+    type: number
+    sql: SUM(${TABLE}."Sessions") ;;
+    drill_fields: [channel, campaign, source, medium]
+  }
+
+  measure: users {
+    type: number
+    sql: SUM(${TABLE}."Users") ;;
+  }
+
+  measure: pageviews {
+    type: number
+    sql: SUM(${TABLE}."PageviewsPerSession" * ${TABLE}."Sessions") ;;
+  }
+
+  measure: avg_pageviews {
+    type: number
+    sql: ${pageviews} / ${sessions} ;;
   }
 
   measure: count {
     type: count
     drill_fields: []
   }
+
 }
