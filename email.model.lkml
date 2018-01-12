@@ -73,3 +73,25 @@ explore: sends {
     relationship: one_to_many
   }
   }
+
+explore: newsletters {
+#   persist_with: default
+  from: newsletter_lookup
+  join:  subscriber_newsletters {
+    type: left_outer
+    sql_on: ${newsletters.newsletter_id} = ${subscriber_newsletters.newsletter_id};;
+    relationship: one_to_many
+  }
+  join:  subscriber_newsletters2 {
+    from: subscriber_newsletters
+    type: left_outer
+    sql_on: ${subscriber_newsletters.subscriber_key} = ${subscriber_newsletters2.subscriber_key};;
+    relationship: one_to_many
+  }
+  join:  newsletter_lookup2 {
+    from: newsletter_lookup
+    type: left_outer
+    sql_on: ${subscriber_newsletters2.newsletter_id} = ${newsletter_lookup2.newsletter_id};;
+    relationship: many_to_one
+  }
+  }

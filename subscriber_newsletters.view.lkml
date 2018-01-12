@@ -49,8 +49,15 @@ view: subscriber_newsletters {
 
   dimension: newsletter_id {
     type: string
-    sql: ${TABLE}.newsletter_id ;;
+    sql: ${TABLE}."newsletter_id" ;;
   }
+
+  dimension: subcriber_newsletters_id {
+    primary_key: yes
+    type: string
+    sql: ${TABLE}."subscriber_key" || ' ' || ${TABLE}."newsletter_id";;
+  }
+
 
   dimension: newsletter_name {
     type: string
@@ -59,7 +66,7 @@ view: subscriber_newsletters {
 
   dimension: subscriber_key {
     type: string
-    sql: ${TABLE}.subscriber_key ;;
+    sql: ${TABLE}."subscriber_key" ;;
   }
 
   dimension_group: update {

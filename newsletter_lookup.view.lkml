@@ -72,6 +72,7 @@ view: newsletter_lookup {
   }
 
   dimension: newsletter_id {
+    primary_key: yes
     type: string
     sql: ${TABLE}.NEWSLETTER_ID ;;
   }
