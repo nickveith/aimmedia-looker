@@ -32,14 +32,14 @@ explore: analytics {
     sql_on: ${account.id} = ${profile.account_id};;
     relationship: one_to_many
   }
-  join: ga_reporting {
+  join: reporting {
     from:  ga_reporting
-    sql_on: ${profile.id} = ${ga_reporting.property_id};;
+    sql_on: ${profile.id} = ${reporting.property_id};;
     relationship: one_to_many
   }
-  join: calendar_date {
+  join: report_date {
     from: calendar_date
-    sql_on: ${ga_reporting.date} = ${calendar_date.calendar_date};;
+    sql_on: ${reporting.date} = ${report_date.calendar_date};;
     relationship: one_to_one
   }
 }

@@ -217,8 +217,8 @@ view: subscriber_master {
     sql: ${TABLE}.Yonder_UserID ;;
   }
 
-  dimension: zip_postal {
-    type: string
+  dimension: zipcode {
+    type: zipcode
     sql: ${TABLE}.zip_postal ;;
   }
 

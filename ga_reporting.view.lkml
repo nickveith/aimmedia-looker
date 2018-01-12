@@ -77,25 +77,27 @@ view: ga_reporting {
 
   measure: pageviews_per_session {
     type: number
-    sql: CASE WHEN ${sessions} = 0 THEN 0
-              ELSE SUM(${pageviews} * ${sessions}) / SUM(${sessions})
+    sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
+              ELSE SUM(${TABLE}."PageviewsPerSession" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions")
               END;;
   }
 
   measure: avg_session_duration {
     type: number
-    sql: SUM(${TABLE}."AvgSessionDuration") ;;
+    sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
+              ELSE SUM(${TABLE}."AvgSessionDuration" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions")
+              END);;
   }
 
   measure: bounces {
     type: number
-    sql: SUM(${TABLE}."BounceRate" * ${sessions}) ;;
+    sql: SUM(${TABLE}."BounceRate" * ${TABLE}."Sessions") ;;
   }
 
   measure: bounce_rate {
     type: number
-    sql: CASE WHEN ${sessions} = 0 THEN 0
-              ELSE SUM(${TABLE}."BounceRate" * ${sessions}) / SUM(${sessions})
+    sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
+              ELSE SUM(${TABLE}."BounceRate" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions")
               END;;
   }
 
@@ -122,7 +124,7 @@ view: ga_reporting {
 
   measure: pageviews {
     type: number
-    sql: SUM(${TABLE}."PageviewsPerSession" * ${sessions}) ;;
+    sql: SUM(${TABLE}."PageviewsPerSession" * ${TABLE}."Sessions") ;;
   }
 
   measure: count {
