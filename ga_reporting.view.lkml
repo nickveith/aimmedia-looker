@@ -43,6 +43,33 @@ view: ga_reporting {
 
   ####################################
 
+  filter: previous_period_filter {
+    type: date
+    description: "Use this filter for period analysis"
+  }
+
+  # For Amazon Redshift
+  # ${created_raw} is the timestamp dimension we are building our reporting period off of
+  dimension: previous_period {
+    type: string
+    description: "The reporting period as selected by the Previous Period Filter"
+    sql:
+      CASE
+        WHEN {% date_start previous_period_filter %} is not null AND {% date_end previous_period_filter %} is not null /* date ranges or in the past x days */
+          THEN
+            CASE
+              WHEN ${date} >=  {% date_start previous_period_filter %}
+                AND ${date} <= {% date_end previous_period_filter %}
+                THEN 'This Period'
+              WHEN ${date} >= DATEADD(day,-1*DATEDIFF(day,{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) + 1, DATEADD(day,-1,{% date_start previous_period_filter %} ) )
+                AND ${date} <= DATEADD(day,-1,{% date_start previous_period_filter %} )
+                THEN 'Previous Period'
+            END
+          END ;;
+  }
+
+  ####################################
+
   measure: new_users {
     type: number
     sql: SUM(${TABLE}."NewUsers") ;;
@@ -50,7 +77,9 @@ view: ga_reporting {
 
   measure: pageviews_per_session {
     type: number
-    sql: SUM(${TABLE}."PageviewsPerSession" * ${TABLE}."Sessions") / ${TABLE}."Sessions" ;;
+    sql: CASE WHEN ${sessions} = 0 THEN 0
+              ELSE SUM(${pageviews} * ${sessions}) / SUM(${sessions})
+              END;;
   }
 
   measure: avg_session_duration {
@@ -60,12 +89,14 @@ view: ga_reporting {
 
   measure: bounces {
     type: number
-    sql: SUM(${TABLE}."BounceRate" * ${TABLE}."Sessions") ;;
+    sql: SUM(${TABLE}."BounceRate" * ${sessions}) ;;
   }
 
   measure: bounce_rate {
     type: number
-    sql: ${bounces} / ${sessions} ;;
+    sql: CASE WHEN ${sessions} = 0 THEN 0
+              ELSE SUM(${TABLE}."BounceRate" * ${sessions}) / SUM(${sessions})
+              END;;
   }
 
   measure: transaction_revenue {
@@ -80,7 +111,7 @@ view: ga_reporting {
 
   measure: sessions {
     type: number
-    sql: SUM(${TABLE}."Sessions") ;;
+    sql: SUM(${TABLE}."Sessions");;
     drill_fields: [channel, campaign, source, medium]
   }
 
@@ -91,12 +122,7 @@ view: ga_reporting {
 
   measure: pageviews {
     type: number
-    sql: SUM(${TABLE}."PageviewsPerSession" * ${TABLE}."Sessions") ;;
-  }
-
-  measure: avg_pageviews {
-    type: number
-    sql: ${pageviews} / ${sessions} ;;
+    sql: SUM(${TABLE}."PageviewsPerSession" * ${sessions}) ;;
   }
 
   measure: count {

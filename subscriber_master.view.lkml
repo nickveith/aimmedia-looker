@@ -179,12 +179,12 @@ view: subscriber_master {
 
   dimension: state {
     type: string
-    sql: ${TABLE}.state ;;
+    sql: ${TABLE}."state" ;;
   }
 
   dimension: subscriber_key {
     type: string
-    sql: ${TABLE}.subscriber_key ;;
+    sql: ${TABLE}."subscriber_key" ;;
   }
 
   dimension: suffix {

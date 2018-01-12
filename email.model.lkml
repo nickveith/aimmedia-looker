@@ -82,6 +82,11 @@ explore: newsletters {
     sql_on: ${newsletters.newsletter_id} = ${subscriber_newsletters.newsletter_id};;
     relationship: one_to_many
   }
+  join:  subscriber_master {
+    type: left_outer
+    sql_on: ${subscriber_newsletters.subscriber_key} = ${subscriber_master.subscriber_key};;
+    relationship: one_to_many
+  }
   join:  subscriber_newsletters2 {
     from: subscriber_newsletters
     type: left_outer
