@@ -88,4 +88,5 @@ view: subscriber_newsletters {
     type: count
     drill_fields: [newsletter_name]
   }
+
 }
