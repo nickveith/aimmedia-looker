@@ -18,4 +18,19 @@ view: calendar_date {
     sql: ${TABLE}.D_DATE ;;
   }
 
+  measure: period_start {
+    type: date
+    sql: min(${calendar_date}) ;;
+  }
+
+  measure: period_end {
+    type: date
+    sql: max(${calendar_date}) ;;
+  }
+
+  measure: period_days {
+    type: number
+    sql: count(distinct ${calendar_date}) ;;
+  }
+
 }

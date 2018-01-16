@@ -59,11 +59,14 @@ view: ga_reporting {
           THEN
             CASE
               WHEN ${date} >=  {% date_start previous_period_filter %}
-                AND ${date} <= {% date_end previous_period_filter %}
-                THEN 'This Period'
-              WHEN ${date} >= DATEADD(day,-1*DATEDIFF(day,{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) + 1, DATEADD(day,-1,{% date_start previous_period_filter %} ) )
-                AND ${date} <= DATEADD(day,-1,{% date_start previous_period_filter %} )
-                THEN 'Previous Period'
+                AND ${date} < {% date_end previous_period_filter %}
+                THEN '1 - This Period'
+              WHEN ${date} >= DATEADD(day,-1*DATEDIFF(day,{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ), {% date_start previous_period_filter %} )
+                AND ${date} < {% date_start previous_period_filter %}
+                THEN '2 - Previous Period'
+              WHEN ${date} >= DATEADD(day,-1*DATEDIFF(day,{% date_start previous_period_filter %}, {% date_end previous_period_filter %} ) -365, {% date_start previous_period_filter %} )
+                AND ${date} < DATEADD(day, -365, {% date_start previous_period_filter %} )
+                THEN '3 - Prior Year'
             END
           END ;;
   }
