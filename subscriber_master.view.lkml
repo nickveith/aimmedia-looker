@@ -179,7 +179,15 @@ view: subscriber_master {
 
   dimension: state {
     type: string
-    sql: ${TABLE}."state" ;;
+    sql: CASE WHEN trim(upper(${TABLE}."state")) IN ('AL','AK','AZ','AR','CA','CO','CT','DE','FL'
+                ,'GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN'
+                ,'MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR'
+                ,'PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY')
+                THEN trim(upper(${TABLE}."state"))
+              WHEN ${TABLE}."state" IS NULL THEN 'NOT PROVIDED'
+              WHEN TRIM(${TABLE}."state") != '' THEN 'NOT PROVIDED'
+              ELSE 'INVALID'
+            END;;
   }
 
   dimension: subscriber_key {
