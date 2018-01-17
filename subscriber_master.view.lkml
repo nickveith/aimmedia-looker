@@ -64,7 +64,7 @@ view: subscriber_master {
 
   dimension: email_address {
     type: string
-    sql: ${TABLE}.email_address ;;
+    sql: ${TABLE}."email_address" ;;
   }
 
   dimension: facebook_user_id {
