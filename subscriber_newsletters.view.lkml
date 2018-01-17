@@ -3,22 +3,22 @@ view: subscriber_newsletters {
 
   dimension: brand_code {
     type: string
-    sql: ${TABLE}.brand_code ;;
+    sql: ${TABLE}."brand_code" ;;
   }
 
   dimension: bu_code {
     type: string
-    sql: ${TABLE}.bu_code ;;
+    sql: ${TABLE}."bu_code" ;;
   }
 
   dimension: currently_subscribed {
     type: yesno
-    sql: ${TABLE}.currently_subscribed ;;
+    sql: ${TABLE}."currently_subscribed" ;;
   }
 
   dimension: email_address {
     type: string
-    sql: ${TABLE}.email_address ;;
+    sql: ${TABLE}."email_address" ;;
   }
 
   dimension_group: import {
