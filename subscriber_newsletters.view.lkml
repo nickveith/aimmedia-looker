@@ -86,7 +86,7 @@ view: subscriber_newsletters {
 
   measure: subscribers {
     type: count
-    drill_fields: [newsletter_name]
+    drill_fields: ["newsletter_name"]
   }
 
   measure: unique_subscribers {
