@@ -61,7 +61,7 @@ view: subscriber_newsletters {
 
   dimension: newsletter_name {
     type: string
-    sql: ${TABLE}.newsletter_name ;;
+    sql: ${TABLE}."newsletter_name" ;;
   }
 
   dimension: subscriber_key {
