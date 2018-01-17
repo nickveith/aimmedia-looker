@@ -3,17 +3,17 @@ view: subscriber_master {
 
   dimension: address_1 {
     type: string
-    sql: ${TABLE}.address_1 ;;
+    sql: ${TABLE}."address_1" ;;
   }
 
   dimension: address_2 {
     type: string
-    sql: ${TABLE}.address_2 ;;
+    sql: ${TABLE}."address_2" ;;
   }
 
   dimension: city {
     type: string
-    sql: ${TABLE}.city ;;
+    sql: ${TABLE}."city" ;;
   }
 
   dimension: contact_permission_status {
@@ -29,7 +29,7 @@ view: subscriber_master {
   dimension: country {
     type: string
     map_layer_name: countries
-    sql: ${TABLE}.country ;;
+    sql: ${TABLE}."country" ;;
   }
 
   dimension: county {
@@ -79,7 +79,7 @@ view: subscriber_master {
 
   dimension: first_name {
     type: string
-    sql: ${TABLE}.first_name ;;
+    sql: ${TABLE}."first_name" ;;
   }
 
   dimension: full_name {
@@ -109,7 +109,7 @@ view: subscriber_master {
 
   dimension: last_name {
     type: string
-    sql: ${TABLE}.last_name ;;
+    sql: ${TABLE}."last_name" ;;
   }
 
   dimension: latitude {
@@ -219,7 +219,7 @@ view: subscriber_master {
 
   dimension: zipcode {
     type: zipcode
-    sql: ${TABLE}.zip_postal ;;
+    sql: ${TABLE}."zip_postal" ;;
   }
 
   measure: count {
