@@ -23,7 +23,7 @@ view: newsletter_lookup {
 
   dimension: business_unit {
     type: string
-    sql: ${TABLE}.BUSINESS_UNIT ;;
+    sql: CASE WHEN ${TABLE}.BUSINESS_UNIT = 'HG' then 'home' else lower(trim(${TABLE}.BUSINESS_UNIT)) end;;
   }
 
   dimension: de_external_key {

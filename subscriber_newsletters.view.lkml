@@ -84,8 +84,14 @@ view: subscriber_newsletters {
     sql: ${TABLE}.update_date ;;
   }
 
-  measure: count {
+  measure: subscribers {
     type: count
+    drill_fields: [newsletter_name]
+  }
+
+  measure: unique_subscribers {
+    type: number
+    sql:  count(distinct ${subscriber_key});;
     drill_fields: [newsletter_name]
   }
 

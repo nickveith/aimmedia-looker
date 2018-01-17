@@ -94,13 +94,13 @@ view: ga_reporting {
 
   measure: bounces {
     type: number
-    sql: SUM(${TABLE}."BounceRate" * ${TABLE}."Sessions") ;;
+    sql: (SUM(${TABLE}."BounceRate" / 100 * ${TABLE}."Sessions"))::int ;;
   }
 
   measure: bounce_rate {
     type: number
     sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
-              ELSE SUM(${TABLE}."BounceRate" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions")
+              ELSE (SUM(${bounces}) / SUM(${TABLE}."Sessions"))::real
               END;;
   }
 
