@@ -1043,6 +1043,7 @@ view: pcd_current_extended {
 
   dimension: stateprovince {
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}."state/province" ;;
   }
 
@@ -1314,6 +1315,7 @@ view: pcd_current_extended {
 
   dimension: zip {
     type: zipcode
+    map_layer_name: us_zipcode_tabulation_areas
     sql: ${TABLE}."zip" ;;
   }
 
