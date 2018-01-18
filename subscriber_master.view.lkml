@@ -185,7 +185,7 @@ view: subscriber_master {
                 ,'PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY')
                 THEN trim(upper(${TABLE}."state"))
               WHEN ${TABLE}."state" IS NULL THEN 'NOT PROVIDED'
-              WHEN TRIM(${TABLE}."state") != '' THEN 'NOT PROVIDED'
+              WHEN TRIM(${TABLE}."state") = '' THEN 'NOT PROVIDED'
               ELSE 'INVALID'
             END;;
   }
