@@ -166,8 +166,8 @@ explore: current {
   join: current_source {
     from: pcd_pub_source
     type: left_outer
-    sql_on: ${pcd_current.client_code} = ${current_source.client_code}
-        and ${pcd_current.pub_code} = ${current_source.pub_code}
+    sql_on: ${current_source.client_code} = ${pcd_current.client_code}
+        and ${current_source.pub_code} = ${pcd_current.pub_code}
         and case when substring(${pcd_current.source_key_code},1,2) = ${current_source.source_code} then true
                  when substring(${pcd_current.source_key_code},1,1) = ${current_source.source_code} then true
                  else false end ;;

@@ -115,7 +115,7 @@ view: pcd_current {
 
   dimension: source_key_code {
     type: string
-    sql: ${TABLE}."current source key code"
+    sql: ${TABLE}."current source key code";;
   }
 
   dimension: source_type {
