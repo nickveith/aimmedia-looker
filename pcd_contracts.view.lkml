@@ -1,38 +1,21 @@
 view: pcd_contracts {
 
-  derived_table: {
-
-    sql: SELECT c.*
-              , co.process_date as original_contract_process_date
-              , co.start_date as original_contract_start
-           FROM (SELECT pcd_account_id || '-' || process_date as contract_id
-                      , *
-                      , RANK() OVER(PARTITION BY client_code, pub_code, pcd_account_number ORDER BY start_date ASC) AS contract_number
-                   FROM PUBLIC.PCD_CONTRACTS
-                        ) c
-                   JOIN (SELECT pcd_account_id || '-' || process_date as contract_id
-                              , *
-                              , RANK() OVER(PARTITION BY client_code, pub_code, pcd_account_number ORDER BY start_date ASC) AS contract_number
-                           FROM PUBLIC.PCD_CONTRACTS
-                                ) co on (c.pcd_account_id = co.pcd_account_id and co.contract_number = 1)
-            ;;
-  }
+  sql_table_name: PUBLIC.PCD_CONTRACTS;;
 
   dimension: contract_id {
     type: string
-    primary_key: yes
     hidden: yes
     sql: ${TABLE}.contract_id ;;
   }
 
-  dimension: pcd_account_id {
+  dimension: account_id {
     type: string
-    sql:  ${TABLE}.pcd_account_id ;;
+    sql:  ${TABLE}.account_id ;;
   }
 
   dimension: contract_number {
     type:  number
-    sql: ${TABLE}.pcd_contract_number ;;
+    sql: ${TABLE}.contract_number ;;
   }
 
   dimension: pcd_account_number {}
@@ -44,13 +27,12 @@ view: pcd_contracts {
     sql: ${TABLE}.start_date ;;
   }
 
-  # dimension_group: expiration {
-  #   type: time
-  #   timeframes: [date, week, month, year, month_num, raw]
-  #   datatype: yyyymmdd
-  #   sql: ${TABLE}.expiration_date;;
-  # }
-  dimension: expiration_date {}
+  dimension_group: expiration {
+    type: time
+    timeframes: [date, week, month, year, month_num, raw]
+    datatype: date
+    sql: ${TABLE}.expiration_date ;;
+  }
 
   dimension_group: process {
     type: time
@@ -100,7 +82,7 @@ view: pcd_contracts {
 
   dimension: expiration_issue {
     type: string
-    sql: COALESCE(nullif(${TABLE}.EXPIRATION_ISSUE,''),'9999-12-31 23:59:59') ;;
+    sql: nullif(${TABLE}.EXPIRATION_ISSUE,'') ;;
   }
 
   dimension: remit_rate {
@@ -152,6 +134,12 @@ view: pcd_contracts {
 
   measure: contracts {
     type: count
+    drill_fields: [detail*]
+  }
+
+  measure: unique_contracts {
+    type: count_distinct
+    sql: ${TABLE}.account_id ;;
     drill_fields: [detail*]
   }
 

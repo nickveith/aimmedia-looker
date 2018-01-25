@@ -56,11 +56,16 @@ view: pcd_current {
 
   dimension: record_id {
     label: "PCD ID"
-    primary_key: yes
     type: string
-    sql: ${TABLE}."id" ;;
+    sql: ${TABLE}."id";;
   }
 
+  dimension: account_id {
+    label: "PCD ID"
+    primary_key: yes
+    type: string
+    sql: ${TABLE}."client-18" || ${TABLE}."pub-18" || ${TABLE}."type-18" || ${TABLE}."traf-18" || ${TABLE}."acct-18" || ${TABLE}."ck-digit-18" ;;
+  }
 
   dimension: subscription_status {
     type: string

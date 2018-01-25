@@ -33,6 +33,122 @@ explore: snapshots {
   }
 }
 
+explore: pcd_contracts {
+  from: pcd_contracts
+  label: "Contracts (Over Time)"
+  description: "Active contracts by date"
+  persist_with: monthly
+  join: calendar_date {
+    type: inner
+    sql_on: ${calendar_date.calendar_date} >= ${pcd_contracts.start_date}
+        and ${calendar_date.calendar_date} <  ${pcd_contracts.expiration_date}
+        and ${calendar_date.day_of_month} = 1
+        and ${calendar_date.calendar_year} >= 2008
+        and ${calendar_date.calendar_year} <= 2028;;
+    relationship: many_to_one
+  }
+  join: pcd_publisher {
+    type: left_outer
+    sql_on: ${pcd_publisher.client_code} = ${pcd_contracts.client_code}
+      and ${pcd_publisher.pub_code} =  ${pcd_contracts.pub_code} ;;
+    relationship: many_to_one
+  }
+  join: pcd_pub_source {
+    type: left_outer
+    sql_on: ${pcd_contracts.client_code} = ${pcd_pub_source.client_code}
+        and ${pcd_contracts.pub_code} = ${pcd_pub_source.pub_code}
+        and case when substring(${pcd_contracts.source_key_code},1,2) = ${pcd_pub_source.source_code} then true
+                 when substring(${pcd_contracts.source_key_code},1,1) = ${pcd_pub_source.source_code} then true
+                 else false end ;;
+    relationship: many_to_one
+  }
+  join: pcd_current {
+    type: left_outer
+    sql_on: ${pcd_current.account_id} = ${pcd_contracts.account_id};;
+    relationship: many_to_one
+  }
+  join: expiration_date {
+    from: calendar_date
+    type: left_outer
+    sql_on: ${expiration_date.calendar_date} >= ${pcd_contracts.expiration_date}
+        and ${expiration_date.calendar_date} <  dateadd(months, 1, ${pcd_contracts.expiration_date}) ;;
+    relationship: many_to_one
+  }
+}
+
+explore: contracts_over_time {
+  from: calendar_date
+  label: "Expirations (Over Time)"
+  description: "Active contracts by date"
+  persist_with: monthly
+  always_filter: {
+    filters: {
+      field: day_of_month
+      value: "1"
+      }
+  }
+  join: pcd_issues {
+    type: inner
+    sql_on: ${contracts_over_time.day_of_month} = 1
+        and (
+              (  ${pcd_issues.date_offsale_date} >= dateadd(months, -6 - 3, ${contracts_over_time.calendar_date})
+             and ${pcd_issues.date_offsale_date} <  dateadd(months, -6   , ${contracts_over_time.calendar_date}) )
+              OR
+              (  ${pcd_issues.date_onsale_date} <= dateadd(months, -6 - 3 , ${contracts_over_time.calendar_date})
+             and ${pcd_issues.date_offsale_date} > dateadd(months, -6 - 3 , ${contracts_over_time.calendar_date}) )
+            ) ;;
+    relationship: one_to_many
+  }
+  join: pcd_publisher {
+    type: left_outer
+    sql_on: ${pcd_publisher.client_code} = ${pcd_issues.client_code}
+      and ${pcd_publisher.pub_code} =  ${pcd_issues.pub_code} ;;
+    relationship: many_to_one
+  }
+  join: contracts {
+    from:  pcd_contracts
+    type:  left_outer
+    sql_on: ${contracts_over_time.calendar_date} >= ${contracts.start_date}
+        and ${contracts_over_time.calendar_date} <  ${contracts.expiration_date} ;;
+    relationship: many_to_one
+  }
+  join: expirations {
+    from:  pcd_contracts
+    type: left_outer
+    sql_on: ${pcd_issues.issue} = ${expirations.expiration_issue}
+        and ${pcd_issues.client_code} = ${expirations.client_code}
+        and ${pcd_issues.pub_code} = ${expirations.pub_code};;
+    relationship: one_to_many
+  }
+  join: renewals {
+      from:  pcd_contracts
+      type: left_outer
+      sql_on: ${expirations.account_id} = ${renewals.account_id}
+          and ${expirations.contract_number} + 1 = ${renewals.contract_number};;
+      relationship: one_to_many
+    }
+  join: expiration_source {
+    from: pcd_pub_source
+    type: left_outer
+    sql_on: ${expiration_source.client_code} = ${expirations.client_code}
+        and ${expiration_source.pub_code} = ${expirations.pub_code}
+        and case when substring(${expirations.source_key_code},1,2) = ${expiration_source.source_code} then true
+                 when substring(${expirations.source_key_code},1,1) = ${expiration_source.source_code} then true
+                 else false end ;;
+    relationship: many_to_one
+  }
+  join: renewal_source {
+    from: pcd_pub_source
+    type: left_outer
+    sql_on: ${renewal_source.client_code} = ${expirations.client_code}
+        and ${renewal_source.pub_code} = ${expirations.pub_code}
+        and case when substring(${expirations.source_key_code},1,2) = ${renewal_source.source_code} then true
+                 when substring(${expirations.source_key_code},1,1) = ${renewal_source.source_code} then true
+                 else false end ;;
+    relationship: many_to_one
+  }
+}
+
 explore: current {
   from: pcd_current
   view_name: pcd_current
