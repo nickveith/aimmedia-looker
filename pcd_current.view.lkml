@@ -113,12 +113,9 @@ view: pcd_current {
               END;;
   }
 
-  dimension: source_code {
+  dimension: source_key_code {
     type: string
-    sql: CASE WHEN  ${TABLE}."subscriber type" = '3' THEN 'ZZZ - Non Sub Donor'
-              WHEN substring( ${TABLE}."current source key code",1,1) = 'Z' THEN substring("current source key code",1,2)
-              ELSE substring( ${TABLE}."current source key code",1,1)
-              END;;
+    sql: ${TABLE}."current source key code"
   }
 
   dimension: source_type {

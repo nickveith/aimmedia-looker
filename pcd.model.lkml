@@ -163,6 +163,16 @@ explore: current {
         and ${pcd_publisher.pub_code} =  ${pcd_current.pub_code} ;;
     relationship: many_to_one
   }
+  join: current_source {
+    from: pcd_pub_source
+    type: left_outer
+    sql_on: ${pcd_current.client_code} = ${current_source.client_code}
+        and ${pcd_current.pub_code} = ${current_source.pub_code}
+        and case when substring(${pcd_current.source_key_code},1,2) = ${current_source.source_code} then true
+                 when substring(${pcd_current.source_key_code},1,1) = ${current_source.source_code} then true
+                 else false end ;;
+    relationship: many_to_one
+  }
   join: pcd_contracts {
     view_label: "Contracts"
     type: left_outer
