@@ -153,7 +153,7 @@ explore: current {
   from: pcd_current
   view_name: pcd_current
   view_label: "Subscribers"
-  label: "Susbcribers (Current)"
+  label: "Subscribers (Current)"
   description: "Current subscriber status"
   persist_with: monthly
   join: pcd_publisher {
