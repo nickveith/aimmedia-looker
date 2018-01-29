@@ -15,13 +15,13 @@ view: pcd_current {
 
   dimension: client_code {
     type: string
-    hidden: yes
+    hidden: no
     sql: ${TABLE}."client-18" ;;
   }
 
   dimension: pub_code {
     type: string
-    hidden:  yes
+    hidden:  no
     sql: ${TABLE}."pub-18" ;;
   }
 
@@ -109,8 +109,11 @@ view: pcd_current {
   dimension: is_subscriber {
     type: yesno
     sql: CASE WHEN  ${TABLE}."subscriber type" = '3' THEN False
+              WHEN pcd_publisher.active != 'TRUE' THEN False
+              WHEN pcd_publisher.active IS NULL THEN False
               ELSE True
-              END;;
+              END
+                ;;
   }
 
   dimension: source_key_code {
