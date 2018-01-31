@@ -31,7 +31,7 @@ view: sends {
 
   dimension: email_domain {
   type: string
-  sql: lower(rtrim(substring(subscriber_key, regexp_instr(subscriber_key, '@') + 1,length(subscriber_key))))
+  sql: lower(rtrim(substring(${TABLE}.subscriber_key, regexp_instr(${TABLE}.subscriber_key, '@') + 1,length(${TABLE}.subscriber_key))))
   ;;
   }
 
