@@ -1,5 +1,5 @@
 view: ga_reporting {
-  sql_table_name: PUBLIC.GA_REPORTING ;;
+  sql_table_name: PUBLIC.GA_TRAFFIC ;;
 
   dimension: property_id {
     type: number

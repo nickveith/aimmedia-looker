@@ -42,7 +42,7 @@ view: send_jobs {
   }
 
   dimension: scheduled_time {
-    type: string
+    type: date_time
     sql: ${TABLE}.SCHEDULED_TIME ;;
   }
 
@@ -57,7 +57,7 @@ view: send_jobs {
   }
 
   dimension: sent_time {
-    type: string
+    type: date_time
     sql: ${TABLE}.SENT_TIME ;;
   }
 

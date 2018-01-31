@@ -13,7 +13,7 @@ view: ga_accounts {
   }
 
   dimension: created {
-    type: string
+    type: date
     sql: ${TABLE}."Created" ;;
   }
 
@@ -38,7 +38,7 @@ view: ga_accounts {
   }
 
   dimension: updated {
-    type: string
+    type: date
     sql: ${TABLE}."Updated" ;;
   }
 

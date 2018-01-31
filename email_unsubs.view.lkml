@@ -23,7 +23,7 @@ view: unsubs {
   }
 
   dimension: event_date {
-    type: string
+    type: date
     sql: ${TABLE}.EVENT_DATE ;;
   }
 

@@ -27,7 +27,7 @@ view: opens {
   }
 
   dimension: open_date {
-    type: string
+    type: date
     sql: ${TABLE}.EVENT_DATE ;;
   }
 
