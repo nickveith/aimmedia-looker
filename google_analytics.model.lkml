@@ -43,3 +43,24 @@ explore: analytics {
     relationship: one_to_one
   }
 }
+
+explore: analytics_unique {
+#   persist_with: default
+  from: ga_accounts
+  view_name: account
+  join: profile {
+    from:  ga_profiles
+    sql_on: ${account.id} = ${profile.account_id};;
+    relationship: one_to_many
+  }
+  join: users {
+    from:  ga_users
+    sql_on: ${profile.id} = ${users.property_id};;
+    relationship: one_to_many
+  }
+  join: report_date {
+    from: calendar_date
+    sql_on: ${users.daydate_date} = ${report_date.calendar_date};;
+    relationship: one_to_one
+  }
+}
