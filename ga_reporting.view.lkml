@@ -78,6 +78,13 @@ view: ga_reporting {
     sql: SUM(${TABLE}."NewUsers") ;;
   }
 
+  measure: percent_new_users {
+    type: number
+    sql: CASE WHEN SUM(${TABLE}."Users") = 0 THEN 0
+              ELSE SUM(${TABLE}."NewUsers") / SUM(${TABLE}."Users")
+              END;;
+  }
+
   measure: pageviews_per_session {
     type: number
     sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
@@ -88,8 +95,8 @@ view: ga_reporting {
   measure: avg_session_duration {
     type: number
     sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
-              ELSE ROUND(SUM(${TABLE}."AvgSessionDuration" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions"),2)::real
-              END);;
+              ELSE SUM(${TABLE}."AvgSessionDuration" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions")
+              END;;
   }
 
   measure: bounces {

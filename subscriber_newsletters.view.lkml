@@ -42,23 +42,6 @@ view: subscriber_newsletters {
     sql: ${TABLE}."subscriber_key" ;;
   }
 
-  dimension: bu_code {
-    type: string
-    sql: ${TABLE}.bu_code ;;
-  }
-
-  dimension: group {
-    type: string
-    sql: case when ${bu_code} = 'OG' then 'Outdoor Group'
-              when ${bu_code} = 'MG' then 'Marine Group'
-              when ${bu_code} = 'HL' then 'Healthy Living Gorup'
-              when ${bu_code} = 'EQ' then 'Equine Group'
-              when ${bu_code} = 'HG' then 'Home Group'
-              else 'Unknown'
-              end;;
-  }
-
-
   dimension_group: update {
     type: time
     timeframes: [

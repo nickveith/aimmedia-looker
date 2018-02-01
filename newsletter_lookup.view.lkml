@@ -21,6 +21,18 @@ view: newsletter_lookup {
     sql: ${TABLE}.BU_CODE ;;
   }
 
+  dimension: group {
+    type: string
+    sql: case when ${bu_code} = 'OG' then 'Outdoor Group'
+              when ${bu_code} = 'MG' then 'Marine Group'
+              when ${bu_code} = 'HL' then 'Healthy Living Group'
+              when ${bu_code} = 'EQ' then 'Equine Group'
+              when ${bu_code} = 'HG' then 'Home Group'
+              else 'Unknown'
+              end;;
+  }
+
+
   dimension: business_unit {
     type: string
     sql: CASE WHEN ${TABLE}.BUSINESS_UNIT = 'HG' then 'home' else lower(trim(${TABLE}.BUSINESS_UNIT)) end;;
