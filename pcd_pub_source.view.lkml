@@ -8,7 +8,11 @@ view: pcd_pub_source {
 
   dimension: description {
     type: string
-    sql: ${TABLE}.DESCRIPTION ;;
+    sql:  case when ${TABLE}.DESCRIPTION is not null then ${TABLE}.DESCRIPTION
+              when length(${source_code}) = 2 then 'UNKNOWN AGENCY SOURCE'
+              when length(${source_code}) = 1 then 'UNKNOWN DTP SOURCE'
+              else 'Other'
+              end ;;
   }
 
   dimension: pub_code {
@@ -23,11 +27,21 @@ view: pcd_pub_source {
 
   dimension: source_type {
     type: string
-    sql: COALESCE(${TABLE}.SOURCE_TYPE, 'Other') ;;
+    sql: case when ${TABLE}.SOURCE_TYPE is not null then ${TABLE}.SOURCE_TYPE
+              when length(${source_code}) = 2 then 'Agency'
+              when length(${source_code}) = 1 then 'Direct'
+              else 'Other'
+              end ;;
   }
 
   dimension: source_code {
     type: string
     sql: ${TABLE}.SOURCE_CODE ;;
   }
+
+  dimension: renewal_source_type {
+    type: string
+    sql:  case when ${TABLE}.source_type = 'Renewals' then 'Direct' else 'Indirect' end ;;
+  }
+
 }

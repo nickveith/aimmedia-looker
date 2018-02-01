@@ -48,7 +48,7 @@ explore: pcd_contracts {
     relationship: many_to_one
   }
   join: pcd_publisher {
-    type: left_outer
+    type: inner
     sql_on: ${pcd_publisher.client_code} = ${pcd_contracts.client_code}
       and ${pcd_publisher.pub_code} =  ${pcd_contracts.pub_code} ;;
     relationship: many_to_one
@@ -57,9 +57,9 @@ explore: pcd_contracts {
     type: left_outer
     sql_on: ${pcd_contracts.client_code} = ${pcd_pub_source.client_code}
         and ${pcd_contracts.pub_code} = ${pcd_pub_source.pub_code}
-        and case when substring(${pcd_contracts.source_key_code},1,2) = ${pcd_pub_source.source_code} then true
-                 when substring(${pcd_contracts.source_key_code},1,1) = ${pcd_pub_source.source_code} then true
-                 else false end ;;
+        and case when ${pcd_contracts.primary_source} = 'DTP' then substring(${pcd_contracts.source_key_code},1,1)
+                 when ${pcd_contracts.primary_source} = 'Agency' then substring(${pcd_contracts.source_key_code},1,2)
+             end = ${pcd_pub_source.source_code} ;;
     relationship: many_to_one
   }
   join: pcd_current {
@@ -100,7 +100,7 @@ explore: contracts_over_time {
     relationship: one_to_many
   }
   join: pcd_publisher {
-    type: left_outer
+    type: inner
     sql_on: ${pcd_publisher.client_code} = ${pcd_issues.client_code}
       and ${pcd_publisher.pub_code} =  ${pcd_issues.pub_code} ;;
     relationship: many_to_one
@@ -158,7 +158,7 @@ explore: current {
   persist_with: monthly
   join: pcd_publisher {
     view_label: "Publication"
-    type: left_outer
+    type: inner
     sql_on: ${pcd_publisher.client_code} = ${pcd_current.client_code}
         and ${pcd_publisher.pub_code} =  ${pcd_current.pub_code} ;;
     relationship: many_to_one

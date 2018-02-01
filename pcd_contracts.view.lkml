@@ -57,7 +57,9 @@ view: pcd_contracts {
 
   dimension: primary_source {
     type: string
-    sql: ${TABLE}.PRIMARY_SOURCE ;;
+    sql: case when ${TABLE}.PRIMARY_SOURCE = '7' then 'DTP'
+              when ${TABLE}.PRIMARY_SOURCE = '8' then 'Agency'
+              end ;;
   }
 
   dimension: email_transaction_type {
@@ -126,7 +128,6 @@ view: pcd_contracts {
     sql: ${TABLE}.COWLES_EARNINGS ;;
   }
 
-
   dimension: age_in_months {
     type: number
     sql: DATEDIFF(month, ${TABLE}.original_contract_process_date, ${process_date}) ;;
@@ -142,6 +143,19 @@ view: pcd_contracts {
     sql: ${TABLE}.account_id ;;
     drill_fields: [detail*]
   }
+
+  measure: unique_contracts_direct {
+    type: count_distinct
+    sql: ${TABLE}.account_id ;;
+    drill_fields: [detail*]
+  }
+
+  measure: unique_contracts_indirect {
+    type: count_distinct
+    sql: ${TABLE}.account_id ;;
+    drill_fields: [detail*]
+  }
+
 
   measure: revenue {
     type: sum

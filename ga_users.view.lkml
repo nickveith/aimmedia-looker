@@ -23,7 +23,7 @@ view: ga_users {
 
   measure: unique_users {
     type: number
-    sql: MIN(${TABLE}.UNIQUE_USERS_L28)::int ;;
+    sql: SUM(${TABLE}.UNIQUE_USERS_L28)::int ;;
   }
 
   measure: count {

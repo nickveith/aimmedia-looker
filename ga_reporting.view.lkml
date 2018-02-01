@@ -81,14 +81,14 @@ view: ga_reporting {
   measure: pageviews_per_session {
     type: number
     sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
-              ELSE SUM(${TABLE}."PageviewsPerSession" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions")
+              ELSE (SUM(${TABLE}."PageviewsPerSession" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions"))::real
               END;;
   }
 
   measure: avg_session_duration {
     type: number
     sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
-              ELSE SUM(${TABLE}."AvgSessionDuration" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions")
+              ELSE ROUND(SUM(${TABLE}."AvgSessionDuration" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions"),2)::real
               END);;
   }
 
@@ -100,7 +100,7 @@ view: ga_reporting {
   measure: bounce_rate {
     type: number
     sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
-              ELSE (SUM(${bounces}) / SUM(${TABLE}."Sessions"))::real
+              ELSE (SUM(${TABLE}."BounceRate" / 100 * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions"))::real
               END;;
   }
 
