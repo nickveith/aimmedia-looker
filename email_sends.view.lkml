@@ -102,4 +102,11 @@ view: sends {
     drill_fields: [id]
   }
 
+  measure: send_frequency {
+    type: number
+    sql: case when ${unique_sent_subscribers} = 0 then 0 else ${unique_sends}/${unique_sent_subscribers}
+    end;;
+    drill_fields: [id]
+  }
+
 }
