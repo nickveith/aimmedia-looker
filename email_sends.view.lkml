@@ -24,8 +24,17 @@ view: sends {
 
   dimension: email_address {
     type: string
-    sql: ${TABLE}.EMAIL_ADDRESS ;;
+    sql: ${TABLE}.EMAIL_ADDRESS
+
+    ;;
   }
+
+  dimension: email_domain {
+  type: string
+  sql: lower(rtrim(substring(${TABLE}.subscriber_key, regexp_instr(${TABLE}.subscriber_key, '@') + 1,length(${TABLE}.subscriber_key))))
+  ;;
+  }
+
 
   dimension_group: event_date {
     type: time
