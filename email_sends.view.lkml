@@ -96,4 +96,10 @@ view: sends {
     drill_fields: [id]
   }
 
+  measure: unique_sent_subscribers {
+    type: count_distinct
+    sql: ${subscriber_key}  ;;
+    drill_fields: [id]
+  }
+
 }
