@@ -105,8 +105,10 @@ view: sends {
   measure: send_frequency {
     type: number
     sql: case when ${unique_sent_subscribers} = 0 then 0 else ${unique_sends}/${unique_sent_subscribers}
-    end;;
+    end / count(distinct ${event_date_date});;
     drill_fields: [id]
   }
+
+
 
 }
