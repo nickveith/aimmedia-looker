@@ -50,16 +50,24 @@ view: pcd_contracts {
     sql: ${TABLE}.SOURCE_KEY_CODE ;;
   }
 
-  dimension: contract_indicator {
-    type: string
-    sql: ${TABLE}.CONTRACT_INDICATOR ;;
-  }
-
   dimension: primary_source {
     type: string
     sql: case when ${TABLE}.PRIMARY_SOURCE = '7' then 'DTP'
               when ${TABLE}.PRIMARY_SOURCE = '8' then 'Agency'
               end ;;
+  }
+
+  dimension: source_code {
+    type: string
+    sql: case when ${primary_source} = 'DTP' then substring(${source_key_code},1,1)
+              when ${primary_source} = 'Agency' then substring(${source_key_code},1,2)
+          end
+    ;;
+  }
+
+  dimension: contract_indicator {
+    type: string
+    sql: ${TABLE}.CONTRACT_INDICATOR ;;
   }
 
   dimension: email_transaction_type {
@@ -143,19 +151,6 @@ view: pcd_contracts {
     sql: ${TABLE}.account_id ;;
     drill_fields: [detail*]
   }
-
-  measure: unique_contracts_direct {
-    type: count_distinct
-    sql: ${TABLE}.account_id ;;
-    drill_fields: [detail*]
-  }
-
-  measure: unique_contracts_indirect {
-    type: count_distinct
-    sql: ${TABLE}.account_id ;;
-    drill_fields: [detail*]
-  }
-
 
   measure: revenue {
     type: sum

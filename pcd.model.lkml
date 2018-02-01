@@ -57,9 +57,7 @@ explore: pcd_contracts {
     type: left_outer
     sql_on: ${pcd_contracts.client_code} = ${pcd_pub_source.client_code}
         and ${pcd_contracts.pub_code} = ${pcd_pub_source.pub_code}
-        and case when ${pcd_contracts.primary_source} = 'DTP' then substring(${pcd_contracts.source_key_code},1,1)
-                 when ${pcd_contracts.primary_source} = 'Agency' then substring(${pcd_contracts.source_key_code},1,2)
-             end = ${pcd_pub_source.source_code} ;;
+        and ${pcd_contracts.source_code} = ${pcd_pub_source.source_code} ;;
     relationship: many_to_one
   }
   join: pcd_current {
@@ -91,11 +89,11 @@ explore: contracts_over_time {
     type: inner
     sql_on: ${contracts_over_time.day_of_month} = 1
         and (
-              (  ${pcd_issues.date_offsale_date} >= dateadd(months, -6 - 3, ${contracts_over_time.calendar_date})
+              (  ${pcd_issues.date_offsale_date} >= dateadd(months, -6 - 12, ${contracts_over_time.calendar_date})
              and ${pcd_issues.date_offsale_date} <  dateadd(months, -6   , ${contracts_over_time.calendar_date}) )
               OR
-              (  ${pcd_issues.date_onsale_date} <= dateadd(months, -6 - 3 , ${contracts_over_time.calendar_date})
-             and ${pcd_issues.date_offsale_date} > dateadd(months, -6 - 3 , ${contracts_over_time.calendar_date}) )
+              (  ${pcd_issues.date_onsale_date} <= dateadd(months, -6 - 12 , ${contracts_over_time.calendar_date})
+             and ${pcd_issues.date_offsale_date} > dateadd(months, -6 - 12 , ${contracts_over_time.calendar_date}) )
             ) ;;
     relationship: one_to_many
   }
@@ -113,7 +111,7 @@ explore: contracts_over_time {
     relationship: many_to_one
   }
   join: expirations {
-    from:  pcd_contracts
+    from:  pcd_expirations
     type: left_outer
     sql_on: ${pcd_issues.issue} = ${expirations.expiration_issue}
         and ${pcd_issues.client_code} = ${expirations.client_code}
@@ -121,7 +119,7 @@ explore: contracts_over_time {
     relationship: one_to_many
   }
   join: renewals {
-      from:  pcd_contracts
+      from:  pcd_renewals
       type: left_outer
       sql_on: ${expirations.account_id} = ${renewals.account_id}
           and ${expirations.contract_number} + 1 = ${renewals.contract_number};;
@@ -132,19 +130,15 @@ explore: contracts_over_time {
     type: left_outer
     sql_on: ${expiration_source.client_code} = ${expirations.client_code}
         and ${expiration_source.pub_code} = ${expirations.pub_code}
-        and case when substring(${expirations.source_key_code},1,2) = ${expiration_source.source_code} then true
-                 when substring(${expirations.source_key_code},1,1) = ${expiration_source.source_code} then true
-                 else false end ;;
+        and ${expiration_source.source_code} = ${expirations.source_code} ;;
     relationship: many_to_one
   }
   join: renewal_source {
     from: pcd_pub_source
     type: left_outer
-    sql_on: ${renewal_source.client_code} = ${expirations.client_code}
-        and ${renewal_source.pub_code} = ${expirations.pub_code}
-        and case when substring(${expirations.source_key_code},1,2) = ${renewal_source.source_code} then true
-                 when substring(${expirations.source_key_code},1,1) = ${renewal_source.source_code} then true
-                 else false end ;;
+    sql_on: ${renewal_source.client_code} = ${renewals.client_code}
+        and ${renewal_source.pub_code} = ${renewals.pub_code}
+        and ${renewal_source.source_code} = ${renewals.source_code} ;;
     relationship: many_to_one
   }
 }
@@ -168,9 +162,7 @@ explore: current {
     type: left_outer
     sql_on: ${current_source.client_code} = ${pcd_current.client_code}
         and ${current_source.pub_code} = ${pcd_current.pub_code}
-        and case when substring(${pcd_current.source_key_code},1,2) = ${current_source.source_code} then true
-                 when substring(${pcd_current.source_key_code},1,1) = ${current_source.source_code} then true
-                 else false end ;;
+        and ${pcd_current.source_code} = ${current_source.source_code} ;;
     relationship: many_to_one
   }
   join: pcd_contracts {

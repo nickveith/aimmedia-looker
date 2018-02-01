@@ -1,3 +1,4 @@
+
 view: pcd_current {
   sql_table_name: PUBLIC.PCD_CURRENT;;
 
@@ -118,7 +119,24 @@ view: pcd_current {
 
   dimension: source_key_code {
     type: string
-    sql: ${TABLE}."current source key code";;
+    sql: case when
+    ${TABLE}."current source key code";;
+  }
+
+  dimension: primary_source {
+    type: string
+    sql: case when ${TABLE}."current src - prim. src" = '7' then 'DTP'
+              when ${TABLE}."current src - prim. src" = '8' then 'Agency'
+              end ;;
+  }
+
+
+  dimension: source_code {
+    type: string
+    sql: case when ${primary_source} = 'DTP' then substring(${TABLE}."current source key code",1,1)
+              when ${primary_source} = 'Agency' then substring(${TABLE}."current source key code",1,2)
+          end
+    ;;
   }
 
   dimension: source_type {
