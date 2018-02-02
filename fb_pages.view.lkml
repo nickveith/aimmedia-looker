@@ -9,142 +9,164 @@ view: fb_pages {
 
   dimension: about {
     type: string
-    sql: ${TABLE}.About ;;
+    sql: ${TABLE}."About" ;;
   }
 
   dimension: accepts_american_express {
     type: yesno
-    sql: ${TABLE}.AcceptsAmericanExpress ;;
+    hidden: yes
+    sql: ${TABLE}."AcceptsAmericanExpress" ;;
   }
 
   dimension: accepts_cash_only {
     type: yesno
-    sql: ${TABLE}.AcceptsCashOnly ;;
+    hidden: yes
+    sql: ${TABLE}."AcceptsCashOnly"" ;;
   }
 
   dimension: accepts_discover {
     type: yesno
-    sql: ${TABLE}.AcceptsDiscover ;;
+    hidden: yes
+    sql: ${TABLE}."AcceptsDiscover" ;;
   }
 
   dimension: accepts_master_card {
     type: yesno
-    sql: ${TABLE}.AcceptsMasterCard ;;
+    hidden: yes
+    sql: ${TABLE}."AcceptsMasterCard" ;;
   }
 
   dimension: accepts_visa {
     type: yesno
-    sql: ${TABLE}.AcceptsVisa ;;
+    hidden: yes
+    sql: ${TABLE}."AcceptsVisa" ;;
   }
 
   dimension: affiliation {
     type: string
-    sql: ${TABLE}.Affiliation ;;
+    hidden: yes
+    sql: ${TABLE}."Affiliation" ;;
   }
 
   dimension: allows_groups {
     type: yesno
-    sql: ${TABLE}.AllowsGroups ;;
+    hidden: yes
+    sql: ${TABLE}."AllowsGroups" ;;
   }
 
   dimension: allows_kids {
     type: yesno
-    sql: ${TABLE}.AllowsKids ;;
+    hidden: yes
+    sql: ${TABLE}."AllowsKids" ;;
   }
 
   dimension: allows_walkins {
     type: yesno
-    sql: ${TABLE}.AllowsWalkins ;;
+    hidden: yes
+    sql: ${TABLE}."AllowsWalkins" ;;
   }
 
   dimension: artists_we_like {
     type: string
-    sql: ${TABLE}.ArtistsWeLike ;;
+    hidden: yes
+    sql: ${TABLE}."ArtistsWeLike" ;;
   }
 
   dimension: attire {
     type: string
-    sql: ${TABLE}.Attire ;;
+    hidden: yes
+    sql: ${TABLE}."Attire" ;;
   }
 
   dimension: awards {
     type: string
-    sql: ${TABLE}.Awards ;;
+    hidden: yes
+    sql: ${TABLE}."Awards" ;;
   }
 
   dimension: band_interests {
     type: string
-    sql: ${TABLE}.BandInterests ;;
+    hidden: yes
+    sql: ${TABLE}."BandInterests" ;;
   }
 
   dimension: band_members {
     type: string
-    sql: ${TABLE}.BandMembers ;;
+    hidden: yes
+    sql: ${TABLE}."BandMembers" ;;
   }
 
   dimension: bio {
     type: string
-    sql: ${TABLE}.Bio ;;
+    sql: ${TABLE}."Bio" ;;
   }
 
   dimension: birthday {
     type: string
-    sql: ${TABLE}.Birthday ;;
+    hidden: yes
+    sql: ${TABLE}."Birthday" ;;
   }
 
   dimension: booking_agent {
     type: string
-    sql: ${TABLE}.BookingAgent ;;
+    hidden: yes
+    sql: ${TABLE}."BookingAgent" ;;
   }
 
   dimension: built {
     type: string
-    sql: ${TABLE}.Built ;;
+    hidden: yes
+    sql: ${TABLE}."Built" ;;
   }
 
   dimension: can_post {
     type: yesno
-    sql: ${TABLE}.CanPost ;;
+    hidden: yes
+    sql: ${TABLE}."CanPost" ;;
   }
 
   dimension: categories {
     type: string
-    sql: ${TABLE}.Categories ;;
+    sql: ${TABLE}."Categories" ;;
   }
 
   dimension: category {
     type: string
-    sql: ${TABLE}.Category ;;
+    sql: ${TABLE}."Category" ;;
   }
 
-  dimension: checkins {
-    type: number
-    sql: ${TABLE}.Checkins ;;
+  measure: checkins {
+    type: sum
+    sql: ${TABLE}."Checkins" ;;
   }
 
   dimension: company_overview {
     type: string
-    sql: ${TABLE}.CompanyOverview ;;
+    sql: ${TABLE}."CompanyOverview" ;;
   }
 
   dimension: cover_id {
     type: string
-    sql: ${TABLE}.CoverId ;;
+    hidden: yes
+    sql: ${TABLE}."CoverId" ;;
   }
 
   dimension: cover_offset_x {
     type: string
-    sql: ${TABLE}.CoverOffsetX ;;
+    hidden: yes
+    sql: ${TABLE}."CoverOffsetX" ;;
   }
 
   dimension: cover_offset_y {
     type: string
-    sql: ${TABLE}.CoverOffsetY ;;
+    hidden: yes
+    sql: ${TABLE}."CoverOffsetY" ;;
   }
 
   dimension: cover_source {
     type: string
-    sql: ${TABLE}.CoverSource ;;
+    hidden: yes
+    sql: ${TABLE}."CoverSource" ;;
   }
 
   dimension_group: created {
@@ -158,332 +180,392 @@ view: fb_pages {
       quarter,
       year
     ]
-    sql: ${TABLE}.CREATED_DATE ;;
+    sql: ${TABLE}."CREATED_DATE" ;;
   }
 
   dimension: culinary_team {
     type: string
-    sql: ${TABLE}.CulinaryTeam ;;
+    hidden: yes
+    sql: ${TABLE}."CulinaryTeam" ;;
   }
 
   dimension: description {
     type: string
-    sql: ${TABLE}.Description ;;
+    sql: ${TABLE}."Description" ;;
   }
 
   dimension: directed_by {
     type: string
-    sql: ${TABLE}.DirectedBy ;;
+    hidden: yes
+    sql: ${TABLE}."DirectedBy" ;;
   }
 
   dimension: features {
     type: string
-    sql: ${TABLE}.Features ;;
+    hidden: yes
+    sql: ${TABLE}."Features" ;;
   }
 
   dimension: founded {
     type: string
-    sql: ${TABLE}.Founded ;;
+    hidden: yes
+    sql: ${TABLE}."Founded" ;;
   }
 
   dimension: general_info {
     type: string
-    sql: ${TABLE}.GeneralInfo ;;
+    hidden: yes
+    sql: ${TABLE}."GeneralInfo" ;;
   }
 
   dimension: general_manager {
     type: string
-    sql: ${TABLE}.GeneralManager ;;
+    hidden: yes
+    sql: ${TABLE}."GeneralManager" ;;
   }
 
   dimension: genre {
     type: string
-    sql: ${TABLE}.Genre ;;
+    hidden: yes
+    sql: ${TABLE}."Genre" ;;
   }
 
   dimension: has_outdoor_seating {
     type: yesno
-    sql: ${TABLE}.HasOutdoorSeating ;;
+    hidden: yes
+    sql: ${TABLE}."HasOutdoorSeating" ;;
   }
 
   dimension: has_waiters {
     type: yesno
-    sql: ${TABLE}.HasWaiters ;;
+    hidden: yes
+    sql: ${TABLE}."HasWaiters" ;;
   }
 
   dimension: hometown {
     type: string
-    sql: ${TABLE}.Hometown ;;
+    hidden: yes
+    sql: ${TABLE}."Hometown" ;;
   }
 
   dimension: hours {
     type: string
-    sql: ${TABLE}.Hours ;;
+    hidden: yes
+    sql: ${TABLE}."Hours" ;;
   }
 
   dimension: influences {
     type: string
-    sql: ${TABLE}.Influences ;;
+    hidden: yes
+    sql: ${TABLE}."Influences" ;;
   }
 
   dimension: is_community_page {
     type: yesno
-    sql: ${TABLE}.IsCommunityPage ;;
+    hidden: yes
+    sql: ${TABLE}."IsCommunityPage" ;;
   }
 
   dimension: is_published {
     type: yesno
-    sql: ${TABLE}.IsPublished ;;
+    hidden: yes
+    sql: ${TABLE}."IsPublished" ;;
   }
 
-  dimension: likes {
-    type: number
-    sql: ${TABLE}.Likes ;;
+  measure: likes {
+    type: sum
+    sql: ${TABLE}."Likes" ;;
   }
 
   dimension: link {
     type: string
-    sql: ${TABLE}.Link ;;
+    hidden: yes
+    sql: ${TABLE}."Link" ;;
   }
 
   dimension: location_city {
     type: string
-    sql: ${TABLE}.LocationCity ;;
+    hidden: yes
+    sql: ${TABLE}."LocationCity" ;;
   }
 
   dimension: location_country {
     type: string
-    sql: ${TABLE}.LocationCountry ;;
+    hidden: yes
+    sql: ${TABLE}."LocationCountry" ;;
   }
 
   dimension: location_latitude {
     type: string
-    sql: ${TABLE}.LocationLatitude ;;
+    hidden: yes
+    sql: ${TABLE}."LocationLatitude" ;;
   }
 
   dimension: location_longitude {
     type: string
-    sql: ${TABLE}.LocationLongitude ;;
+    hidden: yes
+    sql: ${TABLE}."LocationLongitude" ;;
   }
 
   dimension: location_state {
     type: string
-    sql: ${TABLE}.LocationState ;;
+    hidden: yes
+    sql: ${TABLE}."LocationState" ;;
   }
 
   dimension: location_street {
     type: string
-    sql: ${TABLE}.LocationStreet ;;
+    hidden: yes
+    sql: ${TABLE}."LocationStreet" ;;
   }
 
   dimension: location_zip {
     type: string
-    sql: ${TABLE}.LocationZip ;;
+    hidden: yes
+    sql: ${TABLE}."LocationZip" ;;
   }
 
   dimension: members {
     type: string
-    sql: ${TABLE}.Members ;;
+    hidden: yes
+    sql: ${TABLE}."Members" ;;
   }
 
   dimension: mission {
     type: string
-    sql: ${TABLE}.Mission ;;
+    sql: ${TABLE}."Mission" ;;
   }
 
   dimension: mpg {
     type: string
-    sql: ${TABLE}.MPG ;;
+    hidden: yes
+    sql: ${TABLE}."MPG" ;;
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}.Name ;;
+    sql: ${TABLE}."Name" ;;
   }
 
   dimension: network {
     type: string
-    sql: ${TABLE}.Network ;;
+    hidden: yes
+    sql: ${TABLE}."Network" ;;
   }
 
   dimension: parent_id {
     type: string
-    sql: ${TABLE}.ParentID ;;
+    hidden: yes
+    sql: ${TABLE}."ParentID" ;;
   }
 
   dimension: parking_lot {
     type: yesno
-    sql: ${TABLE}.ParkingLot ;;
+    hidden: yes
+    sql: ${TABLE}."ParkingLot" ;;
   }
 
   dimension: parking_street {
     type: yesno
-    sql: ${TABLE}.ParkingStreet ;;
+    hidden: yes
+    sql: ${TABLE}."ParkingStreet" ;;
   }
 
   dimension: parking_valet {
     type: yesno
-    sql: ${TABLE}.ParkingValet ;;
+    hidden: yes
+    sql: ${TABLE}."ParkingValet" ;;
   }
 
   dimension: personal_info {
     type: string
-    sql: ${TABLE}.PersonalInfo ;;
+    hidden: yes
+    sql: ${TABLE}."PersonalInfo" ;;
   }
 
   dimension: personal_interests {
     type: string
-    sql: ${TABLE}.PersonalInterests ;;
+    hidden: yes
+    sql: ${TABLE}."PersonalInterests" ;;
   }
 
   dimension: pharma_safety_info {
     type: string
-    sql: ${TABLE}.PharmaSafetyInfo ;;
+    hidden: yes
+    sql: ${TABLE}."PharmaSafetyInfo" ;;
   }
 
   dimension: phone {
     type: string
-    sql: ${TABLE}.Phone ;;
+    hidden: yes
+    sql: ${TABLE}."Phone" ;;
   }
 
   dimension: picture {
     type: string
-    sql: ${TABLE}.Picture ;;
+    hidden: yes
+    sql: ${TABLE}."Picture" ;;
   }
 
   dimension: plot_outline {
     type: string
-    sql: ${TABLE}.PlotOutline ;;
+    hidden: yes
+    sql: ${TABLE}."PlotOutline" ;;
   }
 
   dimension: press_contact {
     type: string
-    sql: ${TABLE}.PressContact ;;
+    hidden: yes
+    sql: ${TABLE}."PressContact" ;;
   }
 
   dimension: price_range {
     type: string
-    sql: ${TABLE}.PriceRange ;;
+    hidden: yes
+    sql: ${TABLE}."PriceRange" ;;
   }
 
   dimension: produced_by {
     type: string
-    sql: ${TABLE}.ProducedBy ;;
+    hidden: yes
+    sql: ${TABLE}."ProducedBy" ;;
   }
 
   dimension: products {
     type: string
-    sql: ${TABLE}.Products ;;
+    hidden: yes
+    sql: ${TABLE}."Products" ;;
   }
 
   dimension: promotion_eligible {
     type: yesno
-    sql: ${TABLE}.PromotionEligible ;;
+    hidden: yes
+    sql: ${TABLE}."PromotionEligible" ;;
   }
 
   dimension: promotion_ineligible_reason {
     type: string
-    sql: ${TABLE}.PromotionIneligibleReason ;;
+    hidden: yes
+    sql: ${TABLE}."PromotionIneligibleReason" ;;
   }
 
   dimension: provides_catering {
     type: yesno
-    sql: ${TABLE}.ProvidesCatering ;;
+    hidden: yes
+    sql: ${TABLE}."ProvidesCatering" ;;
   }
 
   dimension: provides_delivery {
     type: yesno
-    sql: ${TABLE}.ProvidesDelivery ;;
+    hidden: yes
+    sql: ${TABLE}."ProvidesDelivery" ;;
   }
 
   dimension: provides_takeout {
     type: yesno
-    sql: ${TABLE}.ProvidesTakeout ;;
+    hidden: yes
+    sql: ${TABLE}."ProvidesTakeout" ;;
   }
 
   dimension: public_transit {
     type: string
-    sql: ${TABLE}.PublicTransit ;;
+    hidden: yes
+    sql: ${TABLE}."PublicTransit" ;;
   }
 
   dimension: record_label {
     type: string
-    sql: ${TABLE}.RecordLabel ;;
+    hidden: yes
+    sql: ${TABLE}."RecordLabel" ;;
   }
 
   dimension: release_data {
     type: string
-    sql: ${TABLE}.ReleaseData ;;
+    hidden: yes
+    sql: ${TABLE}."ReleaseData" ;;
   }
 
   dimension: schedule {
     type: string
-    sql: ${TABLE}.Schedule ;;
+    hidden: yes
+    sql: ${TABLE}."Schedule" ;;
   }
 
   dimension: screenplay_by {
     type: string
-    sql: ${TABLE}.ScreenplayBy ;;
+    hidden: yes
+    sql: ${TABLE}."ScreenplayBy" ;;
   }
 
   dimension: search_terms {
     type: string
-    sql: ${TABLE}.SearchTerms ;;
+    hidden: yes
+    sql: ${TABLE}."SearchTerms" ;;
   }
 
   dimension: season {
     type: string
-    sql: ${TABLE}.Season ;;
+    hidden: yes
+    sql: ${TABLE}."Season" ;;
   }
 
   dimension: serves_breakfast {
     type: yesno
-    sql: ${TABLE}.ServesBreakfast ;;
+    hidden: yes
+    sql: ${TABLE}."ServesBreakfast" ;;
   }
 
   dimension: serves_coffee {
     type: yesno
-    sql: ${TABLE}.ServesCoffee ;;
+    hidden: yes
+    sql: ${TABLE}."ServesCoffee" ;;
   }
 
   dimension: serves_dinner {
     type: yesno
-    sql: ${TABLE}.ServesDinner ;;
+    hidden: yes
+    sql: ${TABLE}."ServesDinner" ;;
   }
 
   dimension: serves_drinks {
     type: yesno
-    sql: ${TABLE}.ServesDrinks ;;
+    hidden: yes
+    sql: ${TABLE}."ServesDrinks" ;;
   }
 
   dimension: serves_lunch {
     type: yesno
-    sql: ${TABLE}.ServesLunch ;;
+    hidden: yes
+    sql: ${TABLE}."ServesLunch" ;;
   }
 
   dimension: starring {
     type: string
-    sql: ${TABLE}.Starring ;;
+    hidden: yes
+    sql: ${TABLE}."Starring" ;;
   }
 
   dimension: store_number {
     type: number
-    sql: ${TABLE}.StoreNumber ;;
+    hidden: yes
+    sql: ${TABLE}."StoreNumber" ;;
   }
 
   dimension: studio {
     type: string
-    sql: ${TABLE}.Studio ;;
+    hidden: yes
+    sql: ${TABLE}."Studio" ;;
   }
 
   dimension: takes_reservations {
     type: yesno
-    sql: ${TABLE}.TakesReservations ;;
+    hidden: yes
+    sql: ${TABLE}."TakesReservations" ;;
   }
 
-  dimension: talking_about_count {
-    type: number
-    sql: ${TABLE}.TalkingAboutCount ;;
+  measure: talking_about_count {
+    type: sum
+    sql: ${TABLE}."TalkingAboutCount" ;;
   }
 
   dimension_group: updated {
@@ -497,27 +579,29 @@ view: fb_pages {
       quarter,
       year
     ]
-    sql: ${TABLE}.UPDATED_DATE ;;
+    sql: ${TABLE}."UPDATED_DATE" ;;
   }
 
   dimension: username {
     type: string
-    sql: ${TABLE}.Username ;;
+    hidden: yes
+    sql: ${TABLE}."Username" ;;
   }
 
   dimension: website {
     type: string
-    sql: ${TABLE}.Website ;;
+    sql: ${TABLE}."Website" ;;
   }
 
-  dimension: were_here_count {
-    type: number
-    sql: ${TABLE}.WereHereCount ;;
+  measure: were_here_count {
+    type: sum
+    sql: ${TABLE}."WereHereCount" ;;
   }
 
   dimension: written_by {
     type: string
-    sql: ${TABLE}.WrittenBy ;;
+    hidden: yes
+    sql: ${TABLE}."WrittenBy" ;;
   }
 
   measure: count {

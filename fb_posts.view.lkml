@@ -1,180 +1,180 @@
 view: fb_posts {
-  sql_table_name: PUBLIC.FB_POSTS ;;
+  sql_table_name: PUBLIC.FB_POSTS" ;;
 
   dimension: id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.ID ;;
+    sql: ${TABLE}."ID" ;;
   }
 
   dimension: actions {
     type: string
-    sql: ${TABLE}.Actions ;;
+    sql: ${TABLE}."Actions" ;;
   }
 
   dimension: application_canvas_name {
     type: string
-    sql: ${TABLE}.ApplicationCanvasName ;;
+    sql: ${TABLE}."ApplicationCanvasName" ;;
   }
 
   dimension: application_id {
     type: string
-    sql: ${TABLE}.ApplicationId ;;
+    sql: ${TABLE}."ApplicationId" ;;
   }
 
   dimension: application_name {
     type: string
-    sql: ${TABLE}.ApplicationName ;;
+    sql: ${TABLE}."ApplicationName" ;;
   }
 
   dimension: application_namespace {
     type: string
-    sql: ${TABLE}.ApplicationNamespace ;;
+    sql: ${TABLE}."ApplicationNamespace" ;;
   }
 
   dimension: caption {
     type: string
-    sql: ${TABLE}.Caption ;;
+    sql: ${TABLE}."Caption" ;;
   }
 
   dimension: comments_count {
     type: number
-    sql: ${TABLE}.CommentsCount ;;
+    sql: ${TABLE}."CommentsCount" ;;
   }
 
   dimension: comments_data {
     type: string
-    sql: ${TABLE}.CommentsData ;;
+    sql: ${TABLE}."CommentsData" ;;
   }
 
   dimension: created_time {
     type: string
-    sql: ${TABLE}.CreatedTime ;;
+    sql: ${TABLE}."CreatedTime" ;;
   }
 
   dimension: description {
     type: string
-    sql: ${TABLE}.Description ;;
+    sql: ${TABLE}."Description" ;;
   }
 
   dimension: from_category {
     type: string
-    sql: ${TABLE}.FromCategory ;;
+    sql: ${TABLE}."FromCategory" ;;
   }
 
   dimension: from_id {
     type: string
-    sql: ${TABLE}.FromId ;;
+    sql: ${TABLE}."FromId" ;;
   }
 
   dimension: from_name {
     type: string
-    sql: ${TABLE}.FromName ;;
+    sql: ${TABLE}."FromName" ;;
   }
 
   dimension: from_picture {
     type: string
-    sql: ${TABLE}.FromPicture ;;
+    sql: ${TABLE}."FromPicture" ;;
   }
 
   dimension: icon {
     type: string
-    sql: ${TABLE}.Icon ;;
+    sql: ${TABLE}."Icon" ;;
   }
 
   dimension: likes_count {
     type: number
-    sql: ${TABLE}.LikesCount ;;
+    sql: ${TABLE}."LikesCount" ;;
   }
 
   dimension: likes_data {
     type: string
-    sql: ${TABLE}.LikesData ;;
+    sql: ${TABLE}."LikesData" ;;
   }
 
   dimension: link {
     type: string
-    sql: ${TABLE}.Link ;;
+    sql: ${TABLE}."Link" ;;
   }
 
   dimension: message {
     type: string
-    sql: ${TABLE}.Message ;;
+    sql: ${TABLE}."Message" ;;
   }
 
   dimension: message_tags {
     type: string
-    sql: ${TABLE}.MessageTags ;;
+    sql: ${TABLE}."MessageTags" ;;
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}.Name ;;
+    sql: ${TABLE}."Name" ;;
   }
 
   dimension: object_id {
     type: string
-    sql: ${TABLE}.ObjectId ;;
+    sql: ${TABLE}."ObjectId" ;;
   }
 
   dimension: picture {
     type: string
-    sql: ${TABLE}.Picture ;;
+    sql: ${TABLE}."Picture" ;;
   }
 
   dimension: place_id {
     type: string
-    sql: ${TABLE}.PlaceId ;;
+    sql: ${TABLE}."PlaceId" ;;
   }
 
   dimension: place_name {
     type: string
-    sql: ${TABLE}.PlaceName ;;
+    sql: ${TABLE}."PlaceName" ;;
   }
 
   dimension: shares_count {
     type: number
-    sql: ${TABLE}.SharesCount ;;
+    sql: ${TABLE}."SharesCount" ;;
   }
 
   dimension: source {
     type: string
-    sql: ${TABLE}.Source ;;
+    sql: ${TABLE}."Source" ;;
   }
 
   dimension: story {
     type: string
-    sql: ${TABLE}.Story ;;
+    sql: ${TABLE}."Story" ;;
   }
 
   dimension: story_tags {
     type: string
-    sql: ${TABLE}.StoryTags ;;
+    sql: ${TABLE}."StoryTags" ;;
   }
 
   dimension: target {
     type: string
-    sql: ${TABLE}.Target ;;
+    sql: ${TABLE}."Target" ;;
   }
 
   dimension: to_data {
     type: string
-    sql: ${TABLE}.ToData ;;
+    sql: ${TABLE}."ToData" ;;
   }
 
   dimension: type {
     type: string
-    sql: ${TABLE}.Type ;;
+    sql: ${TABLE}."Type" ;;
   }
 
   dimension: updated_time {
     type: string
-    sql: ${TABLE}.UpdatedTime ;;
+    sql: ${TABLE}."UpdatedTime" ;;
   }
 
   dimension: with_tags_data {
     type: string
-    sql: ${TABLE}.WithTagsData ;;
+    sql: ${TABLE}."WithTagsData" ;;
   }
 
   measure: count {
