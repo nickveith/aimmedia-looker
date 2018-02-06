@@ -3,52 +3,52 @@ view: fb_page_consumptions_by_consumption_type {
 
   dimension: button_clicks {
     type: number
-    sql: ${TABLE}.ButtonClicks ;;
+    sql: ${TABLE}."ButtonClicks" ;;
   }
 
   dimension: end_time {
     type: string
-    sql: ${TABLE}.EndTime ;;
+    sql: ${TABLE}."EndTime" ;;
   }
 
   dimension: insight_name {
     type: string
-    sql: ${TABLE}.InsightName ;;
+    sql: ${TABLE}."InsightName" ;;
   }
 
   dimension: link_clicks {
     type: number
-    sql: ${TABLE}.LinkClicks ;;
+    sql: ${TABLE}."LinkClicks" ;;
   }
 
   dimension: other_clicks {
     type: number
-    sql: ${TABLE}.OtherClicks ;;
+    sql: ${TABLE}."OtherClicks" ;;
   }
 
   dimension: period {
     type: string
-    sql: ${TABLE}.Period ;;
+    sql: ${TABLE}."Period" ;;
   }
 
   dimension: photo_view {
     type: number
-    sql: ${TABLE}.PhotoView ;;
+    sql: ${TABLE}."PhotoView" ;;
   }
 
   dimension: row_number {
     type: number
-    sql: ${TABLE}.RowNumber ;;
+    sql: ${TABLE}."RowNumber" ;;
   }
 
   dimension: target {
     type: string
-    sql: ${TABLE}.Target ;;
+    sql: ${TABLE}."Target" ;;
   }
 
   dimension: video_play {
     type: number
-    sql: ${TABLE}.VideoPlay ;;
+    sql: ${TABLE}."VideoPlay" ;;
   }
 
   measure: count {
