@@ -13,44 +13,44 @@ view: fb_page_impressions_by_paid_non_paid {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}.EndTime ;;
+    sql: ${TABLE}."EndTime" ;;
   }
 
   dimension: insight_name {
     type: string
-    sql: ${TABLE}.InsightName ;;
+    sql: ${TABLE}."InsightName" ;;
   }
 
   dimension: paid {
     type: number
     value_format_name: id
-    sql: ${TABLE}.Paid ;;
+    sql: ${TABLE}."Paid" ;;
   }
 
   dimension: period {
     type: string
-    sql: ${TABLE}.Period ;;
+    sql: ${TABLE}."Period" ;;
   }
 
   dimension: row_number {
     type: number
-    sql: ${TABLE}.RowNumber ;;
+    sql: ${TABLE}."RowNumber" ;;
   }
 
   dimension: target {
     type: string
-    sql: ${TABLE}.Target ;;
+    sql: ${TABLE}."Target" ;;
   }
 
   dimension: total {
     type: number
-    sql: ${TABLE}.Total ;;
+    sql: ${TABLE}."Total" ;;
   }
 
   dimension: unpaid {
     type: number
     value_format_name: id
-    sql: ${TABLE}.Unpaid ;;
+    sql: ${TABLE}."Unpaid" ;;
   }
 
   measure: count {
