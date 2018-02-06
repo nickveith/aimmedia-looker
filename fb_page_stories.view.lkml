@@ -13,32 +13,32 @@ view: fb_page_stories {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}.EndTime ;;
+    sql: ${TABLE}."EndTime" ;;
   }
 
   dimension: insight_name {
     type: string
-    sql: ${TABLE}.InsightName ;;
+    sql: ${TABLE}."InsightName" ;;
   }
 
   dimension: period {
     type: string
-    sql: ${TABLE}.Period ;;
+    sql: ${TABLE}."Period" ;;
   }
 
   dimension: row_number {
     type: number
-    sql: ${TABLE}.RowNumber ;;
+    sql: ${TABLE}."RowNumber" ;;
   }
 
   dimension: target {
     type: string
-    sql: ${TABLE}.Target ;;
+    sql: ${TABLE}."Target" ;;
   }
 
   dimension: value {
     type: number
-    sql: ${TABLE}.Value ;;
+    sql: ${TABLE}."Value" ;;
   }
 
   measure: count {
