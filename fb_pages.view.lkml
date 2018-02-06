@@ -21,7 +21,7 @@ view: fb_pages {
   dimension: accepts_cash_only {
     type: yesno
     hidden: yes
-    sql: ${TABLE}."AcceptsCashOnly"" ;;
+    sql: ${TABLE}."AcceptsCashOnly" ;;
   }
 
   dimension: accepts_discover {
