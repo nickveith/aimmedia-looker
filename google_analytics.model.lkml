@@ -7,7 +7,6 @@ include: "*.view"
 include: "*.dashboard"
 
 view: ga_reporting_extended {
-  sql_table_name: PUBLIC.GA_TRAFFIC ;;
   extends: [ga_reporting]
   label: "reporting"
 
