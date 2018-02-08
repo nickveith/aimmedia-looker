@@ -3,11 +3,6 @@ connection: "snowflake"
 # include all the views
 include: "*.view"
 
-# include all the dashboards
-include: "*.dashboard"
-
-
-
 ######datagroups for caching and PDT rebuilds
 datagroup: daily {
   sql_trigger: SELECT CURRENT_DATE ;;
