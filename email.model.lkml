@@ -72,26 +72,33 @@ explore: sends {
 explore: newsletters {
 #   persist_with: default
   from: newsletter_lookup
+  view_label: "Newsletter (Newsletter Lookup)"
   join:  subscriber_newsletters {
+    view_label: "Email Opt-Ins (Sub News)"
     type: left_outer
     sql_on: ${newsletters.newsletter_id} = ${subscriber_newsletters.newsletter_id};;
     relationship: one_to_many
   }
   join:  subscriber_master {
     type: left_outer
+    view_label: "Customer (Sub Master)"
     sql_on: ${subscriber_newsletters.subscriber_key} = ${subscriber_master.subscriber_key};;
     relationship: one_to_many
   }
   join:  subscriber_newsletters2 {
     from: subscriber_newsletters
+    view_label: "Overlap"
     type: left_outer
     sql_on: ${subscriber_newsletters.subscriber_key} = ${subscriber_newsletters2.subscriber_key};;
+    fields: [subscriber_newsletters2.unique_subscribers, subscriber_newsletters2.subscribers]
     relationship: one_to_many
   }
   join:  newsletter_lookup2 {
     from: newsletter_lookup
+    view_label: "Overlap"
     type: left_outer
     sql_on: ${subscriber_newsletters2.newsletter_id} = ${newsletter_lookup2.newsletter_id};;
+    fields: [newsletter_lookup2.brand_code, newsletter_lookup2.newsletter,newsletter_lookup2.list_type]
     relationship: many_to_one
   }
   }
