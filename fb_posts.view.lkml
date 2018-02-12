@@ -1,5 +1,5 @@
 view: fb_posts {
-  sql_table_name: PUBLIC.FB_POSTS" ;;
+  sql_table_name: PUBLIC.FB_POSTS ;;
 
   dimension: id {
     primary_key: yes
@@ -47,8 +47,9 @@ view: fb_posts {
     sql: ${TABLE}."CommentsData" ;;
   }
 
-  dimension: created_time {
-    type: string
+  dimension_group: created_time {
+    type: time
+    timeframes: [date,day_of_week,day_of_month, month_name, month, year, quarter_of_year]
     sql: ${TABLE}."CreatedTime" ;;
   }
 
@@ -82,8 +83,8 @@ view: fb_posts {
     sql: ${TABLE}."Icon" ;;
   }
 
-  dimension: likes_count {
-    type: number
+  measure: likes_count {
+    type: sum
     sql: ${TABLE}."LikesCount" ;;
   }
 
@@ -182,6 +183,7 @@ view: fb_posts {
     drill_fields: [detail*]
   }
 
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
@@ -190,8 +192,14 @@ view: fb_posts {
       name,
       place_name,
       application_name,
-      application_canvas_name,
-      created_time
+      application_canvas_name
     ]
   }
+
+  measure: likes_per_post {
+    type: number
+    sql: sum(${TABLE}."LikesCount")/count(DISTINCT ${TABLE}."ID");;
+  }
+
+
 }

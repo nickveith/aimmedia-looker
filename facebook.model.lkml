@@ -20,10 +20,15 @@ persist_with: daily
 
 explore: pages {
 #   persist_with: default
-from: fb_pages
-join:  fb_posts {
-  type: left_outer
-  sql_on: ${pages.id} = ${fb_posts.target};;
-  relationship: many_to_one
-}
+  from: fb_pages
+  join:  fb_posts {
+    type: left_outer
+    sql_on: ${pages.id} = ${fb_posts.target};;
+    relationship: many_to_one
+  }
+  join:  fb_page_consumptions {
+    type: left_outer
+    sql_on: ${pages.id} = ${fb_page_consumptions.target};;
+    relationship: many_to_one
+  }
 }
