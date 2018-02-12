@@ -1,6 +1,13 @@
 view: fb_page_impressions_by_paid_non_paid {
   sql_table_name: PUBLIC.FB_PAGE_IMPRESSIONS_BY_PAID_NON_PAID ;;
 
+
+  dimension: id {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}."Target" || ${TABLE}."EndTime" ;;
+  }
+
   dimension_group: end {
     type: time
     timeframes: [

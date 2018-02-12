@@ -24,11 +24,11 @@ explore: pages {
   join:  fb_posts {
     type: left_outer
     sql_on: ${pages.id} = ${fb_posts.target};;
-    relationship: many_to_one
+    relationship: one_to_many
   }
   join:  fb_page_consumptions {
     type: left_outer
     sql_on: ${pages.id} = ${fb_page_consumptions.target};;
-    relationship: many_to_one
+    relationship: one_to_many
   }
 }

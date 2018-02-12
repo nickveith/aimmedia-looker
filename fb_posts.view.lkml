@@ -198,6 +198,7 @@ view: fb_posts {
 
   measure: likes_per_post {
     type: number
+    value_format: "#.##"
     sql: sum(${TABLE}."LikesCount")/count(DISTINCT ${TABLE}."ID");;
   }
 
