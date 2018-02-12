@@ -1,6 +1,12 @@
 view: pcd_issues {
   sql_table_name: PUBLIC.PCD_ISSUES ;;
 
+  dimension: issue_id {
+    type: string
+    primary_key: yes
+    sql: ${client_code}||'-'||${pub_code}||'-'||${issue} ;;
+  }
+
   dimension: client_code {
     type: string
     sql: ${TABLE}.CLIENT_CODE ;;
@@ -68,6 +74,18 @@ view: pcd_issues {
 
   measure: count {
     type: count
+    drill_fields: []
+  }
+
+  measure: first_onsale {
+    type: date
+    sql: MIN(${date_onsale_date}) ;;
+    drill_fields: []
+  }
+
+  measure: last_onsale {
+    type: date
+    sql: MAX(${date_onsale_date}) ;;
     drill_fields: []
   }
 }

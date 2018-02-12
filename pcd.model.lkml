@@ -3,11 +3,6 @@ connection: "snowflake"
 # include all the views
 include: "*.view"
 
-# include all the dashboards
-include: "*.dashboard"
-
-
-
 ######datagroups for caching and PDT rebuilds
 datagroup: daily {
   sql_trigger: SELECT CURRENT_DATE ;;
@@ -88,26 +83,14 @@ explore: contracts_over_time {
   join: pcd_issues {
     type: inner
     sql_on: ${contracts_over_time.day_of_month} = 1
-        and (
-              (  ${pcd_issues.date_offsale_date} >= dateadd(months, -6 - 12, ${contracts_over_time.calendar_date})
-             and ${pcd_issues.date_offsale_date} <  dateadd(months, -6   , ${contracts_over_time.calendar_date}) )
-              OR
-              (  ${pcd_issues.date_onsale_date} <= dateadd(months, -6 - 12 , ${contracts_over_time.calendar_date})
-             and ${pcd_issues.date_offsale_date} > dateadd(months, -6 - 12 , ${contracts_over_time.calendar_date}) )
-            ) ;;
+        and ${pcd_issues.date_onsale_date} >= dateadd(months, -6 - 12, ${contracts_over_time.calendar_date})
+        and ${pcd_issues.date_onsale_date} <  dateadd(months, -6   , ${contracts_over_time.calendar_date}) ;;
     relationship: one_to_many
   }
   join: pcd_publisher {
     type: inner
     sql_on: ${pcd_publisher.client_code} = ${pcd_issues.client_code}
       and ${pcd_publisher.pub_code} =  ${pcd_issues.pub_code} ;;
-    relationship: many_to_one
-  }
-  join: contracts {
-    from:  pcd_contracts
-    type:  left_outer
-    sql_on: ${contracts_over_time.calendar_date} >= ${contracts.start_date}
-        and ${contracts_over_time.calendar_date} <  ${contracts.expiration_date} ;;
     relationship: many_to_one
   }
   join: expirations {

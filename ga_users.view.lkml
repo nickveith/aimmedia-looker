@@ -23,7 +23,7 @@ view: ga_users {
 
   measure: unique_users {
     type: number
-    sql: SUM(${TABLE}.UNIQUE_USERS_L28)::int ;;
+    sql: CASE WHEN COUNT(DISTINCT ${TABLE}.DAYDATE) = 0 THEN 0 ELSE SUM(${TABLE}.UNIQUE_USERS_L28) / COUNT(DISTINCT ${TABLE}.DAYDATE) END;;
   }
 
   measure: count {

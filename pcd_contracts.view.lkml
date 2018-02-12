@@ -4,8 +4,9 @@ view: pcd_contracts {
 
   dimension: contract_id {
     type: string
+    primary_key: yes
     hidden: yes
-    sql: ${TABLE}.contract_id ;;
+    sql: ${TABLE}.account_id||'-'||${TABLE}.contract_number ;;
   }
 
   dimension: account_id {
