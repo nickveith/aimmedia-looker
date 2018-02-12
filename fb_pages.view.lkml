@@ -4,7 +4,7 @@ view: fb_pages {
   dimension: id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.ID ;;
+    sql: ${TABLE}."ID" ;;
   }
 
   dimension: about {
