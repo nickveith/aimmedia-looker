@@ -39,4 +39,40 @@ explore: pages {
     and ${fb_page_impressions.end_date} = ${fb_page_consumptions.end_date};;
     relationship: one_to_many
   }
+  join:  fb_page_consumptions_by_consumption_type {
+    type: left_outer
+    sql_on: ${fb_page_impressions.target} = ${fb_page_consumptions_by_consumption_type.target}
+      and ${fb_page_impressions.end_date} = ${fb_page_consumptions_by_consumption_type.end_date};;
+    relationship: one_to_many
+  }
+  join:  fb_page_fan_adds {
+    type: left_outer
+    sql_on: ${fb_page_impressions.target} = ${fb_page_fan_adds.target}
+      and ${fb_page_impressions.end_date} = ${fb_page_fan_adds.end_date};;
+    relationship: one_to_many
+  }
+  join:  fb_page_fan_removes {
+    type: left_outer
+    sql_on: ${fb_page_impressions.target} = ${fb_page_fan_removes.target}
+      and ${fb_page_impressions.end_date} = ${fb_page_fan_removes.end_date};;
+    relationship: one_to_many
+  }
+  join:  fb_page_stories {
+    type: left_outer
+    sql_on: ${fb_page_impressions.target} = ${fb_page_stories.target}
+      and ${fb_page_impressions.end_date} = ${fb_page_stories.end_date};;
+    relationship: one_to_many
+  }
+  join:  fb_page_stories_by_story_type {
+    type: left_outer
+    sql_on: ${fb_page_impressions.target} = ${fb_page_stories_by_story_type.target}
+      and ${fb_page_impressions.end_date} = ${fb_page_stories_by_story_type.end_date};;
+    relationship: one_to_many
+  }
+  join:  fb_page_views {
+    type: left_outer
+    sql_on: ${fb_page_impressions.target} = ${fb_page_views.target}
+      and ${fb_page_impressions.end_date} = ${fb_page_views.end_date};;
+    relationship: one_to_many
+  }
 }

@@ -1,14 +1,10 @@
 view: fb_page_stories_by_story_type {
   sql_table_name: PUBLIC.FB_PAGE_STORIES_BY_STORY_TYPE ;;
 
-  dimension: checkin {
-    type: number
-    sql: ${TABLE}."Checkin" ;;
-  }
-
-  dimension: coupon {
-    type: number
-    sql: ${TABLE}."Coupon" ;;
+  dimension: id {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}."Target" || ${TABLE}."EndTime" ;;
   }
 
   dimension_group: end {
@@ -24,6 +20,16 @@ view: fb_page_stories_by_story_type {
     convert_tz: no
     datatype: date
     sql: ${TABLE}."EndTime" ;;
+  }
+
+  dimension: checkin {
+    type: number
+    sql: ${TABLE}."Checkin" ;;
+  }
+
+  dimension: coupon {
+    type: number
+    sql: ${TABLE}."Coupon" ;;
   }
 
   dimension: event {

@@ -1,6 +1,12 @@
 view: fb_page_views {
   sql_table_name: PUBLIC.FB_PAGE_VIEWS ;;
 
+  dimension: id {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}."Target" || ${TABLE}."EndTime" ;;
+  }
+
   dimension_group: end {
     type: time
     timeframes: [

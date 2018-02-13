@@ -42,14 +42,9 @@ view: fb_page_consumptions {
     sql: ${TABLE}."Target" ;;
   }
 
-  measure: value {
+  measure: consumptions {
     type: number
     sql: sum(${TABLE}."Value"::INT) ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [insight_name]
   }
 
 }
