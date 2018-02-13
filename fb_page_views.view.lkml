@@ -42,13 +42,9 @@ view: fb_page_views {
     sql: ${TABLE}."Target" ;;
   }
 
-  dimension: value {
+  measure: page_views {
     type: number
-    sql: ${TABLE}."Value" ;;
+    sql: sum(${TABLE}."Value"::INT) ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [insight_name]
-  }
 }

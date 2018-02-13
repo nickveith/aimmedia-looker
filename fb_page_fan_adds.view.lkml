@@ -47,8 +47,8 @@ view: fb_page_fan_adds {
     sql: ${TABLE}."Value" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [insight_name]
+  measure: fan_adds{
+    type: number
+    sql: sum(${TABLE}."Value"::INT) ;;
   }
 }

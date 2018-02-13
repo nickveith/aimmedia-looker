@@ -87,8 +87,9 @@ view: fb_page_stories_by_story_type {
     sql: ${TABLE}."UserPost" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [insight_name]
+  measure: page_stories {
+    type: number
+    sql: sum(${TABLE}."Value"::INT) ;;
   }
+
 }

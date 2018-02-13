@@ -72,8 +72,9 @@ view: fb_page_consumptions_by_consumption_type {
     sql: ${TABLE}."VideoPlay" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [insight_name]
+  measure: consumptions {
+    type: number
+    sql: sum(${TABLE}."Value"::INT) ;;
   }
+
 }

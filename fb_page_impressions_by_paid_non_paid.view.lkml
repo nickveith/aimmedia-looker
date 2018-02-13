@@ -58,8 +58,4 @@ view: fb_page_impressions_by_paid_non_paid {
     sql: sum(${TABLE}."Unpaid") ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [insight_name]
-  }
 }
