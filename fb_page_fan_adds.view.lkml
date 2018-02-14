@@ -42,11 +42,6 @@ view: fb_page_fan_adds {
     sql: ${TABLE}."Target" ;;
   }
 
-  dimension: value {
-    type: number
-    sql: ${TABLE}."Value" ;;
-  }
-
   measure: fan_adds{
     type: number
     sql: sum(${TABLE}."Value"::INT) ;;

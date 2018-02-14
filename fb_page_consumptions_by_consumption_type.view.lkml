@@ -22,7 +22,7 @@ view: fb_page_consumptions_by_consumption_type {
     sql: ${TABLE}."EndTime" ;;
   }
 
-  dimension: button_clicks {
+  measure: button_clicks {
     type: number
     sql: ${TABLE}."ButtonClicks" ;;
   }
@@ -72,7 +72,7 @@ view: fb_page_consumptions_by_consumption_type {
     sql: ${TABLE}."VideoPlay" ;;
   }
 
-  measure: consumptions {
+  measure: consumptions_by_type {
     type: number
     sql: sum(${TABLE}."Value"::INT) ;;
   }

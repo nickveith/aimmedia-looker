@@ -9,6 +9,7 @@ view: fb_pages {
 
   dimension: about {
     type: string
+    hidden: yes
     sql: ${TABLE}."About" ;;
   }
 
@@ -98,6 +99,7 @@ view: fb_pages {
 
   dimension: bio {
     type: string
+    hidden: yes
     sql: ${TABLE}."Bio" ;;
   }
 
@@ -171,6 +173,7 @@ view: fb_pages {
 
   dimension_group: created {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -604,8 +607,4 @@ view: fb_pages {
     sql: ${TABLE}."WrittenBy" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [id, username, name]
-  }
 }
