@@ -22,23 +22,23 @@ view: fb_page_stories_by_story_type {
     sql: ${TABLE}."EndTime" ;;
   }
 
-  dimension: checkin {
-    type: number
+measure: story_checkin {
+    type: sum
     sql: ${TABLE}."Checkin" ;;
   }
 
-  dimension: coupon {
+  dimension: story_coupon {
     type: number
     sql: ${TABLE}."Coupon" ;;
   }
 
-  dimension: event {
+  dimension: story_event {
     type: number
     sql: ${TABLE}."Event" ;;
   }
 
-  dimension: fan {
-    type: number
+  measure: story_fans {
+    type: sum
     sql: ${TABLE}."Fan" ;;
   }
 
@@ -47,27 +47,27 @@ view: fb_page_stories_by_story_type {
     sql: ${TABLE}."InsightName" ;;
   }
 
-  dimension: mention {
-    type: number
+  measure: story_mentions {
+    type: sum
     sql: ${TABLE}."Mention" ;;
   }
 
-  dimension: other {
-    type: number
+  measure: other {
+    type: sum
     sql: ${TABLE}."Other" ;;
   }
 
-  dimension: page_post {
-    type: number
+  measure: page_story_post {
+    type: sum
     sql: ${TABLE}."PagePost" ;;
   }
 
-  dimension: period {
+  dimension: story_period {
     type: string
     sql: ${TABLE}."Period" ;;
   }
 
-  dimension: question {
+  dimension: story_question {
     type: number
     sql: ${TABLE}."Question" ;;
   }
@@ -85,11 +85,6 @@ view: fb_page_stories_by_story_type {
   dimension: user_post {
     type: number
     sql: ${TABLE}."UserPost" ;;
-  }
-
-  measure: page_stories_by_type {
-    type: number
-    sql: sum(${TABLE}."Value"::INT) ;;
   }
 
 }

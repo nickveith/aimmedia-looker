@@ -215,7 +215,10 @@ view: fb_posts {
 
   measure: post_frequency {
     type: number
-    sql: count(DISTINCT ${TABLE}."ID")/count(DISTINCT ${TABLE}."CreatedTime"::date);;
+    sql: count(DISTINCT ${TABLE}."ID") /
+         ( count(DISTINCT ${TABLE}."CreatedTime"::date) *
+           count(DISTINCT ${TABLE}."Target")
+          );;
   }
 
 }

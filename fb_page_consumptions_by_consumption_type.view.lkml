@@ -4,6 +4,7 @@ view: fb_page_consumptions_by_consumption_type {
   dimension: id {
     type: string
     primary_key: yes
+    hidden: yes
     sql: ${TABLE}."Target" || ${TABLE}."EndTime" ;;
   }
 
@@ -23,27 +24,29 @@ view: fb_page_consumptions_by_consumption_type {
   }
 
   measure: button_clicks {
-    type: number
+    type: sum
     sql: ${TABLE}."ButtonClicks" ;;
   }
 
   dimension: end_time {
     type: string
+    hidden: yes
     sql: ${TABLE}."EndTime" ;;
   }
 
   dimension: insight_name {
     type: string
+    hidden: yes
     sql: ${TABLE}."InsightName" ;;
   }
 
-  dimension: link_clicks {
-    type: number
+  measure: link_clicks {
+    type: sum
     sql: ${TABLE}."LinkClicks" ;;
   }
 
-  dimension: other_clicks {
-    type: number
+ measure: other_clicks {
+    type: sum
     sql: ${TABLE}."OtherClicks" ;;
   }
 
@@ -52,29 +55,26 @@ view: fb_page_consumptions_by_consumption_type {
     sql: ${TABLE}."Period" ;;
   }
 
-  dimension: photo_view {
-    type: number
+  measure: photo_view {
+    type: sum
     sql: ${TABLE}."PhotoView" ;;
   }
 
   dimension: row_number {
     type: number
+    hidden: yes
     sql: ${TABLE}."RowNumber" ;;
   }
 
   dimension: target {
     type: string
+    hidden: yes
     sql: ${TABLE}."Target" ;;
   }
 
-  dimension: video_play {
-    type: number
+  measure: video_play {
+    type: sum
     sql: ${TABLE}."VideoPlay" ;;
-  }
-
-  measure: consumptions_by_type {
-    type: number
-    sql: sum(${TABLE}."Value"::INT) ;;
   }
 
 }

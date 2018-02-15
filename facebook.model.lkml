@@ -45,7 +45,6 @@ explore: pages {
   }
   join:  fb_page_consumptions_by_consumption_type {
     view_label: "Page Insights"
-    fields: [fb_page_consumptions_by_consumption_type.consumptions_by_type]
     type: left_outer
     sql_on: ${fb_page_impressions.target} = ${fb_page_consumptions_by_consumption_type.target}
     and ${fb_page_impressions.end_date} = ${fb_page_consumptions_by_consumption_type.end_date};;
@@ -78,7 +77,6 @@ explore: pages {
   join:  fb_page_stories_by_story_type {
 
     view_label: "Page Insights"
-    fields: [fb_page_stories_by_story_type.page_stories_by_type]
     type: left_outer
     sql_on: ${fb_page_impressions.target} = ${fb_page_stories_by_story_type.target}
       and ${fb_page_impressions.end_date} = ${fb_page_stories_by_story_type.end_date};;
