@@ -1,14 +1,10 @@
 view: fb_page_stories_by_story_type {
   sql_table_name: PUBLIC.FB_PAGE_STORIES_BY_STORY_TYPE ;;
 
-  dimension: checkin {
-    type: number
-    sql: ${TABLE}.Checkin ;;
-  }
-
-  dimension: coupon {
-    type: number
-    sql: ${TABLE}.Coupon ;;
+  dimension: id {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}."Target" || ${TABLE}."EndTime" ;;
   }
 
   dimension_group: end {
@@ -23,66 +19,77 @@ view: fb_page_stories_by_story_type {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}.EndTime ;;
+    sql: ${TABLE}."EndTime" ;;
+  }
+
+  dimension: checkin {
+    type: number
+    sql: ${TABLE}."Checkin" ;;
+  }
+
+  dimension: coupon {
+    type: number
+    sql: ${TABLE}."Coupon" ;;
   }
 
   dimension: event {
     type: number
-    sql: ${TABLE}.Event ;;
+    sql: ${TABLE}."Event" ;;
   }
 
   dimension: fan {
     type: number
-    sql: ${TABLE}.Fan ;;
+    sql: ${TABLE}."Fan" ;;
   }
 
   dimension: insight_name {
     type: string
-    sql: ${TABLE}.InsightName ;;
+    sql: ${TABLE}."InsightName" ;;
   }
 
   dimension: mention {
     type: number
-    sql: ${TABLE}.Mention ;;
+    sql: ${TABLE}."Mention" ;;
   }
 
   dimension: other {
     type: number
-    sql: ${TABLE}.Other ;;
+    sql: ${TABLE}."Other" ;;
   }
 
   dimension: page_post {
     type: number
-    sql: ${TABLE}.PagePost ;;
+    sql: ${TABLE}."PagePost" ;;
   }
 
   dimension: period {
     type: string
-    sql: ${TABLE}.Period ;;
+    sql: ${TABLE}."Period" ;;
   }
 
   dimension: question {
     type: number
-    sql: ${TABLE}.Question ;;
+    sql: ${TABLE}."Question" ;;
   }
 
   dimension: row_number {
     type: number
-    sql: ${TABLE}.RowNumber ;;
+    sql: ${TABLE}."RowNumber" ;;
   }
 
   dimension: target {
     type: string
-    sql: ${TABLE}.Target ;;
+    sql: ${TABLE}."Target" ;;
   }
 
   dimension: user_post {
     type: number
-    sql: ${TABLE}.UserPost ;;
+    sql: ${TABLE}."UserPost" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [insight_name]
+  measure: page_stories_by_type {
+    type: number
+    sql: sum(${TABLE}."Value"::INT) ;;
   }
+
 }

@@ -1,6 +1,13 @@
 view: fb_page_impressions_by_paid_non_paid {
   sql_table_name: PUBLIC.FB_PAGE_IMPRESSIONS_BY_PAID_NON_PAID ;;
 
+
+  dimension: id {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}."Target" || ${TABLE}."EndTime" ;;
+  }
+
   dimension_group: end {
     type: time
     timeframes: [
@@ -21,12 +28,6 @@ view: fb_page_impressions_by_paid_non_paid {
     sql: ${TABLE}."InsightName" ;;
   }
 
-  dimension: paid {
-    type: number
-    value_format_name: id
-    sql: ${TABLE}."Paid" ;;
-  }
-
   dimension: period {
     type: string
     sql: ${TABLE}."Period" ;;
@@ -42,19 +43,19 @@ view: fb_page_impressions_by_paid_non_paid {
     sql: ${TABLE}."Target" ;;
   }
 
-  dimension: total {
+  measure: impressions {
     type: number
-    sql: ${TABLE}."Total" ;;
+    sql: sum(${TABLE}."Total") ;;
   }
 
-  dimension: unpaid {
+  measure: impressions_paid {
     type: number
-    value_format_name: id
-    sql: ${TABLE}."Unpaid" ;;
+    sql: sum(${TABLE}."Paid") ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [insight_name]
+  measure: impressions_unpaid {
+    type: number
+    sql: sum(${TABLE}."Unpaid") ;;
   }
+
 }

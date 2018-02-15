@@ -1,5 +1,5 @@
 view: fb_posts {
-  sql_table_name: PUBLIC.FB_POSTS" ;;
+  sql_table_name: PUBLIC.FB_POSTS ;;
 
   dimension: id {
     primary_key: yes
@@ -7,28 +7,32 @@ view: fb_posts {
     sql: ${TABLE}."ID" ;;
   }
 
-  dimension: actions {
+  measure: actions {
     type: string
     sql: ${TABLE}."Actions" ;;
   }
 
   dimension: application_canvas_name {
     type: string
+    hidden: yes
     sql: ${TABLE}."ApplicationCanvasName" ;;
   }
 
   dimension: application_id {
     type: string
+    hidden: yes
     sql: ${TABLE}."ApplicationId" ;;
   }
 
   dimension: application_name {
     type: string
+    hidden: yes
     sql: ${TABLE}."ApplicationName" ;;
   }
 
   dimension: application_namespace {
     type: string
+    hidden: yes
     sql: ${TABLE}."ApplicationNamespace" ;;
   }
 
@@ -47,8 +51,9 @@ view: fb_posts {
     sql: ${TABLE}."CommentsData" ;;
   }
 
-  dimension: created_time {
-    type: string
+  dimension_group: created_time {
+    type: time
+    timeframes: [date,day_of_week,day_of_month, month_name, month, year, quarter_of_year]
     sql: ${TABLE}."CreatedTime" ;;
   }
 
@@ -59,31 +64,36 @@ view: fb_posts {
 
   dimension: from_category {
     type: string
+    hidden: yes
     sql: ${TABLE}."FromCategory" ;;
   }
 
   dimension: from_id {
     type: string
+    hidden: yes
     sql: ${TABLE}."FromId" ;;
   }
 
   dimension: from_name {
     type: string
+    hidden: yes
     sql: ${TABLE}."FromName" ;;
   }
 
   dimension: from_picture {
     type: string
+    hidden: yes
     sql: ${TABLE}."FromPicture" ;;
   }
 
   dimension: icon {
     type: string
+    hidden: yes
     sql: ${TABLE}."Icon" ;;
   }
 
-  dimension: likes_count {
-    type: number
+  measure: likes_count {
+    type: sum
     sql: ${TABLE}."LikesCount" ;;
   }
 
@@ -114,6 +124,7 @@ view: fb_posts {
 
   dimension: object_id {
     type: string
+    hidden: yes
     sql: ${TABLE}."ObjectId" ;;
   }
 
@@ -132,8 +143,8 @@ view: fb_posts {
     sql: ${TABLE}."PlaceName" ;;
   }
 
-  dimension: shares_count {
-    type: number
+  measure: shares_count {
+    type: sum
     sql: ${TABLE}."SharesCount" ;;
   }
 
@@ -159,6 +170,7 @@ view: fb_posts {
 
   dimension: to_data {
     type: string
+    hidden: yes
     sql: ${TABLE}."ToData" ;;
   }
 
@@ -174,24 +186,36 @@ view: fb_posts {
 
   dimension: with_tags_data {
     type: string
+    hidden: yes
     sql: ${TABLE}."WithTagsData" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
+  measure: post_count {
+    type: number
+    sql:  count(distinct ${TABLE}."ID") ;;
   }
 
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      from_name,
-      name,
-      place_name,
-      application_name,
-      application_canvas_name,
-      created_time
-    ]
+  measure: likes_per_post {
+    type: number
+    value_format: "#.##"
+    sql: sum(${TABLE}."LikesCount")/count(DISTINCT ${TABLE}."ID");;
   }
+
+  measure: shares_per_post {
+    type: number
+    value_format: "#.##"
+    sql: sum(${TABLE}."SharesCount")/count(DISTINCT ${TABLE}."ID");;
+  }
+
+  measure: comments_per_post {
+    type: number
+    value_format: "#.##"
+    sql: sum(${TABLE}."CommentsCount")/count(DISTINCT ${TABLE}."ID");;
+  }
+
+  measure: post_frequency {
+    type: number
+    sql: count(DISTINCT ${TABLE}."ID")/count(DISTINCT ${TABLE}."CreatedTime"::date);;
+  }
+
 }

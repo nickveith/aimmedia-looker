@@ -1,6 +1,12 @@
 view: fb_page_consumptions {
   sql_table_name: PUBLIC.FB_PAGE_CONSUMPTIONS ;;
 
+  dimension: id {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}."Target" || ${TABLE}."EndTime" ;;
+  }
+
   dimension_group: end {
     type: time
     timeframes: [
@@ -36,13 +42,9 @@ view: fb_page_consumptions {
     sql: ${TABLE}."Target" ;;
   }
 
-  dimension: value {
+  measure: consumptions {
     type: number
-    sql: ${TABLE}."Value" ;;
+    sql: sum(${TABLE}."Value"::INT) ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [insight_name]
-  }
 }
