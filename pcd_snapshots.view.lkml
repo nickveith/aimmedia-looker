@@ -162,6 +162,11 @@ view: pcd_snapshots{
     sql: ${TABLE}.TERM ;;
   }
 
+  dimension: contract_number {
+    type: number
+    sql: ${TABLE}.CONTRACT_NUMBER ;;
+  }
+
   measure: count {
     type: count
     drill_fields: []
