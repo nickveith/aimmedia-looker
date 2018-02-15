@@ -77,4 +77,10 @@ view: fb_page_consumptions_by_consumption_type {
     sql: ${TABLE}."VideoPlay" ;;
   }
 
+  measure: link_ctr {
+    type: number
+    value_format_name: percent_2
+    sql: ${link_clicks} / ${fb_page_impressions.impressions} ;;
+  }
+
 }
