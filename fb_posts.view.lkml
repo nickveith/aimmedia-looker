@@ -128,9 +128,15 @@ view: fb_posts {
     sql: ${TABLE}."ObjectId" ;;
   }
 
-  dimension: picture {
+  dimension: picture_url {
     type: string
+    hidden:  yes
     sql: ${TABLE}."Picture" ;;
+  }
+
+  dimension: photo {
+    sql: ${TABLE}."Picture";;
+    html: <img src="{{ value }}" width="100" height="100"/>;;
   }
 
   dimension: place_id {
