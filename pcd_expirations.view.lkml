@@ -35,42 +35,57 @@ view: pcd_renewals {
               else count(distinct ${TABLE}.account_id)
                    / ${expirations.unique_expirations}
               end ;;
+    value_format: "##.#%"
     drill_fields: [detail*]
   }
 
   measure: dtp_renewal_rate {
     type: number
     sql: case when count(distinct ${TABLE}.account_id) = 0 then 0
-              else count(distinct case when ${expirations.primary_source} = 'DTP' then ${TABLE}.account_id end)
+              else count(distinct case when ${expirations.primary_source} = 'DTP' and ${lapsed_days} <= 90 then ${TABLE}.account_id end)
                 / ${expirations.dtp_unique_expirations}
               end ;;
+    value_format: "##.#%"
     drill_fields: [detail*]
   }
 
   measure: agency_renewal_rate {
     type: number
     sql: case when count(distinct ${TABLE}.account_id) = 0 then 0
-              else count(distinct case when ${expirations.primary_source} = 'Agency' then ${TABLE}.account_id end)
+              else count(distinct case when ${expirations.primary_source} = 'Agency' and ${lapsed_days} <= 90 then ${TABLE}.account_id end)
                 / ${expirations.agency_unique_expirations}
               end ;;
+    value_format: "##.#%"
     drill_fields: [detail*]
   }
 
   measure: direct_renewal_rate {
     type: number
     sql: case when count(distinct ${TABLE}.account_id) = 0 then 0
-              else count(distinct case when ${renewal_source.source_type} = 'Renewals' then ${TABLE}.account_id end)
+              else count(distinct case when ${renewal_source.source_type} = 'Renewals' and ${lapsed_days} <= 90 then ${TABLE}.account_id end)
                    / ${expirations.unique_expirations}
               end ;;
+    value_format: "##.#%"
     drill_fields: [detail*]
     }
 
   measure: indirect_renewal_rate {
     type: number
     sql: case when count(distinct ${TABLE}.account_id) = 0 then 0
-              else count(distinct case when ${renewal_source.source_type} != 'Renewals' then ${TABLE}.account_id end)
+              else count(distinct case when ${renewal_source.source_type} != 'Renewals' and ${lapsed_days} <= 90 then ${TABLE}.account_id end)
                    / ${expirations.unique_expirations}
               end ;;
+    value_format: "##.#%"
+    drill_fields: [detail*]
+  }
+
+  measure: under_promotion_renewal_rate {
+    type: number
+    sql: case when count(distinct ${TABLE}.account_id) = 0 then 0
+              else count(distinct case when ${lapsed_days} > 90 then ${TABLE}.account_id end)
+                   / ${expirations.unique_expirations}
+              end ;;
+    value_format: "##.#%"
     drill_fields: [detail*]
   }
 

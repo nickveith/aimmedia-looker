@@ -142,6 +142,16 @@ view: pcd_contracts {
     sql: DATEDIFF(month, ${TABLE}.original_contract_process_date, ${process_date}) ;;
   }
 
+  dimension: previous_expiration {
+    type:  date
+    sql: ${TABLE}.previous_expiration ;;
+  }
+
+  dimension: lapsed_days {
+    type:  number
+    sql: coalesce(${TABLE}.lapsed_days,0) ;;
+  }
+
   measure: contracts {
     type: count
     drill_fields: [detail*]
