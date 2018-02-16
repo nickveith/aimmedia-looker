@@ -8,6 +8,11 @@ view: fb_page_impressions_by_paid_non_paid {
     sql: ${TABLE}."Target" || ${TABLE}."EndTime" ;;
   }
 
+  dimension: report_date {
+    type: date
+    sql: ${TABLE}."EndTime" ;;
+  }
+
   dimension_group: end {
     type: time
     timeframes: [

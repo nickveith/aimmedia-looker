@@ -24,7 +24,7 @@ explore: pages {
   join:  fb_page_impressions {
     from: fb_page_impressions_by_paid_non_paid
     view_label: "Page Insights"
-    fields: [fb_page_impressions.impressions,fb_page_impressions.impressions_paid,fb_page_impressions.impressions_unpaid]
+    fields: [fb_page_impressions.impressions,fb_page_impressions.impressions_paid,fb_page_impressions.impressions_unpaid, fb_page_impressions.report_date]
     type: left_outer
     sql_on: ${pages.id} = ${fb_page_impressions.target};;
     relationship: one_to_many

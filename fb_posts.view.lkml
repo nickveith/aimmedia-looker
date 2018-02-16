@@ -201,6 +201,12 @@ view: fb_posts {
     sql:  count(distinct ${TABLE}."ID") ;;
   }
 
+  measure: likes {
+    type: number
+    value_format: "#.##"
+    sql: sum(${TABLE}."LikesCount");;
+  }
+
   measure: likes_per_post {
     type: number
     value_format: "#.##"
@@ -213,6 +219,18 @@ view: fb_posts {
     sql: sum(${TABLE}."SharesCount")/count(DISTINCT ${TABLE}."ID");;
   }
 
+  measure: shares {
+    type: number
+    value_format: "#.##"
+    sql: sum(${TABLE}."SharesCount");;
+  }
+
+  measure: comments {
+    type: number
+    value_format: "#.##"
+    sql: sum(${TABLE}."CommentsCount");;
+  }
+
   measure: comments_per_post {
     type: number
     value_format: "#.##"
@@ -220,11 +238,13 @@ view: fb_posts {
   }
 
   measure: post_frequency {
+    view_label: "Daily Post Frequency"
+    value_format: "##.#"
     type: number
-    sql: count(DISTINCT ${TABLE}."ID") /
+    sql: count(DISTINCT ${TABLE}."ID")::real /
          ( count(DISTINCT ${TABLE}."CreatedTime"::date) *
            count(DISTINCT ${TABLE}."Target")
-          );;
+          )::real;;
   }
 
 }
