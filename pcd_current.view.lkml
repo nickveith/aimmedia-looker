@@ -247,3 +247,25 @@ view: pcd_current {
   }
 
 }
+
+
+view: pcd_subscriber_overlap {
+
+  extends: [pcd_current]
+
+  dimension: is_subscriber {
+    type: yesno
+    sql: CASE WHEN  ${TABLE}."subscriber type" = '3' THEN False
+              WHEN overlap_publisher.active != 'TRUE' THEN False
+              WHEN overlap_publisher.active IS NULL THEN False
+              ELSE True
+              END
+                ;;
+  }
+
+  measure: overlapping_subscribers {
+    type: number
+    sql: count(distinct case when ${subscription_status} = 'ACTIVE' and ${is_subscriber} = True then ${pcd_match_code} end);;
+  }
+
+}

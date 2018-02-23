@@ -39,16 +39,63 @@ view: pcd_contracts {
     type: time
     timeframes: [date, week, month, year, month_num, raw]
     datatype: date
-    sql: TRY_TO_DATE(CASE WHEN substring(${TABLE}.process_date,2,2) in ('0','1','2','3','4','5') then '20' else '19' end ||
-                     substring(${TABLE}.process_date,2,2)||'-'||
-                     substring(${TABLE}.process_date,4,2)||'-'||
-                     substring(${TABLE}.process_date,6,2)
-                    ) ;;
+    sql: ${TABLE}.process_date ;;
   }
 
   dimension: source_key_code {
     type: string
     sql: ${TABLE}.SOURCE_KEY_CODE ;;
+  }
+
+  dimension: source_key_year_code {
+    type: string
+    sql: case when ${primary_source} = 'DTP' then substring(${source_key_code},2,1)
+              when ${primary_source} = 'Agency' then substring(${source_key_code},3,1)
+          end ;;
+  }
+
+  dimension: source_production_year {
+    sql: '201' || ${source_key_year_code} ;;
+  }
+
+  dimension: source_key_month_code {
+    type: string
+    sql: case when ${primary_source} = 'DTP' then substring(${source_key_code},3,1)
+              when ${primary_source} = 'Agency' then substring(${source_key_code},4,1)
+          end ;;
+  }
+
+  dimension: source_production_month {
+    type: number
+    sql: case when ${source_key_month_code} = 'A' then 1
+              when ${source_key_month_code} = 'B' then 2
+              when ${source_key_month_code} = 'C' then 3
+              when ${source_key_month_code} = 'D' then 4
+              when ${source_key_month_code} = 'E' then 5
+              when ${source_key_month_code} = 'F' then 6
+              when ${source_key_month_code} = 'G' then 7
+              when ${source_key_month_code} = 'H' then 8
+              -- I intentially skipped
+              when ${source_key_month_code} = 'J' then 9
+              when ${source_key_month_code} = 'K' then 10
+              when ${source_key_month_code} = 'L' then 11
+              when ${source_key_month_code} = 'M' then 12
+        end
+              ;;
+  }
+
+  dimension_group: source_production_date {
+    type: time
+    timeframes: [date, week, month, year, month_num, raw]
+    datatype: date
+    sql: try_to_date(${source_production_year}||'-'|| ${source_production_month} || '-01')  ;;
+  }
+
+  dimension: source_key_sub_code {
+    type: string
+    sql: case when ${primary_source} = 'DTP' then substring(${source_key_code},4,1)
+              when ${primary_source} = 'Agency' then substring(${source_key_code},5,1)
+          end ;;
   }
 
   dimension: primary_source {

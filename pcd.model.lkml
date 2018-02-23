@@ -184,5 +184,39 @@ explore: current {
     sql_on: ${pcd_current.record_id} = ${pcd_current_extended.record_id};;
     relationship: one_to_one
   }
+}
 
+explore: print_pub_overlap {
+  from: pcd_current
+  view_name:  pcd_current
+  view_label: "Publication"
+  hidden: yes
+  persist_with: monthly
+  join: pcd_publisher {
+    view_label: "Publication"
+    type: inner
+    sql_on: ${pcd_publisher.client_code} = ${pcd_current.client_code}
+      and ${pcd_publisher.pub_code} =  ${pcd_current.pub_code}
+      and ${pcd_current.subscription_status} = 'ACTIVE';;
+    relationship: many_to_one
+    fields: [pcd_publisher.group, pcd_publisher.publication, pcd_publisher.active]
+  }
+  join: pcd_subscriber_overlap {
+    from: pcd_subscriber_overlap
+    view_label: "Overlap"
+    type: left_outer
+    sql_on: ${pcd_current.pcd_match_code} = ${pcd_subscriber_overlap.pcd_match_code} ;;
+    relationship: one_to_many
+    fields: [pcd_subscriber_overlap.overlapping_subscribers, pcd_subscriber_overlap.subscription_status, pcd_subscriber_overlap.is_subscriber]
+  }
+  join: overlap_publisher {
+    from: pcd_publisher
+    view_label: "Overlap"
+    type: inner
+    sql_on: ${pcd_subscriber_overlap.client_code} = ${overlap_publisher.client_code}
+      and ${pcd_subscriber_overlap.pub_code} =  ${overlap_publisher.pub_code}
+      and ${pcd_subscriber_overlap.subscription_status} = 'ACTIVE';;
+    relationship: many_to_one
+    fields: [overlap_publisher.group, overlap_publisher.publication, overlap_publisher.active]
+  }
 }
