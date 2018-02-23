@@ -197,7 +197,9 @@ explore: print_pub_overlap {
     type: inner
     sql_on: ${pcd_publisher.client_code} = ${pcd_current.client_code}
       and ${pcd_publisher.pub_code} =  ${pcd_current.pub_code}
-      and ${pcd_current.subscription_status} = 'ACTIVE';;
+      and ${pcd_current.subscription_status} = 'ACTIVE'
+      and ${pcd_current.subcriber_type} != '3'
+      and ${pcd_publisher.active} = True;;
     relationship: many_to_one
     fields: [pcd_publisher.group, pcd_publisher.publication, pcd_publisher.active]
   }
@@ -215,7 +217,9 @@ explore: print_pub_overlap {
     type: inner
     sql_on: ${pcd_subscriber_overlap.client_code} = ${overlap_publisher.client_code}
       and ${pcd_subscriber_overlap.pub_code} =  ${overlap_publisher.pub_code}
-      and ${pcd_subscriber_overlap.subscription_status} = 'ACTIVE';;
+      and ${pcd_subscriber_overlap.subscription_status} = 'ACTIVE'
+      and ${pcd_subscriber_overlap.subcriber_type} != '3'
+      and ${overlap_publisher.active} = True;;
     relationship: many_to_one
     fields: [overlap_publisher.group, overlap_publisher.publication, overlap_publisher.active]
   }

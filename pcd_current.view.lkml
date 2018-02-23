@@ -265,7 +265,7 @@ view: pcd_subscriber_overlap {
 
   measure: overlapping_subscribers {
     type: number
-    sql: count(distinct case when ${subscription_status} = 'ACTIVE' and ${is_subscriber} = True then ${pcd_match_code} end);;
+    sql: count(distinct ${pcd_match_code});;
   }
 
 }
