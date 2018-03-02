@@ -3,127 +3,133 @@ view: fb_ad_adinsights {
 
   dimension: action_attribution_windows {
     type: string
-    sql: ${TABLE}.ActionAttributionWindows ;;
+    sql: ${TABLE}."ActionAttributionWindows" ;;
   }
 
   dimension: actions {
     type: string
-    sql: ${TABLE}.Actions ;;
+    sql: ${TABLE}."Actions" ;;
   }
 
-  dimension: ad_account_id {
+  dimension: account_id {
     type: string
-    sql: ${TABLE}.AdAccountId ;;
+    sql: ${TABLE}."AdAccountId" ;;
   }
 
   dimension: ad_account_name {
     type: string
-    sql: ${TABLE}.AdAccountName ;;
+    sql: ${TABLE}."AdAccountName" ;;
   }
 
   dimension: ad_id {
     type: string
-    sql: ${TABLE}.AdId ;;
+    sql: ${TABLE}."AdId" ;;
   }
 
   dimension: ad_name {
     type: string
-    sql: ${TABLE}.AdName ;;
+    sql: ${TABLE}."AdName" ;;
   }
 
   dimension: ad_set_id {
     type: string
-    sql: ${TABLE}.AdSetId ;;
+    sql: ${TABLE}."AdSetId" ;;
   }
 
   dimension: ad_set_name {
     type: string
-    sql: ${TABLE}.AdSetName ;;
-  }
-
-  dimension: call_to_action_clicks {
-    type: number
-    sql: ${TABLE}.CallToActionClicks ;;
+    sql: ${TABLE}."AdSetName" ;;
   }
 
   dimension: campaign_id {
     type: string
-    sql: ${TABLE}.CampaignId ;;
+    sql: ${TABLE}."CampaignId" ;;
   }
 
   dimension: campaign_name {
     type: string
-    sql: ${TABLE}.CampaignName ;;
+    sql: ${TABLE}."CampaignName" ;;
   }
 
-  dimension: clicks {
+  measure: clicks {
+    type: sum
+    sql: ${TABLE}."Clicks" ;;
+  }
+
+  measure: cost_per10_sececond_video_view {
     type: number
-    sql: ${TABLE}.Clicks ;;
-  }
-
-  dimension: cost_per10_sececond_video_view {
-    type: string
-    sql: ${TABLE}.CostPer10SececondVideoView ;;
+    sql: case when sum(${TABLE}."Spend") = 0 then 0
+              else sum(${TABLE}."CostPer10SececondVideoView" * ${TABLE}."Spend")/sum(${TABLE}."Spend")
+              end;;
   }
 
   dimension: cost_per_action_type {
+    hidden: yes
     type: string
-    sql: ${TABLE}.CostPerActionType ;;
+    sql: ${TABLE}."CostPerActionType" ;;
   }
 
   dimension: cost_per_estimated_ad_recallers {
+    hidden: yes
     type: number
-    sql: ${TABLE}.CostPerEstimatedAdRecallers ;;
+    sql: ${TABLE}."CostPerEstimatedAdRecallers" ;;
   }
 
-  dimension: cost_per_inline_link_click {
-    type: number
-    sql: ${TABLE}.CostPerInlineLinkClick ;;
+  measure: cost_per_inline_link_click {
+    type: sum
+    sql: case when sum(${TABLE}."InlineLinkClicks") = 0 then 0
+              else sum(${TABLE}."Spend")/${TABLE}."InlineLinkClicks" ;;
   }
 
-  dimension: cost_per_inline_post_engagement {
-    type: number
-    sql: ${TABLE}.CostPerInlinePostEngagement ;;
+  measure: cost_per_inline_post_engagement {
+    type: sum
+    sql:case when sum(${TABLE}."InlinePostEngagement") = 0 then 0
+              else sum(${TABLE}."Spend")/${TABLE}."InlinePostEngagement" ;;
   }
 
-  dimension: cost_per_total_action {
-    type: number
-    sql: ${TABLE}.CostPerTotalAction ;;
+  measure: cost_per_total_action {
+    type: sum
+    sql: case when sum(${TABLE}."TotalActions") = 0 then 0
+              else sum(${TABLE}."Spend")/${TABLE}."TotalActions" ;;
   }
 
   dimension: cost_per_unique_action_type_aggregate {
     type: string
-    sql: ${TABLE}.CostPerUniqueActionTypeAggregate ;;
+    sql: ${TABLE}."CostPerUniqueActionTypeAggregate"
+    ;;
   }
 
   dimension: cost_per_unique_click {
     type: number
-    sql: ${TABLE}.CostPerUniqueClick ;;
+    sql: ${TABLE}."CostPerUniqueClick" ;;
   }
 
   dimension: cost_per_unique_inline_link_click {
     type: number
-    sql: ${TABLE}.CostPerUniqueInlineLinkClick ;;
+    sql: ${TABLE}."CostPerUniqueInlineLinkClick" ;;
   }
 
-  dimension: cpc {
+  measure: cpc {
     type: number
-    sql: ${TABLE}.CPC ;;
+    sql: case when sum(${TABLE}."Clicks") = 0 then 0
+              else sum(${TABLE}."Spend")/sum(${TABLE}."Clicks") ;;
   }
 
-  dimension: cpm {
+  measure: cpm {
     type: number
-    sql: ${TABLE}.CPM ;;
+    sql: case when sum(${TABLE}."Impressions") = 0 then 0
+              else (sum(${TABLE}."Clicks")/sum(${TABLE}."Impressions")) * 1000 ;;
   }
 
   dimension: cpp {
     type: number
-    sql: ${TABLE}.CPP ;;
+    sql: ${TABLE}."CPP" ;;
   }
 
-  dimension: ctr {
+  measure: ctr {
     type: number
-    sql: ${TABLE}.CTR ;;
+    sql: case when sum(${TABLE}."Clicks") = 0 then 0
+              else sum(${TABLE}."Clicks")/sum(${TABLE}."Impressions")
   }
 
   dimension_group: date_end {
@@ -138,12 +144,12 @@ view: fb_ad_adinsights {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}.DateEnd ;;
+    sql: ${TABLE}."DateEnd" ;;
   }
 
   dimension: date_preset {
     type: string
-    sql: ${TABLE}.DatePreset ;;
+    sql: ${TABLE}."DatePreset" ;;
   }
 
   dimension_group: date_start {
@@ -158,191 +164,207 @@ view: fb_ad_adinsights {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}.DateStart ;;
+    sql: ${TABLE}."DateStart" ;;
   }
 
   dimension: estimated_ad_recall_rate {
     type: number
-    sql: ${TABLE}.EstimatedAdRecallRate ;;
+    hidden:yes
+    sql: ${TABLE}."EstimatedAdRecallRate" ;;
   }
 
   dimension: estimated_ad_recallers {
     type: number
-    sql: ${TABLE}.EstimatedAdRecallers ;;
+    hidden:yes
+    sql: ${TABLE}."EstimatedAdRecallers" ;;
   }
 
-  dimension: frequency {
+  measure: frequency {
     type: number
-    sql: ${TABLE}.Frequency ;;
+    sql: case when sum(${TABLE}."Reach") = 0 then 0
+              else sum(${TABLE}."Impressions")/sum(${TABLE}."Reach");;
   }
 
-  dimension: impressions {
-    type: number
-    sql: ${TABLE}.Impressions ;;
+  measure: impressions {
+    type: sum
+    sql: ${TABLE}."Impressions" ;;
   }
 
-  dimension: inline_link_clicks {
-    type: number
-    sql: ${TABLE}.InlineLinkClicks ;;
+  measure: inline_link_clicks {
+    type:sum
+    sql: ${TABLE}."InlineLinkClicks" ;;
   }
 
   dimension: inline_link_clicks_counter {
     type: number
-    sql: ${TABLE}.InlineLinkClicksCounter ;;
+    hidden: yes
+    sql: ${TABLE}."InlineLinkClicksCounter" ;;
   }
 
   dimension: inline_post_engagement {
     type: number
-    sql: ${TABLE}.InlinePostEngagement ;;
+    sql: ${TABLE}."InlinePostEngagement" ;;
   }
 
   dimension: level {
     type: string
-    sql: ${TABLE}.Level ;;
+    sql: ${TABLE}."Level" ;;
   }
 
   dimension: objective {
     type: string
-    sql: ${TABLE}.Objective ;;
+    sql: ${TABLE}."Objective" ;;
   }
 
-  dimension: reach {
-    type: number
-    sql: ${TABLE}.Reach ;;
+  measure: reach {
+    type: sum
+    sql: ${TABLE}."Reach" ;;
   }
 
   dimension: relevance_score {
     type: string
-    sql: ${TABLE}.RelevanceScore ;;
+    sql: ${TABLE}."RelevanceScore" ;;
   }
 
-  dimension: social_clicks {
-    type: number
-    sql: ${TABLE}.SocialClicks ;;
+  measure: social_clicks {
+    type: sum
+    sql: ${TABLE}."SocialClicks" ;;
   }
 
-  dimension: social_impressions {
-    type: number
-    sql: ${TABLE}.SocialImpressions ;;
+  measure: social_impressions {
+    type: sum
+    sql: ${TABLE}."SocialImpressions" ;;
   }
 
-  dimension: social_reach {
-    type: number
-    sql: ${TABLE}.SocialReach ;;
+  measure: social_reach {
+    type: sum
+    sql: ${TABLE}."SocialReach" ;;
   }
 
-  dimension: spend {
-    type: number
-    sql: ${TABLE}.Spend ;;
+  measure: spend {
+    type: sum
+    sql: ${TABLE}."Spend" ;;
   }
 
   dimension: target {
     type: string
-    sql: ${TABLE}.Target ;;
+    sql: ${TABLE}."Target" ;;
   }
 
   dimension: time_increment {
     type: string
-    sql: ${TABLE}.TimeIncrement ;;
+    sql: ${TABLE}."TimeIncrement" ;;
   }
 
-  dimension: total_action_value {
+  measure: total_action_value {
     type: number
-    sql: ${TABLE}.TotalActionValue ;;
+    sql: ${TABLE}."TotalActionValue" ;;
   }
 
-  dimension: total_actions {
+  measure: total_actions {
+    type: sum
+    sql: ${TABLE}."TotalActions" ;;
+  }
+
+  measure: total_unique_actions {
+    type: sum
+    sql: ${TABLE}."TotalUniqueActions" ;;
+  }
+
+  measure: unique_actions {
+    type: sum
+    sql: ${TABLE}."UniqueActions" ;;
+  }
+
+  measure: unique_clicks {
+    type: sum
+    sql: ${TABLE}."UniqueClicks" ;;
+  }
+
+  measure: unique_ctr {
     type: number
-    sql: ${TABLE}.TotalActions ;;
-  }
-
-  dimension: total_unique_actions {
-    type: number
-    sql: ${TABLE}.TotalUniqueActions ;;
-  }
-
-  dimension: unique_actions {
-    type: string
-    sql: ${TABLE}.UniqueActions ;;
-  }
-
-  dimension: unique_clicks {
-    type: number
-    sql: ${TABLE}.UniqueClicks ;;
-  }
-
-  dimension: unique_ctr {
-    type: number
-    sql: ${TABLE}.UniqueCTR ;;
+    sql: case when sum(${TABLE}."UniqueClicks") = 0 then 0
+              else sum(${TABLE}."UniqueClicks")/sum(${TABLE}."Impressions");;
   }
 
   dimension: unique_inline_link_click_counter {
     type: number
-    sql: ${TABLE}.UniqueInlineLinkClickCounter ;;
+    hidden: yes
+    sql: ${TABLE}."UniqueInlineLinkClickCounter" ;;
   }
 
-  dimension: unique_inline_link_clicks {
-    type: number
-    sql: ${TABLE}.UniqueInlineLinkClicks ;;
+  measure: unique_inline_link_clicks {
+    type: sum
+    sql: ${TABLE}."UniqueInlineLinkClicks" ;;
   }
 
   dimension: unique_link_clicks_counter {
     type: number
-    sql: ${TABLE}.UniqueLinkClicksCounter ;;
+    hidden: yes
+    sql: ${TABLE}."UniqueLinkClicksCounter" ;;
   }
 
-  dimension: unique_social_clicks {
-    type: number
-    sql: ${TABLE}.UniqueSocialClicks ;;
+  measure: unique_social_clicks {
+    type: sum
+    sql: ${TABLE}."UniqueSocialClicks" ;;
   }
 
   dimension: video100_percent_watched_actions {
     type: string
-    sql: ${TABLE}.Video100PercentWatchedActions ;;
+    hidden: yes
+    sql: ${TABLE}."Video100PercentWatchedActions" ;;
   }
 
   dimension: video15_second_watched_actions {
     type: string
-    sql: ${TABLE}.Video15SecondWatchedActions ;;
+    hidden: yes
+    sql: ${TABLE}."Video15SecondWatchedActions" ;;
   }
 
   dimension: video25_percent_watched_actions {
     type: string
-    sql: ${TABLE}.Video25PercentWatchedActions ;;
+    hidden: yes
+    sql: ${TABLE}."Video25PercentWatchedActions" ;;
   }
 
   dimension: video30_second_watched_actions {
     type: string
-    sql: ${TABLE}.Video30SecondWatchedActions ;;
+    sql: ${TABLE}."Video30SecondWatchedActions" ;;
   }
 
   dimension: video50_percent_watched_actions {
     type: string
-    sql: ${TABLE}.Video50PercentWatchedActions ;;
+    hidden: yes
+    sql: ${TABLE}."Video50PercentWatchedActions" ;;
   }
 
   dimension: video75_percent_watched_actions {
     type: string
-    sql: ${TABLE}.Video75PercentWatchedActions ;;
+    hidden: yes
+    sql: ${TABLE}."Video75PercentWatchedActions" ;;
   }
 
   dimension: video95_percent_watched_actions {
     type: string
-    sql: ${TABLE}.Video95PercentWatchedActions ;;
+    hidden: yes
+    sql: ${TABLE}."Video95PercentWatchedActions" ;;
   }
 
   dimension: video_avg_percent_watched_per_session {
     type: string
-    sql: ${TABLE}.VideoAvgPercentWatchedPerSession ;;
+    hidden: yes
+    sql: ${TABLE}."VideoAvgPercentWatchedPerSession" ;;
   }
 
   dimension: video_avg_time_watched_actions {
     type: string
-    sql: ${TABLE}.VideoAvgTimeWatchedActions ;;
+    hidden: yes
+    sql: ${TABLE}."VideoAvgTimeWatchedActions" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [ad_account_name, campaign_name, ad_set_name, ad_name]
+
+  measure: call_to_action_clicks {
+    type: sum
+    sql: ${TABLE}."CallToActionClicks" ;;
   }
 }

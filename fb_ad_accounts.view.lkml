@@ -4,122 +4,122 @@ view: fb_ad_accounts {
   dimension: id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.ID ;;
+    sql: ${TABLE}."ID" ;;
   }
 
   dimension: account_id {
     type: string
-    sql: ${TABLE}.AccountId ;;
+    sql: ${TABLE}."AccountId" ;;
   }
 
   dimension: account_status {
     type: number
-    sql: ${TABLE}.AccountStatus ;;
+    sql: ${TABLE}."AccountStatus" ;;
   }
 
   dimension: age {
     type: number
-    sql: ${TABLE}.Age ;;
+    sql: ${TABLE}."Age" ;;
   }
 
-  dimension: amount_spent {
-    type: number
-    sql: ${TABLE}.AmountSpent ;;
+  measure: amount_spent {
+    type: sum
+    sql: ${TABLE}."AmountSpent" ;;
   }
 
-  dimension: balance {
+  measure: balance {
     type: number
-    sql: ${TABLE}.Balance ;;
+    sql: ${TABLE}."Balance" ;;
   }
 
   dimension: business_city {
     type: string
-    sql: ${TABLE}.BusinessCity ;;
+    sql: ${TABLE}."BusinessCity" ;;
   }
 
   dimension: business_country_code {
     type: string
-    sql: ${TABLE}.BusinessCountryCode ;;
+    sql: ${TABLE}."BusinessCountryCode" ;;
   }
 
   dimension: business_name {
     type: string
-    sql: ${TABLE}.BusinessName ;;
+    sql: ${TABLE}."BusinessName" ;;
   }
 
   dimension: business_state {
     type: string
-    sql: ${TABLE}.BusinessState ;;
+    sql: ${TABLE}."BusinessState" ;;
   }
 
   dimension: business_street {
     type: string
-    sql: ${TABLE}.BusinessStreet ;;
+    sql: ${TABLE}."BusinessStreet" ;;
   }
 
   dimension: business_street2 {
     type: string
-    sql: ${TABLE}.BusinessStreet2 ;;
+    sql: ${TABLE}."BusinessStreet2" ;;
   }
 
   dimension: business_zip {
     type: string
-    sql: ${TABLE}.BusinessZip ;;
+    sql: ${TABLE}."BusinessZip" ;;
   }
 
   dimension: capabilities {
     type: string
-    sql: ${TABLE}.Capabilities ;;
+    sql: ${TABLE}."Capabilities" ;;
   }
 
   dimension: created_time {
     type: string
-    sql: ${TABLE}.CreatedTime ;;
+    sql: ${TABLE}."CreatedTime" ;;
   }
 
   dimension: currency {
     type: string
-    sql: ${TABLE}.Currency ;;
+    sql: ${TABLE}."Currency" ;;
   }
 
   dimension: min_campaign_group_spend_cap {
     type: string
-    sql: ${TABLE}.MinCampaignGroupSpendCap ;;
+    sql: ${TABLE}."MinCampaignGroupSpendCap" ;;
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}.Name ;;
+    sql: ${TABLE}."Name" ;;
   }
 
   dimension: offsite_pixels_tos_accepted {
     type: string
-    sql: ${TABLE}.OffsitePixelsTosAccepted ;;
+    sql: ${TABLE}."OffsitePixelsTosAccepted" ;;
   }
 
   dimension: owner_id {
     type: string
-    sql: ${TABLE}.OwnerId ;;
+    sql: ${TABLE}."OwnerId" ;;
   }
 
   dimension: spend_cap {
     type: number
-    sql: ${TABLE}.SpendCap ;;
+    sql: ${TABLE}."SpendCap" ;;
   }
 
   dimension: timezone_id {
     type: string
-    sql: ${TABLE}.TimezoneId ;;
+    sql: ${TABLE}."TimezoneId" ;;
   }
 
   dimension: timezone_name {
     type: string
-    sql: ${TABLE}.TimezoneName ;;
+    sql: ${TABLE}."TimezoneName" ;;
   }
 
   dimension: timezone_offset_hours_utc {
     type: number
-    sql: ${TABLE}.TimezoneOffsetHoursUTC ;;
+    sql: ${TABLE}."TimezoneOffsetHoursUTC" ;;
   }
 
   measure: count {

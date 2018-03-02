@@ -4,72 +4,72 @@ view: fb_ad_ads {
   dimension: id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.ID ;;
+    sql: ${TABLE}."ID" ;;
   }
 
   dimension: ad_creative_id {
     type: string
-    sql: ${TABLE}.AdCreativeId ;;
+    sql: ${TABLE}."AdCreativeId" ;;
   }
 
   dimension: ad_set_id {
     type: string
-    sql: ${TABLE}.AdSetId ;;
+    sql: ${TABLE}."AdSetId" ;;
   }
 
   dimension: ad_status {
     type: string
-    sql: ${TABLE}.AdStatus ;;
+    sql: ${TABLE}."AdStatus" ;;
   }
 
   dimension: bid_info {
     type: string
-    sql: ${TABLE}.BidInfo ;;
+    sql: ${TABLE}."BidInfo" ;;
   }
 
   dimension: bid_type {
     type: string
-    sql: ${TABLE}.BidType ;;
+    sql: ${TABLE}."BidType" ;;
   }
 
   dimension: campaign_id {
     type: string
-    sql: ${TABLE}.CampaignId ;;
+    sql: ${TABLE}."CampaignId" ;;
   }
 
   dimension: configured_status {
     type: string
-    sql: ${TABLE}.ConfiguredStatus ;;
+    sql: ${TABLE}."ConfiguredStatus" ;;
   }
 
   dimension: conversion_specs {
     type: string
-    sql: ${TABLE}.ConversionSpecs ;;
+    sql: ${TABLE}."ConversionSpecs" ;;
   }
 
   dimension: created_time {
     type: string
-    sql: ${TABLE}.CreatedTime ;;
+    sql: ${TABLE}."CreatedTime" ;;
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}.Name ;;
+    sql: ${TABLE}."Name" ;;
   }
 
   dimension: social_prefs {
     type: string
-    sql: ${TABLE}.SocialPrefs ;;
+    sql: ${TABLE}."SocialPrefs" ;;
   }
 
   dimension: target {
     type: string
-    sql: ${TABLE}.Target ;;
+    sql: ${TABLE}."Target" ;;
   }
 
   dimension: updated_time {
     type: string
-    sql: ${TABLE}.UpdatedTime ;;
+    sql: ${TABLE}."UpdatedTime" ;;
   }
 
   measure: count {
