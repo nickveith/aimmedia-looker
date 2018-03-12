@@ -91,3 +91,13 @@ explore: pages {
     relationship: one_to_many
   }
 }
+
+explore: fb_ad_adinsights {
+  from: fb_ad_adinsights
+  join: fb_ad_accounts {
+    type: left_outer
+    sql_on: ${fb_ad_adinsights.account_id} = ${fb_ad_accounts.account_id};;
+    relationship: many_to_one
+  }
+
+}
