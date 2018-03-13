@@ -1,7 +1,7 @@
 view: fb_ad_campaigns {
   sql_table_name: PUBLIC.FB_AD_CAMPAIGNS ;;
 
-  dimension: id {
+  dimension: campaign_id {
     primary_key: yes
     type: string
     sql: ${TABLE}."ID" ;;
@@ -69,6 +69,6 @@ view: fb_ad_campaigns {
 
   measure: count {
     type: count
-    drill_fields: [id, created_time, name]
+    drill_fields: [campaign_id, created_time, name]
   }
 }

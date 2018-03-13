@@ -31,7 +31,7 @@ view: fb_ad_adinsights {
     sql: ${TABLE}."AdName" ;;
   }
 
-  dimension: ad_set_id {
+  dimension: adset_id {
     type: string
     sql: ${TABLE}."AdSetId" ;;
   }
@@ -78,19 +78,22 @@ view: fb_ad_adinsights {
   measure: cost_per_inline_link_click {
     type: sum
     sql: case when sum(${TABLE}."InlineLinkClicks") = 0 then 0
-              else sum(${TABLE}."Spend")/${TABLE}."InlineLinkClicks" ;;
+              else sum(${TABLE}."Spend")/${TABLE}."InlineLinkClicks"
+              end;;
   }
 
   measure: cost_per_inline_post_engagement {
     type: sum
     sql:case when sum(${TABLE}."InlinePostEngagement") = 0 then 0
-              else sum(${TABLE}."Spend")/${TABLE}."InlinePostEngagement" ;;
+              else sum(${TABLE}."Spend")/${TABLE}."InlinePostEngagement"
+              end;;
   }
 
   measure: cost_per_total_action {
     type: sum
     sql: case when sum(${TABLE}."TotalActions") = 0 then 0
-              else sum(${TABLE}."Spend")/${TABLE}."TotalActions" ;;
+              else sum(${TABLE}."Spend")/${TABLE}."TotalActions"
+              end;;
   }
 
   dimension: cost_per_unique_action_type_aggregate {
@@ -111,25 +114,33 @@ view: fb_ad_adinsights {
 
   measure: cpc {
     type: number
+    value_format: "$##.##"
     sql: case when sum(${TABLE}."Clicks") = 0 then 0
-              else sum(${TABLE}."Spend")/sum(${TABLE}."Clicks") ;;
+              else sum(${TABLE}."Spend")/sum(${TABLE}."Clicks")
+              end;;
   }
 
   measure: cpm {
     type: number
+    value_format: "$##.##"
     sql: case when sum(${TABLE}."Impressions") = 0 then 0
-              else (sum(${TABLE}."Clicks")/sum(${TABLE}."Impressions")) * 1000 ;;
+              else (sum(${TABLE}."Clicks")/sum(${TABLE}."Impressions")) * 1000
+              end;;
   }
 
   dimension: cpp {
     type: number
+    value_format: "$##.##"
+    hidden: yes
     sql: ${TABLE}."CPP" ;;
   }
 
   measure: ctr {
     type: number
+    value_format: "##.##%"
     sql: case when sum(${TABLE}."Clicks") = 0 then 0
               else sum(${TABLE}."Clicks")/sum(${TABLE}."Impressions")
+              end;;
   }
 
   dimension_group: date_end {
@@ -158,8 +169,10 @@ view: fb_ad_adinsights {
       raw,
       date,
       week,
+      day_of_week,
       month,
       quarter,
+      quarter_of_year,
       year
     ]
     convert_tz: no
@@ -181,8 +194,10 @@ view: fb_ad_adinsights {
 
   measure: frequency {
     type: number
+    value_format: "##.###"
     sql: case when sum(${TABLE}."Reach") = 0 then 0
-              else sum(${TABLE}."Impressions")/sum(${TABLE}."Reach");;
+              else sum(${TABLE}."Impressions")/sum(${TABLE}."Reach")
+              end;;
   }
 
   measure: impressions {
@@ -243,6 +258,7 @@ view: fb_ad_adinsights {
 
   measure: spend {
     type: sum
+    value_format: "$######.##"
     sql: ${TABLE}."Spend" ;;
   }
 
@@ -284,7 +300,8 @@ view: fb_ad_adinsights {
   measure: unique_ctr {
     type: number
     sql: case when sum(${TABLE}."UniqueClicks") = 0 then 0
-              else sum(${TABLE}."UniqueClicks")/sum(${TABLE}."Impressions");;
+              else sum(${TABLE}."UniqueClicks")/sum(${TABLE}."Impressions")
+              end;;
   }
 
   dimension: unique_inline_link_click_counter {

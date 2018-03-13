@@ -94,10 +94,46 @@ explore: pages {
 
 explore: fb_ad_adinsights {
   from: fb_ad_adinsights
+  view_label: "Ad Insights"
   join: fb_ad_accounts {
     type: left_outer
     sql_on: ${fb_ad_adinsights.account_id} = ${fb_ad_accounts.account_id};;
     relationship: many_to_one
   }
-
+  join: fb_ad_campaigns {
+    type: left_outer
+    sql_on: ${fb_ad_adinsights.campaign_id} = ${fb_ad_campaigns.campaign_id};;
+    relationship: many_to_one
+  }
+  join: fb_ad_adsets {
+    type: left_outer
+    sql_on: ${fb_ad_adinsights.adset_id} = ${fb_ad_adsets.adset_id};;
+    relationship: many_to_one
+  }
+  join: fb_ad_ads {
+    type: left_outer
+    sql_on: ${fb_ad_adinsights.ad_id} = ${fb_ad_ads.ad_id};;
+    relationship: many_to_one
+  }
+  join: fb_ad_adcreatives {
+    type: left_outer
+    sql_on: ${fb_ad_adinsights.ad_id} = ${fb_ad_ads.ad_id};;
+    relationship: many_to_one
+  }
+  join: fb_ad_adinsightactions {
+    type: left_outer
+    view_label: "Ad Insights"
+    sql_on: ${fb_ad_adinsights.ad_id} = ${fb_ad_adinsightactions.ad_id}
+        and ${fb_ad_adinsights.date_start_date} = ${fb_ad_adinsightactions.date_start_date}
+        and ${fb_ad_adinsightactions.action_type} = 'offsite_conversion.fb_pixel_purchase' ;;
+    relationship: one_to_one
+  }
+  join: fb_ad_adinsightactionvalues {
+    type: left_outer
+    view_label: "Ad Insights"
+    sql_on: ${fb_ad_adinsights.ad_id} = ${fb_ad_adinsightactionvalues.ad_id}
+        and ${fb_ad_adinsights.date_start_date} = ${fb_ad_adinsightactionvalues.date_start_date}
+        and ${fb_ad_adinsightactionvalues.action_type} = 'offsite_conversion.fb_pixel_purchase' ;;
+      relationship: one_to_one
+  }
 }
