@@ -142,44 +142,16 @@ explore: fb_ad_adinsights {
     sql_on: ${fb_ad_adinsights.date_start_date} = ${calendar_date.calendar_date} ;;
   relationship: one_to_one
   }
-  }
-explore: fb_ad_ads {
-  from: fb_ad_ads
-  view_label: "Facebook Ads"
-  join: fb_ad_adcreatives {
-    type:  left_outer
-    sql_on: ${fb_ad_ads.ad_id} = ${fb_ad_adcreatives.id} ;;
-    relationship: many_to_many
-  }
-  join: fb_ad_accounts {
-    type: left_outer
-    view_label: "Facebook Ads"
-    sql_on: ${fb_ad_ads.ad_id} = ${fb_ad_accounts.account_id} ;;
-    relationship: many_to_one
-  }
-  join: fb_ad_campaigns {
-    type: left_outer
-    view_label: "Facebook Ads"
-    sql_on: ${fb_ad_ads.ad_id}= ${fb_ad_campaigns.campaign_id} ;;
-    relationship: many_to_one
-  }
-  join: fb_ad_adsets {
-    type: left_outer
-    view_label: "Facebook Ads"
-    sql_on: ${fb_ad_ads.ad_id}= ${fb_ad_adsets.adset_id} ;;
-    relationship: many_to_one
-  }
-
   join: aim_brand {
     type: left_outer
     view_label: "Facebook Ads"
-    sql_on: ${fb_ad_adcreatives.id} = ${aim_brand.facebook_page_id} ;;
+    sql_on: ${fb_ad_adcreatives.page_id} = ${aim_brand.facebook_page_id} ;;
     relationship: many_to_one
   }
   join: aim_group {
     type: left_outer
     view_label: "Facebook Ads"
-    sql_on: ${aim_brand.brand_id} = ${aim_group.id} ;;
+    sql_on: ${aim_brand.group_id} = ${aim_group.id} ;;
     relationship: many_to_one
   }
-  }
+}
