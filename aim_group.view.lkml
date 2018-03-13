@@ -9,21 +9,17 @@ view: aim_group {
 
   dimension: group_abbreviation {
     type: string
-    sql: ${TABLE}.GROUP_ABBREVIATION ;;
+    sql: ${TABLE}."GROUP_ABBREVIATION" ;;
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}.NAME ;;
+    sql: ${TABLE}."NAME" ;;
   }
 
   dimension: sfmc_client_id {
     type: string
-    sql: ${TABLE}.SFMC_CLIENT_ID ;;
+    sql: ${TABLE}."SFMC_CLIENT_ID" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [id, name]
-  }
 }

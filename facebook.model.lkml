@@ -137,3 +137,26 @@ explore: fb_ad_adinsights {
       relationship: one_to_one
   }
 }
+
+explore: fb_ad_ads {
+  from: fb_ad_ads
+  view_label: "Facebook Ads"
+  join: fb_ad_adcreatives {
+    type:  left_outer
+    sql_on: ${fb_ad_ads.ad_id} = ${fb_ad_adcreatives.id};;
+    relationship: many_to_many
+  }
+  join: aim_brand {
+    type: left_outer
+    view_label: "Facebook Ads"
+    sql_on: ${fb_ad_adcreatives.id} = ${aim_brand.facebook_page_id} ;;
+    relationship: many_to_one
+  }
+  join: aim_group {
+    type: left_outer
+    view_label: "Facebook Ads"
+    sql_on: ${aim_brand.brand_id} = ${aim_group.id} ;;
+    relationship: many_to_one
+  }
+
+}
