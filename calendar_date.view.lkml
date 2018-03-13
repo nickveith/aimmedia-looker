@@ -18,6 +18,7 @@ view: calendar_date {
     sql: ${TABLE}.D_DATE ;;
   }
 
+
   measure: period_start {
     type: date
     sql: min(${calendar_date}) ;;
@@ -63,5 +64,22 @@ view: calendar_date {
             END ;;
   }
 
+####################################
 
-}
+  filter: date_filter {
+    type: date
+    description: "Use this filter for period analysis"
+  }
+
+
+  dimension: scaling_dimension {
+    type: string
+    sql: case when ${TABLE}.D_DATE >=  {% date_start date_filter %} and ${TABLE}.D_DATE < {% date_end date_filter %} then
+                case when DATEDIFF(days, {% date_start date_filter %}, {% date_end date_filter %}) >= 210 then ${calendar_month}
+                     when DATEDIFF(days, {% date_start date_filter %}, {% date_end date_filter %}) >= 70 then ${calendar_week}
+                     else ${calendar_date}
+                end
+         end
+    ;;
+  }
+  }
