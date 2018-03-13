@@ -136,8 +136,13 @@ explore: fb_ad_adinsights {
         and ${fb_ad_adinsightactionvalues.action_type} = 'offsite_conversion.fb_pixel_purchase' ;;
       relationship: one_to_one
   }
-}
-
+  join: calendar_date {
+    type: left_outer
+    view_label: "Facebook Ads"
+    sql_on: ${fb_ad_adinsights.date_start_date} = ${calendar_date.calendar_date} ;;
+  relationship: one_to_one
+  }
+  }
 explore: fb_ad_ads {
   from: fb_ad_ads
   view_label: "Facebook Ads"
@@ -164,6 +169,7 @@ explore: fb_ad_ads {
     sql_on: ${fb_ad_ads.ad_id}= ${fb_ad_adsets.adset_id} ;;
     relationship: many_to_one
   }
+
   join: aim_brand {
     type: left_outer
     view_label: "Facebook Ads"
@@ -176,5 +182,4 @@ explore: fb_ad_ads {
     sql_on: ${aim_brand.brand_id} = ${aim_group.id} ;;
     relationship: many_to_one
   }
-
-}
+  }
