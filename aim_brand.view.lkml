@@ -56,7 +56,7 @@ view: aim_brand {
     sql: ${TABLE}."MAIN_URL" ;;
   }
 
-  dimension: name {
+  dimension: brand_name {
     type: string
     sql: ${TABLE}."NAME" ;;
   }
@@ -96,8 +96,4 @@ view: aim_brand {
     sql: ${TABLE}."YOUTUBE_HANDLE" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [name]
-  }
 }

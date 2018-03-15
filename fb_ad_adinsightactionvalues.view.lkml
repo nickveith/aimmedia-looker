@@ -109,12 +109,49 @@ view: fb_ad_adinsightactionvalues {
     drill_fields: []
   }
 
-  measure: purchase_value {
+  measure: order_value {
     type: sum
     sql: case when ${action_type} = 'offsite_conversion.fb_pixel_purchase'
-                then ${TABLE}."ActionValue"
+                then ${TABLE}."Action1dClick"
               else 0
               end ;;
+  }
+
+  measure: revenue {
+    type: number
+    value_format_name: usd
+    sql: ${fb_ad_adinsightactionvalues.order_value} ;;
+  }
+
+  measure: cost {
+    type: number
+    value_format_name: usd
+    sql: ${fb_ad_adinsights.spend} ;;
+  }
+
+  measure: profit {
+    type: number
+    value_format_name: usd
+    sql:case when ${fb_ad_adinsights.spend} = 0 then 0
+             else ${fb_ad_adinsightactionvalues.action_value} - ${fb_ad_adinsights.spend}
+             end ;;
+  }
+
+  measure: ROI {
+    type: number
+    value_format_name: usd
+    sql: case when ${fb_ad_adinsights.spend} = 0 then 0
+              else (${revenue} - ${fb_ad_adinsights.spend}) / ${fb_ad_adinsights.spend}
+              end ;;
+  }
+
+  measure: avg_order_value {
+    type: number
+    value_format_name: usd
+    sql:  case when ${fb_ad_adinsightactions.orders} = 0 then 0
+          else ${revenue} / ${fb_ad_adinsightactions.orders}
+          end ;;
+
   }
 
 }

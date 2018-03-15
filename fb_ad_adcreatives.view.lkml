@@ -4,162 +4,174 @@ view: fb_ad_adcreatives {
   dimension: id {
     primary_key: yes
     type: string
-    sql: ${TABLE}.ID ;;
+    sql: ${TABLE}."ID" ;;
   }
 
   dimension: ad_labels {
+    hidden: yes
     type: string
-    sql: ${TABLE}.AdLabels ;;
+    sql: ${TABLE}."AdLabels" ;;
   }
 
   dimension: applink_treatment {
+    hidden: yes
     type: string
-    sql: ${TABLE}.ApplinkTreatment ;;
+    sql: ${TABLE}."ApplinkTreatment" ;;
   }
 
   dimension: body {
     type: string
-    sql: ${TABLE}.Body ;;
+    sql: ${TABLE}."Body" ;;
   }
 
   dimension: call_to_action_type {
     type: string
-    sql: ${TABLE}.CallToActionType ;;
+    sql: ${TABLE}."CallToActionType" ;;
   }
 
   dimension: effective_instagram_story_id {
+    hidden: yes
     type: string
-    sql: ${TABLE}.EffectiveInstagramStoryId ;;
+    sql: ${TABLE}."EffectiveInstagramStoryId" ;;
   }
 
   dimension: image_hash {
+    hidden: yes
     type: string
-    sql: ${TABLE}.ImageHash ;;
+    sql: ${TABLE}."ImageHash" ;;
   }
 
   dimension: image_url {
     type: string
-    sql: ${TABLE}.ImageUrl ;;
+    sql: ${TABLE}."ImageUrl" ;;
   }
 
   dimension: instagram_actor_id {
+    hidden: yes
     type: string
-    sql: ${TABLE}.InstagramActorId ;;
+    sql: ${TABLE}."InstagramActorId" ;;
   }
 
   dimension: instagram_permalink_url {
+    hidden: yes
     type: string
-    sql: ${TABLE}.InstagramPermalinkUrl ;;
+    sql: ${TABLE}."InstagramPermalinkUrl" ;;
   }
 
   dimension: instagram_story_id {
+    hidden: yes
     type: string
-    sql: ${TABLE}.InstagramStoryId ;;
+    sql: ${TABLE}."InstagramStoryId" ;;
   }
 
   dimension: link_og_id {
+    hidden: yes
     type: string
-    sql: ${TABLE}.LinkOgId ;;
+    sql: ${TABLE}."LinkOgId" ;;
   }
 
   dimension: link_url {
+    hidden: yes
     type: string
-    sql: ${TABLE}.LinkUrl ;;
+    sql: ${TABLE}."LinkUrl" ;;
   }
 
   dimension: name {
     type: string
-    sql: ${TABLE}.Name ;;
+    sql: ${TABLE}."Name" ;;
   }
 
   dimension: object_id {
     type: string
-    sql: ${TABLE}.ObjectId ;;
+    sql: ${TABLE}."ObjectId" ;;
   }
 
   dimension: object_story_id {
     type: string
-    sql: ${TABLE}.ObjectStoryId ;;
+    sql: ${TABLE}."ObjectStoryId" ;;
   }
 
   dimension: object_story_spec_link_data {
+    hidden: yes
     type: string
-    sql: ${TABLE}.ObjectStorySpecLinkData ;;
+    sql: ${TABLE}."ObjectStorySpecLinkData" ;;
   }
 
   dimension: object_story_spec_photo_data {
+    hidden: yes
     type: string
-    sql: ${TABLE}.ObjectStorySpecPhotoData ;;
+    sql: ${TABLE}."ObjectStorySpecPhotoData" ;;
   }
 
   dimension: object_story_spec_template_data {
+    hidden: yes
     type: string
-    sql: ${TABLE}.ObjectStorySpecTemplateData ;;
+    sql: ${TABLE}."ObjectStorySpecTemplateData" ;;
   }
 
   dimension: object_story_spec_text_data {
     type: string
-    sql: ${TABLE}.ObjectStorySpecTextData ;;
+    sql: ${TABLE}."ObjectStorySpecTextData" ;;
   }
 
   dimension: object_story_spec_video_data {
     type: string
-    sql: ${TABLE}.ObjectStorySpecVideoData ;;
+    sql: ${TABLE}."ObjectStorySpecVideoData" ;;
   }
 
   dimension: object_type {
     type: string
-    sql: ${TABLE}.ObjectType ;;
+    sql: ${TABLE}."ObjectType" ;;
   }
 
   dimension: object_url {
     type: string
-    sql: ${TABLE}.ObjectUrl ;;
+    sql: ${TABLE}."ObjectUrl" ;;
   }
 
   dimension: page_id {
     type: string
-    sql: ${TABLE}.PageId ;;
+    sql: ${TABLE}."PageId" ;;
   }
 
   dimension: product_set_id {
     type: string
-    sql: ${TABLE}.ProductSetId ;;
+    sql: ${TABLE}."ProductSetId" ;;
   }
 
   dimension: run_status {
     type: string
-    sql: ${TABLE}.RunStatus ;;
+    sql: ${TABLE}."RunStatus" ;;
   }
 
   dimension: target {
     type: string
-    sql: ${TABLE}.Target ;;
+    sql: ${TABLE}."Target" ;;
   }
 
   dimension: template_url {
     type: string
-    sql: ${TABLE}.TemplateUrl ;;
+    sql: ${TABLE}."TemplateUrl" ;;
   }
 
   dimension: thumbnail_url {
     type: string
-    sql: ${TABLE}.ThumbnailUrl ;;
+    sql: ${TABLE}."ThumbnailUrl" ;;
   }
 
   dimension: title {
     type: string
-    sql: ${TABLE}.Title ;;
+    sql: ${TABLE}."Title" ;;
   }
 
   dimension: url_tags {
     type: string
-    sql: ${TABLE}.UrlTags ;;
+    sql: ${TABLE}."UrlTags" ;;
   }
 
   dimension: use_page_actor_override {
     type: yesno
-    sql: ${TABLE}.UsePageActorOverride ;;
+    sql: ${TABLE}."UsePageActorOverride" ;;
   }
 
   measure: count {

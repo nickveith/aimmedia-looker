@@ -117,7 +117,7 @@ explore: fb_ad_adinsights {
   }
   join: fb_ad_adcreatives {
     type: left_outer
-    sql_on: ${fb_ad_adinsights.ad_id} = ${fb_ad_ads.ad_id};;
+    sql_on: ${fb_ad_ads.ad_creative_id} = ${fb_ad_adcreatives.id};;
     relationship: many_to_one
   }
   join: fb_ad_adinsightactions {
@@ -140,7 +140,7 @@ explore: fb_ad_adinsights {
     type: left_outer
     view_label: "Facebook Ads"
     sql_on: ${fb_ad_adinsights.date_start_date} = ${calendar_date.calendar_date} ;;
-  relationship: one_to_one
+  relationship: many_to_one
   }
   join: aim_brand {
     type: left_outer

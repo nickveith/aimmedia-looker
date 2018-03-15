@@ -104,16 +104,29 @@ view: fb_ad_adinsightactions {
     sql: ${TABLE}."TimeIncrement" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
-
-  measure: purchases {
+  measure: orders {
     type: sum
+    value_format: "#"
     sql: case when ${action_type} = 'offsite_conversion.fb_pixel_purchase'
-                then ${TABLE}."ActionValue"
+                then ${TABLE}."Action1dClick"
               else 0
               end ;;
   }
+
+  measure: CPA {
+    type: number
+    value_format: "$##.##"
+    sql: case when ${orders} = 0 then 0
+            else ${fb_ad_adinsights.spend} / ${orders}
+            end ;;
+  }
+
+  measure: ROAS {
+    type: number
+    value_format: "##.##"
+    sql:  case when ${fb_ad_adinsights.spend} = 0 then 0
+          else ${orders} / ${fb_ad_adinsights.spend}
+          end ;;
+  }
+
 }

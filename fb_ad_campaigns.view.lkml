@@ -27,7 +27,7 @@ view: fb_ad_campaigns {
     sql: ${TABLE}."EffectiveStatus" ;;
   }
 
-  dimension: name {
+  dimension: campaign_name {
     type: string
     sql: ${TABLE}."Name" ;;
   }
@@ -67,8 +67,4 @@ view: fb_ad_campaigns {
     sql: ${TABLE}."UpdatedTime" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [campaign_id, created_time, name]
-  }
 }
