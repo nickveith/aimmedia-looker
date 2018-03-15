@@ -66,7 +66,25 @@ explore: sends {
         and ${sends.subscriber_id} = ${complaints.subscriber_id} ;;
     relationship: one_to_many
   }
+  join: sender_profile {
+    type: left_outer
+    sql_on: ${send_jobs.from_email} = ${sender_profile.from_email}
+        and ${send_jobs.from_name} = ${sender_profile.from_name} ;;
+    relationship: many_to_one
   }
+  join: brand {
+    from: aim_brand
+    type: left_outer
+    sql_on: ${sender_profile.brand_id} = ${brand.brand_id} ;;
+    relationship: many_to_one
+  }
+  join: group {
+    from: aim_group
+    type: left_outer
+    sql_on: ${sender_profile.group_id} = ${group.id} ;;
+    relationship: many_to_one
+  }
+}
 
 explore: newsletters {
 #   persist_with: default
@@ -100,4 +118,4 @@ explore: newsletters {
     fields: [newsletter_lookup2.brand_code, newsletter_lookup2.newsletter,newsletter_lookup2.list_type]
     relationship: many_to_one
   }
-  }
+}
