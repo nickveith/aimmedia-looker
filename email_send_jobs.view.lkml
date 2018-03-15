@@ -71,8 +71,9 @@ view: send_jobs {
     sql: ${TABLE}.TRIGGERED_SEND_EXTERNAL_KEY ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [from_name, email_name]
+  measure: email_sends {
+    type: count_distinct
+    sql: ${TABLE}.SEND_ID ;;
   }
+
 }

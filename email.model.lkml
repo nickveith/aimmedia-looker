@@ -84,6 +84,12 @@ explore: sends {
     sql_on: ${sender_profile.group_id} = ${group.id} ;;
     relationship: many_to_one
   }
+  join: send_date {
+    from: calendar_date
+    type:  left_outer
+    sql_on: ${sends.event_date_date} = ${send_date.calendar_date} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: newsletters {

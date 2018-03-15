@@ -3,6 +3,7 @@ view: aim_group {
 
   dimension: id {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.ID ;;
   }
@@ -12,7 +13,7 @@ view: aim_group {
     sql: ${TABLE}."GROUP_ABBREVIATION" ;;
   }
 
-  dimension: name {
+  dimension: group_name {
     type: string
     sql: ${TABLE}."NAME" ;;
   }
