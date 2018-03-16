@@ -124,4 +124,16 @@ explore: newsletters {
     fields: [newsletter_lookup2.brand_code, newsletter_lookup2.newsletter,newsletter_lookup2.list_type]
     relationship: many_to_one
   }
+  join: brand {
+    from: aim_brand
+    type: left_outer
+    sql_on: ${newsletters.brand_code} = ${brand.brand_code} ;;
+    relationship: many_to_one
+  }
+  join: group {
+    from: aim_group
+    type: left_outer
+    sql_on: ${brand.group_id} = ${group.id} ;;
+    relationship: many_to_one
+  }
 }
