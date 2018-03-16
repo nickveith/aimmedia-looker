@@ -86,16 +86,16 @@ view: fb_ad_adinsights {
 
   measure: cost_per_link_click {
     type: sum
-    sql: case when sum(${TABLE}."InlineLinkClicks") = 0 then 0
-              else sum(${TABLE}."Spend")/${TABLE}."InlineLinkClicks"
-              end;;
+    sql: case when ${TABLE}."InlineLinkClicks" = 0 then 0
+              else ${TABLE}."Spend"/${TABLE}."InlineLinkClicks"
+              end ;;
   }
 
   measure: cost_per_post_engagement {
     type: sum
-    sql:case when sum(${TABLE}."InlinePostEngagement") = 0 then 0
-              else sum(${TABLE}."Spend")/${TABLE}."InlinePostEngagement"
-              end;;
+    sql:case when ${TABLE}."InlinePostEngagement" = 0 then 0
+              else ${TABLE}."Spend"/${TABLE}."InlinePostEngagement"
+              end ;;
   }
 
   measure: cost_per_total_action {
@@ -415,6 +415,23 @@ view: fb_ad_adinsights {
   measure: active_ads {
     type: count_distinct
     sql: ${TABLE}."AdId" ;;
+  }
+
+  measure: conversion_rate {
+    type: number
+    value_format: "##.##%"
+    sql: case when sum(${TABLE}."InlineLinkClicks") = 0 then 0
+         else ${fb_ad_adinsightactions.orders} / ${link_clicks}
+         end ;;
+  }
+
+  measure: cost_per_order {
+    type: number
+    value_format_name: usd
+    sql: case when ${fb_ad_adinsightactions.orders} = 0 then 0
+         else ${spend} / ${fb_ad_adinsightactions.orders}
+         end ;;
+
   }
 
 }
