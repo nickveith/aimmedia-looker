@@ -106,7 +106,7 @@ view: fb_ad_adinsightactions {
 
   measure: orders {
     type: sum
-    value_format: "#"
+    value_format: "##,###"
     sql: case when ${action_type} = 'offsite_conversion.fb_pixel_purchase'
                 then ${TABLE}."Action1dClick"
               else 0
@@ -119,14 +119,6 @@ view: fb_ad_adinsightactions {
     sql: case when ${orders} = 0 then 0
             else ${fb_ad_adinsights.spend} / ${orders}
             end ;;
-  }
-
-  measure: ROAS {
-    type: number
-    value_format: "##.##"
-    sql:  case when ${fb_ad_adinsights.spend} = 0 then 0
-          else ${orders} / ${fb_ad_adinsights.spend}
-          end ;;
   }
 
 }

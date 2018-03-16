@@ -133,7 +133,7 @@ view: fb_ad_adinsightactionvalues {
     type: number
     value_format_name: usd
     sql:case when ${fb_ad_adinsights.spend} = 0 then 0
-             else ${fb_ad_adinsightactionvalues.action_value} - ${fb_ad_adinsights.spend}
+             else ${fb_ad_adinsightactionvalues.revenue} - ${fb_ad_adinsights.spend}
              end ;;
   }
 
@@ -151,7 +151,14 @@ view: fb_ad_adinsightactionvalues {
     sql:  case when ${fb_ad_adinsightactions.orders} = 0 then 0
           else ${revenue} / ${fb_ad_adinsightactions.orders}
           end ;;
+  }
 
+  measure: ROAS {
+    type: number
+    value_format: "##.##"
+    sql:  case when ${fb_ad_adinsights.spend} = 0 then 0
+          else ${revenue} / ${fb_ad_adinsights.spend}
+          end ;;
   }
 
 }
