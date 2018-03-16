@@ -28,43 +28,65 @@ explore: snapshots {
   }
 }
 
-explore: pcd_contracts {
-  from: pcd_contracts
+explore: contracts {
+  from: calendar_date
   label: "Contracts (Over Time)"
+  view_label: "Contracts"
   description: "Active contracts by date"
   persist_with: monthly
-  join: calendar_date {
+  join: new_contracts {
+    from: pcd_contracts_new
+    view_label: "Contracts"
+    type:  left_outer
+    sql_on: ${contracts.calendar_month} = date_trunc(month, ${new_contracts.process_date}) ;;
+    fields: [new_contracts.new_contracts]
+    relationship: one_to_many
+  }
+  join: active_contracts {
+    from:  pcd_contracts
     type: inner
-    sql_on: ${calendar_date.calendar_date} >= ${pcd_contracts.start_date}
-        and ${calendar_date.calendar_date} <  ${pcd_contracts.expiration_date}
-        and ${calendar_date.day_of_month} = 1
-        and ${calendar_date.calendar_year} >= 2008
-        and ${calendar_date.calendar_year} <= 2028;;
+    sql_on: ${contracts.calendar_date} >= ${active_contracts.start_date}
+        and ${contracts.calendar_date} <  ${active_contracts.expiration_date}
+        and ${contracts.day_of_month} = 1
+        and ${contracts.calendar_year} >= 2008
+        and ${contracts.calendar_year} <= 2028;;
     relationship: many_to_one
   }
   join: pcd_publisher {
     type: inner
-    sql_on: ${pcd_publisher.client_code} = ${pcd_contracts.client_code}
-      and ${pcd_publisher.pub_code} =  ${pcd_contracts.pub_code} ;;
+    sql_on: ${pcd_publisher.client_code} = ${active_contracts.client_code}
+      and ${pcd_publisher.pub_code} =  ${active_contracts.pub_code} ;;
     relationship: many_to_one
   }
   join: pcd_pub_source {
     type: left_outer
-    sql_on: ${pcd_contracts.client_code} = ${pcd_pub_source.client_code}
-        and ${pcd_contracts.pub_code} = ${pcd_pub_source.pub_code}
-        and ${pcd_contracts.source_code} = ${pcd_pub_source.source_code} ;;
+    sql_on: ${active_contracts.client_code} = ${pcd_pub_source.client_code}
+        and ${active_contracts.pub_code} = ${pcd_pub_source.pub_code}
+        and ${active_contracts.source_code} = ${pcd_pub_source.source_code} ;;
     relationship: many_to_one
   }
   join: pcd_current {
     type: left_outer
-    sql_on: ${pcd_current.account_id} = ${pcd_contracts.account_id};;
+    sql_on: ${pcd_current.account_id} = ${active_contracts.account_id};;
     relationship: many_to_one
   }
   join: expiration_date {
     from: calendar_date
     type: left_outer
-    sql_on: ${expiration_date.calendar_date} >= ${pcd_contracts.expiration_date}
-        and ${expiration_date.calendar_date} <  dateadd(months, 1, ${pcd_contracts.expiration_date}) ;;
+    sql_on: ${expiration_date.calendar_date} >= ${active_contracts.expiration_date}
+        and ${expiration_date.calendar_date} <  dateadd(months, 1, ${active_contracts.expiration_date}) ;;
+    relationship: many_to_one
+  }
+  join: brand {
+    from: aim_brand
+    type:  left_outer
+    sql_on: ${pcd_publisher.client_code} = ${brand.pcd_client_code} and ${pcd_publisher.pub_code} = ${brand.pcd_pub_code} ;;
+    relationship: one_to_one
+  }
+  join: group {
+    from: aim_group
+    type:  left_outer
+    sql_on: ${brand.group_id} = ${group.id} ;;
     relationship: many_to_one
   }
 }
