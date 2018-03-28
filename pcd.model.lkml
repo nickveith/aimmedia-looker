@@ -149,18 +149,18 @@ explore: contracts_over_time {
 }
 
 explore: current {
-  from: pcd_current
-  view_name: pcd_current
-  view_label: "Subscribers"
+  from:  pcd_publisher
+  view_name: pcd_publisher
+  view_label: "Publication"
   label: "Subscribers (Current)"
   description: "Current subscriber status"
   persist_with: monthly
-  join: pcd_publisher {
-    view_label: "Publication"
+  join: pcd_current {
+    view_label: "Active File"
     type: inner
     sql_on: ${pcd_publisher.client_code} = ${pcd_current.client_code}
         and ${pcd_publisher.pub_code} =  ${pcd_current.pub_code} ;;
-    relationship: many_to_one
+    relationship: one_to_many
   }
   join: current_source {
     from: pcd_pub_source
