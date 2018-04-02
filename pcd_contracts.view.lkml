@@ -1,6 +1,12 @@
 view: pcd_contracts {
 
-  sql_table_name: PUBLIC.PCD_CONTRACTS;;
+  derived_table: {
+   sql: select *
+             , lag(expiration_date) over (partition by account_id order by contract_number asc) as prior_expiration
+             , DATEDIFF(days, start_date, lag(expiration_date) over (partition by account_id order by contract_number asc)) as lapsed_days
+          from PUBLIC.PCD_CONTRACTS
+            ;;
+  }
 
   dimension: contract_id {
     type: string
