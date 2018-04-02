@@ -34,7 +34,8 @@ view: pcd_current {
                          , (TRY_TO_NUMBER(substring( ${TABLE}."original start issue",3,2)) - 1) * (365/ coalesce(${pcd_publisher.frequency},12))
                          , TRY_TO_DATE('01-JAN-'||case when substring(${TABLE}."original start issue",1,1) in ('0', '1', '2') then '20' else '19' end||substring(${TABLE}."original start issue",1,2))
                        )
-            END ;; }
+            END ;;
+  }
 
   dimension: original_start_issue {
     type: string
