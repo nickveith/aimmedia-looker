@@ -174,9 +174,7 @@ explore: current {
     view_label: "Contracts"
     type: left_outer
     fields: [measures*]
-    sql_on: ${pcd_current.pcd_account_number} = ${pcd_contracts.pcd_account_number}
-        and ${pcd_current.client_code} = ${pcd_contracts.client_code}
-        and ${pcd_current.pub_code} = ${pcd_contracts.pub_code} ;;
+    sql_on: ${pcd_current.account_id} = ${pcd_contracts.account_id};;
     relationship: one_to_many
   }
   join: pcd_contract_original {
