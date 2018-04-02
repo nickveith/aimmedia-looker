@@ -19,7 +19,10 @@ view: pcd_contracts {
     sql: ${TABLE}.contract_number ;;
   }
 
-  dimension: pcd_account_number {}
+  dimension: pcd_account_number {
+    type: number
+    sql: ${TABLE}.account_number ;;
+  }
 
   dimension_group: start {
     type: time
@@ -212,6 +215,7 @@ view: pcd_contracts {
 
   measure: revenue {
     type: sum
+    value_format_name: usd
     sql: ${price} ;;
   }
 
