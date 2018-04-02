@@ -90,6 +90,24 @@ explore: pages {
       and ${fb_page_impressions.end_date} = ${fb_page_views.end_date};;
     relationship: one_to_many
   }
+  join: calendar_date {
+    type: left_outer
+    view_label: "Page Insights"
+    sql_on: ${fb_page_impressions.end_date} = ${calendar_date.calendar_date} ;;
+    relationship: many_to_one
+  }
+  join: aim_brand {
+    type: left_outer
+    view_label: "Brand"
+    sql_on: ${pages.id} = ${aim_brand.facebook_page_id} ;;
+    relationship: many_to_one
+  }
+  join: aim_group {
+    type: left_outer
+    view_label: "Group"
+    sql_on: ${aim_brand.group_id} = ${aim_group.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: fb_ad_adinsights {
