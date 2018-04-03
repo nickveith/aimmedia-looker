@@ -87,6 +87,7 @@ view: ga_reporting {
 
   measure: pageviews_per_session {
     type: number
+    value_format_name: decimal_2
     sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
               ELSE (SUM(${TABLE}."PageviewsPerSession" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions"))::real
               END;;
@@ -94,6 +95,7 @@ view: ga_reporting {
 
   measure: avg_session_duration {
     type: number
+    value_format_name: decimal_2
     sql: CASE WHEN SUM(${TABLE}."Sessions") = 0 THEN 0
               ELSE SUM(${TABLE}."AvgSessionDuration" * ${TABLE}."Sessions") / SUM(${TABLE}."Sessions")
               END;;
