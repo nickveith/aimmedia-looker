@@ -23,9 +23,4 @@ view: aim_group {
     sql: ${TABLE}."SFMC_CLIENT_ID" ;;
   }
 
-  measure: brand_links  {
-    sql: ${TABLE}."NAME"  ;;
-    html: <p>{{value}}</p> ;;
-  }
-
 }
