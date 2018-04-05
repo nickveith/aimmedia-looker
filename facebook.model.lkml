@@ -92,7 +92,6 @@ explore: pages {
   }
   join: calendar_date {
     type: left_outer
-    view_label: "Page Insights"
     sql_on: ${fb_page_impressions.end_date} = ${calendar_date.calendar_date} ;;
     relationship: many_to_one
   }
