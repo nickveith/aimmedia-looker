@@ -247,4 +247,11 @@ view: fb_posts {
           )::real;;
   }
 
+  measure: reach_per_post {
+    view_label: "Avg Post Reach"
+    value_format: "##.#"
+    type: number
+    sql: case when ${post_count} = 0 then 0 else ${fb_page_impressions.impressions_unpaid} / ${post_count} end;;
+  }
+
 }
