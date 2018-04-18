@@ -67,4 +67,9 @@ view: fb_ad_campaigns {
     sql: ${TABLE}."UpdatedTime" ;;
   }
 
+  dimension: ad_type {
+    type: string
+    sql: TRIM(SPLIT_PART(${TABLE}."Name",'|',0)) ;;
+  }
+
 }
