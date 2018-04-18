@@ -249,7 +249,7 @@ view: fb_posts {
 
   measure: reach_per_post {
     view_label: "Avg Post Reach"
-    value_format: "##.#"
+    value_format_name: decimal_2
     type: number
     sql: case when ${post_count} = 0 then 0 else ${fb_page_impressions.impressions_unpaid} / ${post_count} end;;
   }

@@ -155,7 +155,6 @@ explore: fb_ad_adinsights {
   }
   join: calendar_date {
     type: left_outer
-    view_label: "Facebook Ads"
     sql_on: ${fb_ad_adinsights.date_start_date} = ${calendar_date.calendar_date} ;;
   relationship: many_to_one
   }
