@@ -68,4 +68,14 @@ explore: analytics_unique {
     sql_on: ${users.daydate_date} = ${report_date.calendar_date};;
     relationship: one_to_one
   }
+  join: brand {
+    from: aim_brand
+    sql_on: ${profile.id} = ${brand.ga_property} ;;
+    relationship: one_to_one
+  }
+  join: group {
+    from: aim_group
+    sql_on: ${brand.group_id} = ${group.id} ;;
+    relationship: one_to_one
+  }
 }
