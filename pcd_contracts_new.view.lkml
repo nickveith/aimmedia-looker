@@ -10,4 +10,9 @@ view: pcd_contracts_new {
     sql: case when ${contracts.calendar_date} = ${process_date}::date then ${contract_id} end  ;;
   }
 
+  measure: new_contracts_average_order_price {
+    type: number
+    sql: ${average_order_price};;
+  }
+
 }

@@ -8,19 +8,16 @@ view: pcd_expirations {
   measure: unique_expirations {
     type: count_distinct
     sql: ${TABLE}.account_id ;;
-    drill_fields: [detail*]
   }
 
   measure: dtp_unique_expirations {
     type: count_distinct
     sql: case when ${expirations.primary_source} = 'DTP' then ${expirations.account_id} end ;;
-    drill_fields: [detail*]
   }
 
   measure: agency_unique_expirations {
     type: count_distinct
     sql: case when ${expirations.primary_source} = 'Agency' then ${expirations.account_id} end ;;
-    drill_fields: [detail*]
   }
 
 }
@@ -36,7 +33,6 @@ view: pcd_renewals {
                    / ${expirations.unique_expirations}
               end ;;
     value_format: "##.#%"
-    drill_fields: [detail*]
   }
 
   measure: dtp_renewal_rate {
@@ -46,7 +42,6 @@ view: pcd_renewals {
                 / ${expirations.dtp_unique_expirations}
               end ;;
     value_format: "##.#%"
-    drill_fields: [detail*]
   }
 
   measure: agency_renewal_rate {
@@ -56,7 +51,6 @@ view: pcd_renewals {
                 / ${expirations.agency_unique_expirations}
               end ;;
     value_format: "##.#%"
-    drill_fields: [detail*]
   }
 
   measure: direct_renewal_rate {
@@ -66,7 +60,6 @@ view: pcd_renewals {
                    / ${expirations.unique_expirations}
               end ;;
     value_format: "##.#%"
-    drill_fields: [detail*]
     }
 
   measure: indirect_renewal_rate {
@@ -76,7 +69,6 @@ view: pcd_renewals {
                    / ${expirations.unique_expirations}
               end ;;
     value_format: "##.#%"
-    drill_fields: [detail*]
   }
 
   measure: under_promotion_renewal_rate {
@@ -86,7 +78,6 @@ view: pcd_renewals {
                    / ${expirations.unique_expirations}
               end ;;
     value_format: "##.#%"
-    drill_fields: [detail*]
   }
 
 }

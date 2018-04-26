@@ -1,10 +1,12 @@
 view: pcd_contracts {
 
   derived_table: {
-   sql: select *
+   sql: select c.*
              , lag(expiration_date) over (partition by account_id order by contract_number asc) as prior_expiration
              , DATEDIFF(days, start_date, lag(expiration_date) over (partition by account_id order by contract_number asc)) as lapsed_days
-          from PUBLIC.PCD_CONTRACTS
+            , i.frequency
+          from PUBLIC.PCD_CONTRACTS c
+          left join PUBLIC.PCD_ISSUES i on (c.client_code = i.client_code and c.pub_code = i.pub_code and c.start_issue = i.issue)
             ;;
   }
 
@@ -183,7 +185,7 @@ view: pcd_contracts {
 
   }
 
-  dimension: price {
+  dimension: contract_price {
     type: number
     sql: PRICECOPIES ;;
   }
@@ -208,48 +210,33 @@ view: pcd_contracts {
     sql: coalesce(${TABLE}.lapsed_days,0) ;;
   }
 
+  dimension: frequency {
+    type: number
+    sql: ${TABLE}.frequency ;;
+  }
+
   measure: contracts {
     type: count
-    drill_fields: [detail*]
   }
 
   measure: unique_contracts {
     type: count_distinct
     sql: ${TABLE}.account_id ;;
-    drill_fields: [detail*]
   }
 
-  measure: revenue {
+  measure: price {
+    hidden: yes
     type: sum
     value_format_name: usd
-    sql: ${price} ;;
+    sql: ${contract_price} ;;
   }
 
-  set: measures {
-    fields: [
-      revenue,
-      contracts
-    ]
+  measure: average_order_price {
+    type: number
+    value_format_name: usd
+    sql: case when coalesce(${contracts},0) = 0 then 0
+              else sum(${contract_price}/(case when coalesce(${term},0) = 0 then 1 else ${term} end)*${frequency})  / ${contracts}
+          end ;;
   }
 
-  set: detail {
-    fields: [
-      start_date,
-      expiration_date,
-      process_date,
-      source_key_code,
-      contract_indicator,
-      primary_source,
-      email_transaction_type,
-      contract_status,
-      paid_or_charge,
-      start_issue,
-      expiration_issue,
-      remit_rate,
-      term,
-      copies,
-      price,
-      cowles_earnings
-    ]
-  }
 }

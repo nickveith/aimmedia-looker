@@ -34,20 +34,26 @@ explore: contracts {
   view_label: "Contracts"
   description: "Active contracts by date"
   persist_with: monthly
+  always_filter: {
+    filters: {
+      field: day_of_month
+      value: "1"
+    }
+  }
   join: new_contracts {
     from: pcd_contracts_new
-    view_label: "Contracts"
+    view_label: "New Contracts"
     type:  left_outer
-    sql_on: ${contracts.calendar_month} = date_trunc(month, ${new_contracts.process_date}) ;;
-    fields: [new_contracts.new_contracts]
+    sql_on: ${new_contracts.process_date} >= ${contracts.calendar_date}
+        AND ${new_contracts.process_date} < dateadd(month, 1, ${contracts.calendar_date}) ;;
+    fields: [new_contracts.new_contracts, new_contracts.average_order_price]
     relationship: one_to_many
   }
   join: active_contracts {
     from:  pcd_contracts
-    type: inner
+    type: left_outer
     sql_on: ${contracts.calendar_date} >= ${active_contracts.start_date}
         and ${contracts.calendar_date} <  ${active_contracts.expiration_date}
-        and ${contracts.day_of_month} = 1
         and ${contracts.calendar_year} >= 2008
         and ${contracts.calendar_year} <= 2028;;
     relationship: many_to_one
@@ -146,6 +152,18 @@ explore: contracts_over_time {
         and ${renewal_source.source_code} = ${renewals.source_code} ;;
     relationship: many_to_one
   }
+  join: brand {
+    from: aim_brand
+    type:  left_outer
+    sql_on: ${pcd_publisher.client_code} = ${brand.pcd_client_code} and ${pcd_publisher.pub_code} = ${brand.pcd_pub_code} ;;
+    relationship: one_to_one
+  }
+  join: group {
+    from: aim_group
+    type:  left_outer
+    sql_on: ${brand.group_id} = ${group.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: current {
@@ -173,7 +191,6 @@ explore: current {
   join: pcd_contracts {
     view_label: "Contracts"
     type: left_outer
-    fields: [measures*]
     sql_on: ${pcd_current.account_id} = ${pcd_contracts.account_id};;
     relationship: one_to_many
   }
