@@ -235,7 +235,7 @@ view: pcd_contracts {
     type: number
     value_format_name: usd
     sql: case when coalesce(${contracts},0) = 0 then 0
-              else sum(${contract_price}/(case when coalesce(${term},0) = 0 then 1 else ${term} end)*${frequency})  / ${contracts}
+              else sum(${contract_price}/(case when coalesce(${term},0) = 0 then 1 else ${term} end)*${frequency})  / count(1)
           end ;;
   }
 
