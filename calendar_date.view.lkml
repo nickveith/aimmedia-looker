@@ -18,6 +18,11 @@ view: calendar_date {
     sql: ${TABLE}.D_DATE ;;
   }
 
+  dimension_group: filter_daydate {
+    type: time
+    sql: ${TABLE}.D_DATE ;;
+  }
+
   dimension: month_description {
     type: string
     sql: UPPER(TO_CHAR(${TABLE}.D_DATE, 'MON YYYY')) ;;

@@ -34,12 +34,6 @@ explore: contracts {
   view_label: "Contracts"
   description: "Active contracts by date"
   persist_with: monthly
-  always_filter: {
-    filters: {
-      field: day_of_month
-      value: "1"
-    }
-  }
   join: new_contracts {
     from: pcd_contracts_new
     view_label: "New Contracts"
