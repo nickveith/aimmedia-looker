@@ -187,7 +187,7 @@ view: pcd_contracts {
 
   dimension: contract_price {
     type: number
-    sql: PRICECOPIES ;;
+    sql: ${TABLE}.PRICECOPIES ;;
   }
 
   dimension: cowles_earnings {
