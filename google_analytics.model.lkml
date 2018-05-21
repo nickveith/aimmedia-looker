@@ -49,6 +49,37 @@ explore: analytics {
   }
 }
 
+explore: analytics_monthly {
+#   persist_with: default
+  from: ga_accounts
+  view_name: account
+  join: profile {
+    from:  ga_profiles
+    sql_on: ${account.id} = ${profile.account_id};;
+    relationship: one_to_many
+  }
+  join: reporting {
+    from:  ga_monthly
+    sql_on: ${profile.id} = ${reporting.property_id};;
+    relationship: one_to_many
+  }
+  join: report_date {
+    from: calendar_date
+    sql_on: ${reporting.month_begin} = ${report_date.calendar_date};;
+    relationship: one_to_one
+  }
+  join: brand {
+    from: aim_brand
+    sql_on: ${profile.id} = ${brand.ga_property} ;;
+    relationship: one_to_one
+  }
+  join: group {
+    from: aim_group
+    sql_on: ${brand.group_id} = ${group.id} ;;
+    relationship: one_to_one
+  }
+}
+
 explore: analytics_by_channel {
 #   persist_with: default
   from: ga_accounts
