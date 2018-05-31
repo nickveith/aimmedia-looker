@@ -47,6 +47,12 @@ explore: analytics {
     sql_on: ${brand.group_id} = ${group.id} ;;
     relationship: one_to_one
   }
+  always_filter: {
+    filters: {
+      field: profile.is_primary
+      value: "True"
+    }
+  }
 }
 
 explore: analytics_monthly {
