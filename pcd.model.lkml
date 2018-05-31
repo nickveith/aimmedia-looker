@@ -172,7 +172,7 @@ explore: current {
   description: "Current subscriber status"
   persist_with: monthly
   join: pcd_current {
-    view_label: "Active File"
+    view_label: "PCD File"
     type: inner
     sql_on: ${pcd_publisher.client_code} = ${pcd_current.client_code}
         and ${pcd_publisher.pub_code} =  ${pcd_current.pub_code} ;;

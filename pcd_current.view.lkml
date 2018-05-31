@@ -8,6 +8,16 @@ view: pcd_current {
     sql: ${TABLE}."account number" ;;
   }
 
+  dimension: phone_number {
+    type: string
+    sql: nullif(trim(${TABLE}."phone number",'0'),'') ;;
+  }
+
+  dimension: email {
+    type: string
+    sql: nullif(${TABLE}."email addr 1",'') ;;
+  }
+
   dimension: pcd_match_code {
     label: "PCD Match Code"
     type: string

@@ -70,4 +70,84 @@ view: ga_monthly {
               END;;
   }
 
+  measure: percent_new_users {
+    type: number
+    sql: CASE WHEN SUM(${TABLE}."Users") = 0 THEN 0
+              ELSE SUM(${TABLE}."NewUsers") / SUM(${TABLE}."Users")
+              END;;
+  }
+
+  ## Dynamic Measure Select
+
+  parameter: primary_metric_name {
+    type: string
+    default_value: "pageviews"
+    allowed_value: {
+      value: "pageviews"
+      label: "Pageviews"
+    }
+    allowed_value: {
+      value: "users"
+      label: "Users"
+    }
+    allowed_value: {
+      value: "sessions"
+      label: "Sessions"
+    }
+    allowed_value: {
+      value: "pageviews_per_session"
+      label: "Pages/Session"
+    }
+    allowed_value: {
+      value: "percent_new_users"
+      label: "% New Users"
+    }
+  }
+
+  parameter: second_metric_name {
+    type: string
+    allowed_value: {
+      value: "pageviews"
+      label: "Pageviews"
+    }
+    allowed_value: {
+      value: "users"
+      label: "Users"
+    }
+    allowed_value: {
+      value: "sessions"
+      label: "Sessions"
+    }
+    allowed_value: {
+      value: "pageviews_per_session"
+      label: "Pages/Session"
+    }
+    allowed_value: {
+      value: "percent_new_users"
+      label: "% New Users"
+    }
+  }
+
+  measure: primary_metric {
+    sql: case when {% parameter primary_metric_name %} = 'pageviews' then ${pageviews}
+              when {% parameter primary_metric_name %} = 'users' then ${users}
+              when {% parameter primary_metric_name %} = 'sessions' then ${sessions}
+              when {% parameter primary_metric_name %} = 'pageviews_per_session' then ${pageviews_per_session}
+              when {% parameter primary_metric_name %} = 'percent_new_users' then ${percent_new_users}
+          end ;;
+    type: number
+    label_from_parameter: primary_metric_name
+  }
+  measure: second_metric {
+    sql: case when {% parameter second_metric_name %} = 'pageviews' then ${pageviews}
+              when {% parameter second_metric_name %} = 'users' then ${users}
+              when {% parameter second_metric_name %} = 'sessions' then ${sessions}
+              when {% parameter second_metric_name %} = 'pageviews_per_session' then ${pageviews_per_session}
+              when {% parameter second_metric_name %} = 'percent_new_users' then ${percent_new_users}
+          end;;
+    type: number
+    label_from_parameter: second_metric_name
+  }
+
+
 }
