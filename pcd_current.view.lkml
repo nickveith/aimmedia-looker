@@ -24,6 +24,11 @@ view: pcd_current {
     sql: ${TABLE}."match code" ;;
   }
 
+  dimension: fb_custom_audience {
+    type: yesno
+    sql:  case when "email addr 1" like '%@%' OR nullif(trim(${TABLE}."phone number",'0'),'') is not null then True else False end  ;;
+  }
+
   dimension: client_code {
     type: string
     hidden: no
