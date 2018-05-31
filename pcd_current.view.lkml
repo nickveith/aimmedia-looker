@@ -15,7 +15,7 @@ view: pcd_current {
 
   dimension: email {
     type: string
-    sql: nullif(${TABLE}."email addr 1",'') ;;
+    sql: case when nullif(${TABLE}."email addr 1",'') like '%@%' then nullif(${TABLE}."email addr 1",'') end ;;
   }
 
   dimension: pcd_match_code {
