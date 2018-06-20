@@ -3,17 +3,17 @@ view: subscriber_master {
 
   dimension: address_1 {
     type: string
-    sql: ${TABLE}."address_1" ;;
+    sql: ${TABLE}.address_1 ;;
   }
 
   dimension: address_2 {
     type: string
-    sql: ${TABLE}."address_2" ;;
+    sql: ${TABLE}.address_2 ;;
   }
 
   dimension: city {
     type: string
-    sql: ${TABLE}."city" ;;
+    sql: ${TABLE}.city ;;
   }
 
   dimension: contact_permission_status {
@@ -29,7 +29,7 @@ view: subscriber_master {
   dimension: country {
     type: string
     map_layer_name: countries
-    sql: ${TABLE}."country" ;;
+    sql: ${TABLE}.country ;;
   }
 
   dimension: county {
@@ -64,7 +64,7 @@ view: subscriber_master {
 
   dimension: email_address {
     type: string
-    sql: ${TABLE}."email_address" ;;
+    sql: ${TABLE}.email_address ;;
   }
 
   dimension: facebook_user_id {
@@ -79,7 +79,7 @@ view: subscriber_master {
 
   dimension: first_name {
     type: string
-    sql: ${TABLE}."first_name" ;;
+    sql: ${TABLE}.first_name ;;
   }
 
   dimension: full_name {
@@ -109,7 +109,7 @@ view: subscriber_master {
 
   dimension: last_name {
     type: string
-    sql: ${TABLE}."last_name" ;;
+    sql: ${TABLE}.last_name ;;
   }
 
   dimension: latitude {
@@ -179,20 +179,20 @@ view: subscriber_master {
 
   dimension: state {
     type: string
-    sql: CASE WHEN trim(upper(${TABLE}."state")) IN ('AL','AK','AZ','AR','CA','CO','CT','DE','FL'
+    sql: CASE WHEN trim(upper(${TABLE}.state)) IN ('AL','AK','AZ','AR','CA','CO','CT','DE','FL'
                 ,'GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN'
                 ,'MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR'
                 ,'PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY')
-                THEN trim(upper(${TABLE}."state"))
-              WHEN ${TABLE}."state" IS NULL THEN 'NOT PROVIDED'
-              WHEN TRIM(${TABLE}."state") = '' THEN 'NOT PROVIDED'
+                THEN trim(upper(${TABLE}.state))
+              WHEN ${TABLE}.state IS NULL THEN 'NOT PROVIDED'
+              WHEN TRIM(${TABLE}.state) = '' THEN 'NOT PROVIDED'
               ELSE 'INVALID'
             END;;
   }
 
   dimension: subscriber_key {
     type: string
-    sql: ${TABLE}."subscriber_key" ;;
+    sql: ${TABLE}.subscriber_key ;;
   }
 
   dimension: suffix {
@@ -227,7 +227,7 @@ view: subscriber_master {
 
   dimension: zipcode {
     type: zipcode
-    sql: ${TABLE}."zip_postal" ;;
+    sql: ${TABLE}.zip_postal ;;
   }
 
   measure: count {
