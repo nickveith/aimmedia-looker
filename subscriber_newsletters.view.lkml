@@ -4,7 +4,7 @@ view: subscriber_newsletters {
 
   dimension: currently_subscribed {
     type: yesno
-    sql: ${TABLE}."currently_subscribed" ;;
+    sql: ${TABLE}.currently_subscribed ;;
   }
 
   dimension_group: import {
@@ -26,20 +26,20 @@ view: subscriber_newsletters {
   dimension: newsletter_id {
     type: string
     hidden: yes
-    sql: ${TABLE}."newsletter_id" ;;
+    sql: ${TABLE}.newsletter_id ;;
   }
 
   dimension: subcriber_newsletters_id {
     primary_key: yes
     hidden: yes
     type: string
-    sql: ${TABLE}."subscriber_key" || ' ' || ${TABLE}."newsletter_id";;
+    sql: ${TABLE}.subscriber_key || ' ' || ${TABLE}.newsletter_id;;
   }
 
   dimension: subscriber_key {
     type: string
     hidden: yes
-    sql: ${TABLE}."subscriber_key" ;;
+    sql: ${TABLE}.subscriber_key ;;
   }
 
   dimension_group: update {
