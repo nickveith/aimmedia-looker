@@ -24,7 +24,9 @@ view: ga_users {
   measure: unique_users {
     type: number
     value_format_name: decimal_2
-    sql: CASE WHEN COUNT(DISTINCT ${TABLE}.DAYDATE) = 0 THEN 0 ELSE SUM(${TABLE}.UNIQUE_USERS_L28) / COUNT(DISTINCT ${TABLE}.DAYDATE) END;;
+    sql: CASE WHEN COUNT(DISTINCT ${TABLE}.DAYDATE) = 0 THEN 0
+              ELSE SUM(${TABLE}.UNIQUE_USERS_L28 / 28)
+          END;;
   }
 
   measure: count {

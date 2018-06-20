@@ -34,17 +34,25 @@ explore: contracts {
   view_label: "Contracts"
   description: "Active contracts by date"
   persist_with: monthly
-  always_filter: {
-    filters: {
-      field: day_of_month
-      value: "1"
-    }
+  join: brand {
+    from: aim_brand
+    type:  left_outer
+    sql_on: TRUE ;;
+    relationship: one_to_many
+  }
+  join: group {
+    from: aim_group
+    type:  left_outer
+    sql_on: ${group.id} = ${brand.group_id} ;;
+    relationship: many_to_one
   }
   join: new_contracts {
     from: pcd_contracts_new
     view_label: "New Contracts"
     type:  left_outer
-    sql_on: ${new_contracts.process_date} >= ${contracts.calendar_date}
+    sql_on: ${brand.pcd_client_code} = ${new_contracts.client_code}
+        AND ${brand.pcd_pub_code} = ${new_contracts.pub_code}
+        AND ${new_contracts.process_date} >= ${contracts.calendar_date}
         AND ${new_contracts.process_date} < dateadd(month, 1, ${contracts.calendar_date}) ;;
     fields: [new_contracts.new_contracts, new_contracts.average_order_price]
     relationship: one_to_many
@@ -52,14 +60,16 @@ explore: contracts {
   join: active_contracts {
     from:  pcd_contracts
     type: left_outer
-    sql_on: ${contracts.calendar_date} >= ${active_contracts.start_date}
+    sql_on: ${brand.pcd_client_code} = ${active_contracts.client_code}
+        AND ${brand.pcd_pub_code} = ${active_contracts.pub_code}
+        AND ${contracts.calendar_date} >= ${active_contracts.start_date}
         and ${contracts.calendar_date} <  ${active_contracts.expiration_date}
         and ${contracts.calendar_year} >= 2008
         and ${contracts.calendar_year} <= 2028;;
     relationship: many_to_one
   }
   join: pcd_publisher {
-    type: inner
+    type: left_outer
     sql_on: ${pcd_publisher.client_code} = ${active_contracts.client_code}
       and ${pcd_publisher.pub_code} =  ${active_contracts.pub_code} ;;
     relationship: many_to_one
@@ -81,18 +91,6 @@ explore: contracts {
     type: left_outer
     sql_on: ${expiration_date.calendar_date} >= ${active_contracts.expiration_date}
         and ${expiration_date.calendar_date} <  dateadd(months, 1, ${active_contracts.expiration_date}) ;;
-    relationship: many_to_one
-  }
-  join: brand {
-    from: aim_brand
-    type:  left_outer
-    sql_on: ${pcd_publisher.client_code} = ${brand.pcd_client_code} and ${pcd_publisher.pub_code} = ${brand.pcd_pub_code} ;;
-    relationship: one_to_one
-  }
-  join: group {
-    from: aim_group
-    type:  left_outer
-    sql_on: ${brand.group_id} = ${group.id} ;;
     relationship: many_to_one
   }
 }
@@ -174,7 +172,7 @@ explore: current {
   description: "Current subscriber status"
   persist_with: monthly
   join: pcd_current {
-    view_label: "Active File"
+    view_label: "PCD File"
     type: inner
     sql_on: ${pcd_publisher.client_code} = ${pcd_current.client_code}
         and ${pcd_publisher.pub_code} =  ${pcd_current.pub_code} ;;

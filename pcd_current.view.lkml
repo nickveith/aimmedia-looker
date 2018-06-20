@@ -8,10 +8,25 @@ view: pcd_current {
     sql: ${TABLE}."account number" ;;
   }
 
+  dimension: phone_number {
+    type: string
+    sql: nullif(trim(${TABLE}."phone number",'0'),'') ;;
+  }
+
+  dimension: email {
+    type: string
+    sql: case when nullif(${TABLE}."email addr 1",'') like '%@%' then nullif(${TABLE}."email addr 1",'') end ;;
+  }
+
   dimension: pcd_match_code {
     label: "PCD Match Code"
     type: string
     sql: ${TABLE}."match code" ;;
+  }
+
+  dimension: fb_custom_audience {
+    type: yesno
+    sql:  case when ${TABLE}."email addr 1" like '%@%' OR nullif(trim(${TABLE}."phone number",'0'),'') is not null then True else False end  ;;
   }
 
   dimension: client_code {

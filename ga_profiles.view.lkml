@@ -1,5 +1,12 @@
 view: ga_profiles {
-  sql_table_name: PUBLIC.GA_PROFILES ;;
+  derived_table: {
+    sql: select p.*
+             , case when b.GA_PROPERTY is not null then True else False end as is_primary
+          from PUBLIC.GA_PROFILES p
+          left join PUBLIC.AIM_BRAND b on (p."Id" = b.GA_PROPERTY)
+            ;;
+  }
+
 
   dimension: id {
     primary_key: yes
@@ -7,6 +14,10 @@ view: ga_profiles {
     sql: ${TABLE}."Id" ;;
   }
 
+  dimension: is_primary {
+    type: yesno
+    sql: ${TABLE}.is_primary ;;
+  }
   dimension: account_id {
     type: string
     sql: ${TABLE}."AccountId" ;;
