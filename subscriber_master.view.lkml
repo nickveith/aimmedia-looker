@@ -1,5 +1,17 @@
 view: subscriber_master {
-  sql_table_name: PUBLIC.SUBSCRIBER_MASTER ;;
+  derived_table: {
+    sql: select *
+              , case when i.infogroup = 1 then true else false end as is_infogroup_scrub
+           from PUBLIC.SUBSCRIBER_MASTER sm
+           left join (select subscriber_key
+                           , max(1) as infogroup
+                        from PUBLIC.SUBSCRIBER_NEWSLETTERS_LOG snl
+                      where snl.source = 'infogroup'
+                        and snl.medium = 'scrub'
+                      group by 1
+                      ) i on (sm.subscriber_key = i.subscriber_key)
+                ;;
+  }
 
   dimension: address_1 {
     type: string
@@ -230,6 +242,11 @@ view: subscriber_master {
     type: zipcode
     map_layer_name: us_zipcode_tabulation_areas
     sql: case when length(${TABLE}.zip_postal) = 5 then ${TABLE}.zip_postal end ;;
+  }
+
+  dimension: is_infogroup_scrub {
+    type: yesno
+    sql: ${TABLE}.is_infogroup_scrub ;;
   }
 
 }
