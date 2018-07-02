@@ -179,6 +179,7 @@ view: subscriber_master {
 
   dimension: state {
     type: string
+    map_layer_name: us_states
     sql: CASE WHEN trim(upper(${TABLE}.state)) IN ('AL','AK','AZ','AR','CA','CO','CT','DE','FL'
                 ,'GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN'
                 ,'MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR'
@@ -227,7 +228,8 @@ view: subscriber_master {
 
   dimension: zipcode {
     type: zipcode
-    sql: ${TABLE}.zip_postal ;;
+    map_layer_name: us_zipcode_tabulation_areas
+    sql: case when length(${TABLE}.zip_postal) = 5 then ${TABLE}.zip_postal end ;;
   }
 
 }

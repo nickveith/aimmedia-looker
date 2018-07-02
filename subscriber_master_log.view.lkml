@@ -205,6 +205,7 @@ view: subscriber_master_log {
 
   dimension: state {
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}."STATE" ;;
   }
 
