@@ -109,11 +109,6 @@ view: newsletter_lookup {
     sql: ${TABLE}.PUBLIC ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
-
   filter: overlap_brand_code {
     sql: {% condition overlap_brand_code %} newsletters.brand_code {% endcondition %} AND {% condition overlap_brand_code %} newsletter_lookup2.brand_code {% endcondition %};;
   }

@@ -230,8 +230,4 @@ view: subscriber_master {
     sql: ${TABLE}.zip_postal ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [first_name, last_name, full_name]
-  }
 }
