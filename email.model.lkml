@@ -41,35 +41,39 @@ explore: sends {
     type: left_outer
     sql_on: ${sends.client_id} = ${opens.client_id}
         and ${sends.send_id} = ${opens.send_id}
-        and ${sends.subscriber_id} = ${opens.subscriber_id} ;;
+        and ${sends.subscriber_id} = ${opens.subscriber_id}
+        and ${sends.batch_id} = ${opens.batch_id} ;;
     relationship: one_to_many
     }
   join:  clicks {
     type: left_outer
     sql_on: ${sends.client_id} = ${clicks.client_id}
         and ${sends.send_id} = ${clicks.send_id}
-        and ${sends.subscriber_id} = ${clicks.subscriber_id} ;;
+        and ${sends.subscriber_id} = ${clicks.subscriber_id}
+        and ${sends.batch_id} = ${clicks.batch_id} ;;
     relationship: one_to_many
   }
   join:  unsubs {
     type: left_outer
     sql_on: ${sends.client_id} = ${unsubs.client_id}
         and ${sends.send_id} = ${unsubs.send_id}
-        and ${sends.subscriber_id} = ${unsubs.subscriber_id} ;;
+        and ${sends.subscriber_id} = ${unsubs.subscriber_id}
+        and ${sends.batch_id} = ${unsubs.batch_id} ;;
     relationship: one_to_many
   }
   join:  bounces {
     type: left_outer
     sql_on: ${sends.client_id} = ${bounces.client_id}
         and ${sends.send_id} = ${bounces.send_id}
-        and ${sends.subscriber_id} = ${bounces.subscriber_id} ;;
+        and ${sends.subscriber_id} = ${bounces.subscriber_id};;
     relationship: one_to_many
   }
   join:  complaints {
     type: left_outer
     sql_on: ${sends.client_id} = ${complaints.client_id}
         and ${sends.send_id} = ${complaints.send_id}
-        and ${sends.subscriber_id} = ${complaints.subscriber_id} ;;
+        and ${sends.subscriber_id} = ${complaints.subscriber_id}
+        and ${sends.batch_id} = ${complaints.batch_id} ;;
     relationship: one_to_many
   }
   join: sender_profile {
