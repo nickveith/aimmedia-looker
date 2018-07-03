@@ -91,7 +91,7 @@ view: clicks {
 
   dimension: url {
     type: string
-    sql: regexp_substr(${TABLE}.URL, '^https?://[^\?]+') ;;
+    sql: substring(regexp_substr(${TABLE}.URL, '^https?://[^\?]+'),1,250) ;;
   }
 
   dimension: url_id {
