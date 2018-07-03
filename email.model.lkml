@@ -90,6 +90,13 @@ explore: sends {
     sql_on: ${sender_profile.group_id} = ${group.id} ;;
     relationship: many_to_one
   }
+  join: email_summary {
+    from: email_summary
+    type:  left_outer
+    sql_on: ${sends.send_id} = ${email_summary.send_id}
+        and ${sends.list_id} = ${email_summary.list_id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: newsletters {

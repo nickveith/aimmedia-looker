@@ -27,7 +27,14 @@ view: clicks {
     sql: ${TABLE}.EMAIL_ADDRESS ;;
   }
 
-  dimension: event_date {
+  dimension_group: click_date {
+    type: time
+    timeframes: [date, day_of_week, week, day_of_month, month_name, month, year, quarter_of_year]
+    sql: ${TABLE}.EVENT_DATE ;;
+  }
+
+
+  dimension: event_timestamp {
     type: string
     sql: ${TABLE}.EVENT_DATE ;;
   }
