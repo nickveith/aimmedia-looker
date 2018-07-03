@@ -1,6 +1,6 @@
 view: subscriber_master {
   derived_table: {
-    sql: select *
+    sql: select sm.*
               , case when i.infogroup = 1 then true else false end as is_infogroup_scrub
            from PUBLIC.SUBSCRIBER_MASTER sm
            left join (select subscriber_key
