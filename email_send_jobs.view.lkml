@@ -71,9 +71,30 @@ view: send_jobs {
     sql: ${TABLE}.TRIGGERED_SEND_EXTERNAL_KEY ;;
   }
 
+  dimension: email_thumbnail {
+    type: string
+    sql: ${TABLE}.SEND_ID;;
+    html: <img src="https://members.s7.exacttarget.com/Content/Email/EmailThumbnail.aspx?jid={{value}}&w=300&h=500" /> ;;
+  }
+
   measure: email_sends {
     type: count_distinct
     sql: ${TABLE}.SEND_ID ;;
+  }
+
+  dimension: parent_allsub_list {
+    type: string
+    sql: '173' ;;
+  }
+
+  dimension: bu_allsub_list {
+    type: string
+    sql: case when ${client_id} = '7237799' then '4467' -- MG
+              when ${client_id} = '7233488' then '4505' -- EQ
+              when ${client_id} = '7233491' then '4506' --HL
+              when ${client_id} = '7233492' then '4508' -- HG
+              when ${client_id} = '7233494' then '4509' -- MG
+          end ;;
   }
 
 }

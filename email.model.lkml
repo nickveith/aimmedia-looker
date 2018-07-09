@@ -20,12 +20,6 @@ persist_with: daily
 explore: sends {
 #   persist_with: default
   from: sends
-  join: send_date {
-    from: calendar_date
-    type:  inner
-    sql_on: ${sends.event_date_date} = ${send_date.calendar_date} ;;
-    relationship: many_to_one
-  }
   join:  lists {
     type: left_outer
     sql_on: ${sends.list_id} = ${lists.list_id};;
@@ -36,6 +30,11 @@ explore: sends {
     sql_on: ${sends.client_id} = ${send_jobs.client_id}
         and ${sends.send_id} = ${send_jobs.send_id};;
     relationship: many_to_one
+  }
+  join: subscriber_newsletters {
+    type: left_outer
+    sql_on: false ;;
+    relationship: one_to_one
   }
   join:  opens {
     type: left_outer
@@ -100,6 +99,12 @@ explore: sends {
     sql_on: ${sends.send_id} = ${email_summary.send_id}
         and ${sends.list_id} = ${email_summary.list_id} ;;
     relationship: one_to_one
+  }
+  join: send_date {
+    from: calendar_date
+    type:  inner
+    sql_on: ${sends.event_date_date} = ${send_date.calendar_date} ;;
+    relationship: many_to_one
   }
 }
 

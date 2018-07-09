@@ -112,13 +112,31 @@ view: clicks {
 
   measure: click_through_rate {
     type: number
+    label:"CTR"
     value_format_name: percent_2
-    sql:  1.0 * ${unique_clicks} / nullif(${sends.unique_sends},0) ;;
+    sql:  1.0 * ${clicks} / nullif(${sends.sends},0) ;;
     drill_fields: [id]
   }
 
   measure: click_to_open_rate {
     type: number
+    label:"CTOR"
+    value_format_name: percent_2
+    sql:  1.0 * ${clicks} / nullif(${opens.opens},0) ;;
+    drill_fields: [id]
+  }
+
+  measure: click_through_rate_unique {
+    type: number
+    label:"CTR (Unique)"
+    value_format_name: percent_2
+    sql:  1.0 * ${unique_clicks} / nullif(${sends.unique_sends},0) ;;
+    drill_fields: [id]
+  }
+
+  measure: click_to_open_rate_unique {
+    type: number
+    label: "CTOR (Unique)"
     value_format_name: percent_2
     sql:  1.0 * ${unique_clicks} / nullif(${opens.unique_opens},0) ;;
     drill_fields: [id]

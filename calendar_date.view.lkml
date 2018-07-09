@@ -12,6 +12,12 @@ view: calendar_date {
     sql: ${TABLE}.D_DOM ;;
   }
 
+  dimension: is_last_day_of_month  {
+    type: yesno
+    sql: case when ${TABLE}.D_LAST_DOM = ${TABLE}.D_DATE_SK then True else False end;;
+  }
+
+
   dimension_group: calendar {
     type: time
     timeframes: [raw, date, week, month, year]

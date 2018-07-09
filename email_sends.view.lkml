@@ -38,8 +38,13 @@ view: sends {
 
   dimension_group: event_date {
     type: time
-    timeframes: [date,day_of_week,day_of_month, month_name, month, year, quarter_of_year]
+    timeframes: [date,day_of_week,day_of_month, month_name, month, year, quarter_of_year, hour, hour_of_day]
     drill_fields: [group]
+    sql: ${TABLE}.EVENT_DATE ;;
+  }
+
+  dimension: send_datetime {
+    type: date_time
     sql: ${TABLE}.EVENT_DATE ;;
   }
 

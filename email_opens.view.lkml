@@ -26,9 +26,15 @@ view: opens {
     sql: ${TABLE}.EMAIL_ADDRESS ;;
   }
 
-  dimension: open_date {
-    type: date
+  dimension_group: open_event {
+    type: time
+    timeframes: [date,day_of_week,day_of_month, month_name, month, year, quarter_of_year, hour, hour_of_day]
     sql: ${TABLE}.EVENT_DATE ;;
+  }
+
+  dimension: hours_since_send {
+    type:  number
+    sql:  datediff(hour, ${sends.send_datetime}, ${TABLE}.EVENT_DATE) ;;
   }
 
   dimension: event_type {
@@ -85,6 +91,14 @@ view: opens {
 
   measure: open_rate {
     type: number
+    value_format_name: percent_2
+    sql:  1.0 * ${opens} / nullif(${sends.sends},0) ;;
+    drill_fields: [id]
+  }
+
+  measure: open_rate_unique {
+    type: number
+    label: "Open Rate (unique)"
     value_format_name: percent_2
     sql:  1.0 * ${unique_opens} / nullif(${sends.unique_sends},0) ;;
     drill_fields: [id]
