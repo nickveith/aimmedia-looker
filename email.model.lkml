@@ -121,14 +121,14 @@ explore: newsletters {
   join:  subscriber_master {
     type: left_outer
     view_label: "Customer (Sub Master)"
-    sql_on: ${subscriber_newsletters.subscriber_key} = ${subscriber_master.subscriber_key};;
+    sql_on: lower(${subscriber_newsletters.subscriber_key}) = lower(${subscriber_master.subscriber_key});;
     relationship: one_to_many
   }
   join:  subscriber_newsletters2 {
     from: subscriber_newsletters
     view_label: "Overlap"
     type: left_outer
-    sql_on: ${subscriber_newsletters.subscriber_key} = ${subscriber_newsletters2.subscriber_key};;
+    sql_on: lower(${subscriber_newsletters.subscriber_key}) = lower(${subscriber_newsletters2.subscriber_key});;
     fields: [subscriber_newsletters2.unique_subscribers, subscriber_newsletters2.subscribers]
     relationship: one_to_many
   }
