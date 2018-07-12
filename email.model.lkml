@@ -31,9 +31,14 @@ explore: sends {
         and ${sends.send_id} = ${send_jobs.send_id};;
     relationship: many_to_one
   }
+  join: email_send_job_newsletter_bridge {
+    type:  left_outer
+    sql_on: ${send_jobs.send_definition_external_key} = ${email_send_job_newsletter_bridge.send_id} ;;
+    relationship: one_to_many
+  }
   join: subscriber_newsletters {
     type: left_outer
-    sql_on: false ;;
+    sql_on: ${email_send_job_newsletter_bridge.newsletter_id} = ${subscriber_newsletters.newsletter_id} ;;
     relationship: one_to_one
   }
   join:  opens {
