@@ -106,31 +106,31 @@ view: email_newsletter_summary {
   measure: open_rate {
     type: number
     value_format_name: percent_2
-    sql:  1.0 * ${opens} / nullif(${sends},0) ;;
+    sql:  1.0 * ${unique_opens} / nullif(${sends},0) ;;
   }
 
   measure: click_rate {
     type: number
     value_format_name: percent_2
-    sql:  1.0 * ${clicks} / nullif(${sends},0) ;;
+    sql:  1.0 * ${unique_clicks} / nullif(${sends},0) ;;
   }
 
   measure: unsub_rate {
     type: number
     value_format_name: percent_2
-    sql:  1.0 * ${unsubs} / nullif(${sends},0) ;;
+    sql:  1.0 * ${unique_unsubs} / nullif(${sends},0) ;;
   }
 
   measure: bounce_rate {
     type: number
     value_format_name: percent_2
-    sql:  1.0 * ${bounces} / nullif(${sends},0) ;;
+    sql:  1.0 * ${unique_bounces} / nullif(${sends},0) ;;
   }
 
   measure: complaint_rate {
     type: number
     value_format_name: percent_2
-    sql:  1.0 * ${complaints} / nullif(${sends},0) ;;
+    sql:  1.0 * ${unique_complaints} / nullif(${sends},0) ;;
   }
 
 
