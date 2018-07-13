@@ -83,6 +83,23 @@ view: email_event {
                                      and s.subscriber_id = u.subscriber_id
                                      and s.list_id = u.list_id
                                      )
+        UNION ALL
+        select c.id as event_id
+             , c.client_id
+             , c.send_id
+             , c.subscriber_id
+             , c.list_id
+             , c.event_date
+             , c.event_type
+             , c.batch_id::int as batch_id
+             , s.triggered_send_external_id
+             , s.campaign_id
+          from email_complaints c
+               left join email_sends s on ( s.client_id = c.client_id
+                                     and s.send_id = c.send_id
+                                     and s.subscriber_id = c.subscriber_id
+                                     and s.list_id = c.list_id
+                                     )
                                     ;;
     persist_for: "24 hours"
   }

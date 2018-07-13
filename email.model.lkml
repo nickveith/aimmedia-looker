@@ -105,7 +105,7 @@ explore: email {
   }
   join:  email_complaints {
     type: left_outer
-    sql_on:  ${email.event_type} = 'Open'
+    sql_on:  ${email.event_type} = 'SpamComplaint'
         and ${email.client_id} = ${email_complaints.client_id}
         and ${email.send_id} = ${email_complaints.send_id}
         and ${email.subscriber_id} = ${email_complaints.subscriber_id}
