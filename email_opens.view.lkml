@@ -1,4 +1,4 @@
-view: opens {
+view: email_opens {
   sql_table_name: PUBLIC.EMAIL_OPENS ;;
 
   dimension: id {
@@ -34,7 +34,7 @@ view: opens {
 
   dimension: hours_since_send {
     type:  number
-    sql:  datediff(hour, ${sends.send_datetime}, ${TABLE}.EVENT_DATE) ;;
+    sql:  datediff(hour, ${email_sends.send_datetime}, ${TABLE}.EVENT_DATE) ;;
   }
 
   dimension: event_type {
@@ -79,8 +79,8 @@ view: opens {
   }
 
   measure: opens {
-    type: count
-    drill_fields: [id]
+    type: count_distinct
+    sql: ${id} ;;
   }
 
   measure: unique_opens {
@@ -92,7 +92,7 @@ view: opens {
   measure: open_rate {
     type: number
     value_format_name: percent_2
-    sql:  1.0 * ${opens} / nullif(${sends.sends},0) ;;
+    sql:  1.0 * ${opens} / nullif(${email_sends.sends},0) ;;
     drill_fields: [id]
   }
 
@@ -100,7 +100,7 @@ view: opens {
     type: number
     label: "Open Rate (unique)"
     value_format_name: percent_2
-    sql:  1.0 * ${unique_opens} / nullif(${sends.unique_sends},0) ;;
+    sql:  1.0 * ${unique_opens} / nullif(${email_sends.unique_sends},0) ;;
     drill_fields: [id]
   }
 

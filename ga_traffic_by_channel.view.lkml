@@ -57,6 +57,14 @@ view: ga_traffic_by_channel {
     sql: ${TABLE}."Users" ;;
   }
 
+  measure: bounce_rate {
+    type: number
+    value_format_name: decimal_2
+    sql: CASE WHEN ${sessions} = 0 THEN 0
+              ELSE ${bounces} / ${sessions}
+              END;;
+  }
+
   measure: pageviews_per_session {
     type: number
     value_format_name: decimal_2

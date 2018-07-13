@@ -1,4 +1,4 @@
-view: clicks {
+view: email_clicks {
   sql_table_name: PUBLIC.EMAIL_CLICKS ;;
 
   dimension: id {
@@ -100,8 +100,8 @@ view: clicks {
   }
 
   measure: clicks {
-    type: count
-    drill_fields: [id]
+    type: count_distinct
+    sql: ${id} ;;
   }
 
   measure: unique_clicks {
@@ -114,7 +114,7 @@ view: clicks {
     type: number
     label:"CTR"
     value_format_name: percent_2
-    sql:  1.0 * ${clicks} / nullif(${sends.sends},0) ;;
+    sql:  1.0 * ${clicks} / nullif(${email_sends.sends},0) ;;
     drill_fields: [id]
   }
 
@@ -122,7 +122,7 @@ view: clicks {
     type: number
     label:"CTOR"
     value_format_name: percent_2
-    sql:  1.0 * ${clicks} / nullif(${opens.opens},0) ;;
+    sql:  1.0 * ${clicks} / nullif(${email_opens.opens},0) ;;
     drill_fields: [id]
   }
 
@@ -130,7 +130,7 @@ view: clicks {
     type: number
     label:"CTR (Unique)"
     value_format_name: percent_2
-    sql:  1.0 * ${unique_clicks} / nullif(${sends.unique_sends},0) ;;
+    sql:  1.0 * ${unique_clicks} / nullif(${email_sends.unique_sends},0) ;;
     drill_fields: [id]
   }
 
@@ -138,7 +138,7 @@ view: clicks {
     type: number
     label: "CTOR (Unique)"
     value_format_name: percent_2
-    sql:  1.0 * ${unique_clicks} / nullif(${opens.unique_opens},0) ;;
+    sql:  1.0 * ${unique_clicks} / nullif(${email_opens.unique_opens},0) ;;
     drill_fields: [id]
   }
 }

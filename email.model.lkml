@@ -17,67 +17,100 @@ max_cache_age: "840 hours"
 
 persist_with: daily
 
-explore: sends {
-#   persist_with: default
-  from: sends
-  join:  lists {
-    type: left_outer
-    sql_on: ${sends.list_id} = ${lists.list_id};;
+explore: email {
+  from: email_event
+  join: event_date {
+    from: calendar_date
+    type:  inner
+    sql_on: ${email.event_date} = ${event_date.calendar_date} ;;
     relationship: many_to_one
+  }
+  join: email_sends {
+    type: left_outer
+  #   persist_with: default
+    sql_on: ${email.event_type} = 'Sent'
+        and ${email.client_id} = ${email_sends.client_id}
+        and ${email.send_id} = ${email_sends.send_id}
+        and ${email.subscriber_id} = ${email_sends.subscriber_id}
+        and ${email.list_id} = ${email_sends.list_id}
+        and ${email.batch_id} = ${email_sends.batch_id}
+        and ${email.triggered_send_external_id} = ${email_sends.triggered_send_external_id};;
+    relationship: one_to_one
+  }
+  join:  lists {
+      type: left_outer
+      sql_on: ${email.list_id} = ${lists.list_id};;
+      relationship: many_to_one
   }
   join:  send_jobs {
     type: left_outer
-    sql_on: ${sends.client_id} = ${send_jobs.client_id}
-        and ${sends.send_id} = ${send_jobs.send_id};;
+    sql_on: ${email.client_id} = ${send_jobs.client_id}
+        and ${email.send_id} = ${send_jobs.send_id};;
     relationship: many_to_one
   }
   join: email_send_job_newsletter_bridge {
     type:  left_outer
-    sql_on: ${send_jobs.send_definition_external_key} = ${email_send_job_newsletter_bridge.send_id} ;;
+    sql_on: ${send_jobs.send_id} = ${email_send_job_newsletter_bridge.send_id} ;;
+    relationship: one_to_many
+  }
+  join: newsletter_lookup {
+    type:  left_outer
+    sql_on: ${email_send_job_newsletter_bridge.newsletter_id} = ${newsletter_lookup.newsletter_id};;
     relationship: one_to_many
   }
   join: subscriber_newsletters {
     type: left_outer
     sql_on: ${email_send_job_newsletter_bridge.newsletter_id} = ${subscriber_newsletters.newsletter_id} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
-  join:  opens {
+  join:  email_opens {
     type: left_outer
-    sql_on: ${sends.client_id} = ${opens.client_id}
-        and ${sends.send_id} = ${opens.send_id}
-        and ${sends.subscriber_id} = ${opens.subscriber_id}
-        and ${sends.batch_id} = ${opens.batch_id} ;;
+    sql_on:  ${email.event_type} = 'Open'
+        and ${email.client_id} = ${email_opens.client_id}
+        and ${email.send_id} = ${email_opens.send_id}
+        and ${email.subscriber_id} = ${email_opens.subscriber_id}
+        and ${email.list_id} = ${email_opens.list_id}
+        and ${email.batch_id} = ${email_opens.batch_id}
+        and ${email.triggered_send_external_id} = ${email_opens.triggered_send_external_id};;
     relationship: one_to_many
     }
-  join:  clicks {
+  join:  email_clicks {
     type: left_outer
-    sql_on: ${sends.client_id} = ${clicks.client_id}
-        and ${sends.send_id} = ${clicks.send_id}
-        and ${sends.subscriber_id} = ${clicks.subscriber_id}
-        and ${sends.batch_id} = ${clicks.batch_id} ;;
+    sql_on:  ${email.event_type} = 'Click'
+        and ${email.client_id} = ${email_clicks.client_id}
+        and ${email.send_id} = ${email_clicks.send_id}
+        and ${email.subscriber_id} = ${email_clicks.subscriber_id}
+        and ${email.list_id} = ${email_clicks.list_id}
+        and ${email.batch_id} = ${email_clicks.batch_id};;
     relationship: one_to_many
   }
-  join:  unsubs {
+  join:  email_unsubs {
     type: left_outer
-    sql_on: ${sends.client_id} = ${unsubs.client_id}
-        and ${sends.send_id} = ${unsubs.send_id}
-        and ${sends.subscriber_id} = ${unsubs.subscriber_id}
-        and ${sends.batch_id} = ${unsubs.batch_id} ;;
+    sql_on: ${email.event_type} = 'Unsubscribe'
+        and ${email.client_id} = ${email_unsubs.client_id}
+        and ${email.send_id} = ${email_unsubs.send_id}
+        and ${email.subscriber_id} = ${email_unsubs.subscriber_id}
+        and ${email.list_id} = ${email_unsubs.list_id}
+        and ${email.batch_id} = ${email_unsubs.batch_id};;
     relationship: one_to_many
   }
-  join:  bounces {
+  join:  email_bounces {
     type: left_outer
-    sql_on: ${sends.client_id} = ${bounces.client_id}
-        and ${sends.send_id} = ${bounces.send_id}
-        and ${sends.subscriber_id} = ${bounces.subscriber_id};;
+    sql_on: ${email.event_type} = 'Bounce'
+        and ${email.client_id} = ${email_bounces.client_id}
+        and ${email.send_id} = ${email_bounces.send_id}
+        and ${email.subscriber_id} = ${email_bounces.subscriber_id}
+        and ${email.list_id} = ${email_bounces.list_id};;
     relationship: one_to_many
   }
-  join:  complaints {
+  join:  email_complaints {
     type: left_outer
-    sql_on: ${sends.client_id} = ${complaints.client_id}
-        and ${sends.send_id} = ${complaints.send_id}
-        and ${sends.subscriber_id} = ${complaints.subscriber_id}
-        and ${sends.batch_id} = ${complaints.batch_id} ;;
+    sql_on:  ${email.event_type} = 'Open'
+        and ${email.client_id} = ${email_complaints.client_id}
+        and ${email.send_id} = ${email_complaints.send_id}
+        and ${email.subscriber_id} = ${email_complaints.subscriber_id}
+        and ${email.list_id} = ${email_complaints.list_id}
+        and ${email.batch_id} = ${email_complaints.batch_id};;
     relationship: one_to_many
   }
   join: sender_profile {
@@ -101,15 +134,14 @@ explore: sends {
   join: email_summary {
     from: email_summary
     type:  left_outer
-    sql_on: ${sends.send_id} = ${email_summary.send_id}
-        and ${sends.list_id} = ${email_summary.list_id} ;;
+    sql_on: ${send_jobs.send_id} = ${email_summary.send_id} ;;
     relationship: one_to_one
   }
-  join: send_date {
-    from: calendar_date
-    type:  inner
-    sql_on: ${sends.event_date_date} = ${send_date.calendar_date} ;;
-    relationship: many_to_one
+  join: email_newsletter_summary {
+    type:  left_outer
+    sql_on: ${email_send_job_newsletter_bridge.newsletter_id} = ${email_newsletter_summary.newsletter_id}
+        and ${email_send_job_newsletter_bridge.newsletter_id} is not null ;;
+    relationship: one_to_many
   }
 }
 
@@ -142,7 +174,7 @@ explore: newsletters {
     view_label: "Overlap"
     type: left_outer
     sql_on: ${subscriber_newsletters2.newsletter_id} = ${newsletter_lookup2.newsletter_id};;
-    fields: [newsletter_lookup2.brand_code, newsletter_lookup2.newsletter,newsletter_lookup2.list_type]
+    fields: [newsletter_lookup2.brand_code, newsletter_lookup2.newsletter,newsletter_lookup2.list_type, newsletter_lookup2.newsletter_id]
     relationship: many_to_one
   }
   join: brand {

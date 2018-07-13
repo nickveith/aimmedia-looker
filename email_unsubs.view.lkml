@@ -1,4 +1,4 @@
-view: unsubs {
+view: email_unsubs {
   sql_table_name: PUBLIC.EMAIL_UNSUBS ;;
 
   dimension: id {
@@ -62,13 +62,9 @@ view: unsubs {
     sql: ${TABLE}.UNSUB_REASON ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [id]
-  }
   measure: unsubs {
-    type: count
-    drill_fields: [id]
+    type: count_distinct
+    sql: ${id} ;;
   }
 
   measure: unique_unsubs {
@@ -80,7 +76,7 @@ view: unsubs {
   measure: unsub_rate {
     type: number
     value_format_name: percent_2
-    sql:  1.0 * ${unique_unsubs} / nullif(${sends.unique_sends},0) ;;
+    sql:  1.0 * ${unique_unsubs} / nullif(${email_sends.unique_sends},0) ;;
     drill_fields: [id]
   }
 }

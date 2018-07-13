@@ -1,4 +1,4 @@
-view: sends {
+view: email_sends {
   sql_table_name: PUBLIC.EMAIL_SENDS ;;
 
   dimension: id {
@@ -91,14 +91,13 @@ view: sends {
   }
 
   measure: sends {
-    type: count
-    drill_fields: [id]
+    type: count_distinct
+    sql: ${id} ;;
   }
 
   measure: unique_sends {
     type: count_distinct
     sql: ${id} ;;
-    drill_fields: [id]
   }
 
   measure: unique_sent_subscribers {

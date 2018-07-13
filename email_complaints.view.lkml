@@ -1,4 +1,4 @@
-view: complaints {
+view: email_complaints {
   sql_table_name: PUBLIC.EMAIL_COMPLAINTS ;;
 
   dimension: id {
@@ -62,14 +62,9 @@ view: complaints {
     sql: ${TABLE}.TRIGGERED_SEND_EXTERNAL_KEY ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [id]
-  }
-
   measure: complaints {
-    type: count
-    drill_fields: [id]
+    type: count_distinct
+    sql: ${id} ;;
   }
 
   measure: unique_complaints {
@@ -81,7 +76,7 @@ view: complaints {
   measure: complaint_rate {
     type: number
     value_format_name: percent_2
-    sql:  1.0 * ${unique_complaints} / nullif(${sends.unique_sends},0) ;;
+    sql:  1.0 * ${unique_complaints} / nullif(${email_sends.unique_sends},0) ;;
     drill_fields: [id]
   }
 }

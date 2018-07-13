@@ -1,4 +1,4 @@
-view: bounces {
+view: email_bounces {
   sql_table_name: PUBLIC.EMAIL_BOUNCE ;;
 
   dimension: id {
@@ -62,14 +62,9 @@ view: bounces {
     sql: ${TABLE}.SUBSCRIBER_KEY ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [id]
-  }
-
   measure: bounces {
-    type: count
-    drill_fields: [id]
+    type: count_distinct
+    sql: ${id} ;;
   }
 
   measure: unique_bounces {
@@ -81,7 +76,7 @@ view: bounces {
   measure: bounce_rate {
     type: number
     value_format_name: percent_2
-    sql:  1.0 * ${unique_bounces} / nullif(${sends.unique_sends},0) ;;
+    sql:  1.0 * ${unique_bounces} / nullif(${email_sends.unique_sends},0) ;;
     drill_fields: [id]
   }
 
