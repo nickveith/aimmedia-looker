@@ -1321,7 +1321,6 @@ view: pcd_current_extended {
 
   dimension: zip_raw {
     type: string
-    hidden: yes
     sql: ${TABLE}."zip" ;;
   }
 
