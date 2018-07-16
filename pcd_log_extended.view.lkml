@@ -1319,6 +1319,12 @@ view: pcd_current_extended {
     sql: ${TABLE}."zip" ;;
   }
 
+  dimension: zip_raw {
+    type: string
+    hidden: yes
+    sql: ${TABLE}."zip" ;;
+  }
+
   dimension: zip4 {
     type: string
     sql: ${TABLE}."zip+4" ;;
