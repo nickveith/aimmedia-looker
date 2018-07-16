@@ -215,6 +215,7 @@ explore: current {
             ,pcd_current_extended.stateprovince
             ,pcd_current_extended.country
             ,pcd_current_extended.zip
+            ,pcd_current_extended.zip_raw
             ]
     sql_on: ${pcd_current.record_id} = ${pcd_current_extended.record_id};;
     relationship: one_to_one
