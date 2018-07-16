@@ -26,7 +26,7 @@ view: subscriber_newsletters {
   dimension: newsletter_id {
     type: string
     hidden: yes
-    sql: ${TABLE}.newsletter_id ;;
+    sql: UPPER(${TABLE}.newsletter_id) ;;
   }
 
   dimension: subcriber_newsletters_id {

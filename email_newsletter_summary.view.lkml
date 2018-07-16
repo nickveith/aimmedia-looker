@@ -1,7 +1,7 @@
 view: email_newsletter_summary {
 
   derived_table: {
-    sql:select lkp.newsletter_id
+    sql:select UPPER(lkp.newsletter_id) as newsletter_id
              , j.SENT_TIME::date as daydate
              , sum(s.total_sends) as total_sends
              , sum(o.total_opens) as total_opens
@@ -19,7 +19,7 @@ view: email_newsletter_summary {
                              lkp.newsletter_id
                         FROM PUBLIC.EMAIL_SEND_JOBS j,
                              LATERAL flatten (split (replace (trim (regexp_substr (email_name,'\\[[A-Za-z0-9_ ]+\\]'),'[] '),' ',','),',')) f
-                        JOIN newsletter_lookup lkp ON (lkp.newsletter_id = trim (f.value,'"'))
+                        JOIN newsletter_lookup lkp ON (lkp.newsletter_id = UPPER(trim (f.value,'"')))
                       ) lkp on (j.send_id = lkp.send_id)
                left join (select send_id, list_id, count(1) as total_sends from email_sends group by 1,2) s on (j.send_id = s.send_id)
                left join (select send_id, list_id, count(1) as total_opens, count(distinct subscriber_key) as total_unique_opens from email_opens o group by 1,2) o on (s.send_id = o.send_id and s.list_id = o.list_id)

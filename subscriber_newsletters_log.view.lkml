@@ -92,7 +92,7 @@ view: subscriber_newsletters_log {
 
   dimension: newsletter_id {
     type: string
-    sql: ${TABLE}."NEWSLETTER_ID" ;;
+    sql: UPPER(${TABLE}."NEWSLETTER_ID") ;;
   }
 
   dimension: newsletter_name {
