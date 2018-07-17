@@ -220,6 +220,18 @@ explore: current {
     sql_on: ${pcd_current.record_id} = ${pcd_current_extended.record_id};;
     relationship: one_to_one
   }
+  join: brand {
+    from: aim_brand
+    type:  left_outer
+    sql_on: ${pcd_publisher.client_code} = ${brand.pcd_client_code} and ${pcd_publisher.pub_code} = ${brand.pcd_pub_code} ;;
+    relationship: one_to_one
+  }
+  join: group {
+    from: aim_group
+    type:  left_outer
+    sql_on: ${brand.group_id} = ${group.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: print_pub_overlap {
