@@ -243,35 +243,13 @@ view: pcd_current {
   }
 
   measure: actives {
-    type: count
-    filters: {
-      field: subscription_status
-      value: "ACTIVE"
-      }
-    filters: {
-      field: is_subscriber
-      value: "yes"
-    }
+    type: number
+    sql: count(distinct case when ${subscription_status} = 'ACTIVE' and ${is_subscriber} = True then ${TABLE}."match code" end) ;;
   }
 
   measure: expired {
-    type: count
-    filters: {
-      field: subscription_status
-      value:  "EXPIRED"
-    }
-    filters: {
-      field: is_subscriber
-      value: "yes"
-    }
-  }
-
-  measure: subscribers {
-    type: count
-    filters: {
-      field: is_subscriber
-      value: "yes"
-    }
+    type: number
+    sql: count(distinct case when ${subscription_status} = 'EXPIRED' and ${is_subscriber} = True then ${TABLE}."match code" end) ;;
   }
 
 }
