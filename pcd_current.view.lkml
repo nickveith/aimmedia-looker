@@ -47,7 +47,7 @@ view: pcd_current {
     sql: CASE WHEN "original start issue" = '0000' then null
               ELSE DATEADD( day
                          , (TRY_TO_NUMBER(substring( ${TABLE}."original start issue",3,2)) - 1) * (365/ coalesce(${pcd_publisher.frequency},12))
-                         , TRY_TO_DATE('01-JAN-'||case when substring(${TABLE}."original start issue",1,1) in ('0', '1', '2') then '20' else '19' end||substring(${TABLE}."original start issue",1,2))
+                         , TRY_TO_DATE('01-JAN-'||case when substring(${TABLE}."original start issue",1,1) in ('0', '1', '2') then '20' else '19' end||substring(${TABLE}."original start issue",2,2))
                        )
             END ;;
   }
@@ -64,7 +64,18 @@ view: pcd_current {
 
   dimension: week_ending {
     type: date
-    sql: TO_DATE(substring("week ending",2,6), 'YYMMDD');;
+    sql: TRY_TO_DATE(
+           case when substring("week ending",1,1) in ('0', '1', '2') then '20'
+                else '19'
+            end ||
+           substring("week ending",2,2) || '-' ||
+           substring("week ending",4,2) || '-' || substring("week ending",6,2)
+           );;
+  }
+
+  dimension: is_stale {
+    type: yesno
+    sql: case when ${week_ending} <=  dateadd(year, -1, current_date) then True else False end;;
   }
 
   dimension: account_sequence {
@@ -86,7 +97,8 @@ view: pcd_current {
 
   dimension: subscription_status {
     type: string
-    sql: CASE WHEN  ${TABLE}."trailer status low" = '0' THEN 'PENDING'
+    sql: CASE WHEN  ${TABLE}."trailer status low" = '1' AND ${is_stale} = True then 'EXPIRED'
+              WHEN  ${TABLE}."trailer status low" = '0' THEN 'PENDING'
               WHEN  ${TABLE}."trailer status low" = '1' THEN 'ACTIVE'
               WHEN  ${TABLE}."trailer status low" = '2' THEN 'CANCEL-REFUND'
               WHEN  ${TABLE}."trailer status low" = '3' THEN 'CANCEL-DUPLICATE SALE'
