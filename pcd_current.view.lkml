@@ -65,11 +65,11 @@ view: pcd_current {
   dimension: week_ending {
     type: date
     sql: TRY_TO_DATE(
-           case when substring("week ending",1,1) in ('0', '1', '2') then '20'
+           case when substring(${TABLE}."week ending",1,1) in ('0', '1', '2') then '20'
                 else '19'
             end ||
-           substring("week ending",2,2) || '-' ||
-           substring("week ending",4,2) || '-' || substring("week ending",6,2)
+           substring(${TABLE}."week ending",2,2) || '-' ||
+           substring(${TABLE}."week ending",4,2) || '-' || substring(${TABLE}."week ending",6,2)
            );;
   }
 
