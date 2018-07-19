@@ -126,7 +126,7 @@ view: email_event {
   }
 
   dimension: event_date {
-    type: date_time
+    type: date
     sql: ${TABLE}.EVENT_DATE::date ;;
   }
 
