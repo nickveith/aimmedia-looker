@@ -20,10 +20,19 @@ persist_with: daily
 explore: email {
   from: email_event
   join: event_date {
+    view_label: "Dates"
     from: calendar_date
     type:  inner
     sql_on: ${email.event_date} = ${event_date.calendar_date} ;;
     relationship: many_to_one
+  }
+  join: send_date {
+    view_label: "Dates"
+    from: calendar_date
+    type:  inner
+    sql_on: ${email.send_date} = ${send_date.calendar_date} ;;
+    relationship: many_to_one
+    fields: [send_date.calendar_date]
   }
   join: email_sends {
     type: left_outer

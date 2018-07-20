@@ -5,6 +5,7 @@ view: email_event {
              , send_id
              , subscriber_id
              , list_id
+             , event_date as send_date
              , event_date
              , event_type
              , batch_id::int as batch_id
@@ -17,6 +18,7 @@ view: email_event {
              , o.send_id
              , o.subscriber_id
              , o.list_id
+             , s.event_date as send_date
              , o.event_date
              , o.event_type
              , o.batch_id::int as batch_id
@@ -36,6 +38,7 @@ view: email_event {
              , c.send_id
              , c.subscriber_id
              , c.list_id
+             , s.event_date as send_date
              , c.event_date
              , c.event_type
              , c.batch_id::int as batch_id
@@ -55,6 +58,7 @@ view: email_event {
              , b.send_id
              , b.subscriber_id
              , b.list_id
+             , s.event_date as send_date
              , b.event_date
              , b.event_type
              , s.batch_id::int as batch_id
@@ -89,6 +93,7 @@ view: email_event {
              , c.send_id
              , c.subscriber_id
              , c.list_id
+             , s.event_date as send_date
              , c.event_date
              , c.event_type
              , c.batch_id::int as batch_id
@@ -126,6 +131,11 @@ view: email_event {
   }
 
   dimension: event_date {
+    type: date
+    sql: ${TABLE}.EVENT_DATE::date ;;
+  }
+
+  dimension: send_date {
     type: date
     sql: ${TABLE}.EVENT_DATE::date ;;
   }
