@@ -20,31 +20,18 @@ persist_with: daily
 explore: email {
   from: email_event
   join: event_date {
-    view_label: "Dates"
+    view_label: "Date [Event]"
     from: calendar_date
     type:  inner
-    sql_on: ${email.event_date} = ${event_date.calendar_date} ;;
+    sql_on: ${email.event_date} = ${event_date.calendar_date};;
     relationship: many_to_one
   }
   join: send_date {
-    view_label: "Dates"
+    view_label: "Date [Sent]"
     from: calendar_date
     type:  inner
     sql_on: ${email.send_date} = ${send_date.calendar_date} ;;
     relationship: many_to_one
-    fields: [send_date.calendar_date]
-  }
-  join: email_sends {
-    type: left_outer
-  #   persist_with: default
-    sql_on: ${email.event_type} = 'Sent'
-        and ${email.client_id} = ${email_sends.client_id}
-        and ${email.send_id} = ${email_sends.send_id}
-        and ${email.subscriber_id} = ${email_sends.subscriber_id}
-        and ${email.list_id} = ${email_sends.list_id}
-        and ${email.batch_id} = ${email_sends.batch_id}
-        and ${email.triggered_send_external_id} = ${email_sends.triggered_send_external_id};;
-    relationship: one_to_one
   }
   join:  lists {
       type: left_outer
@@ -69,58 +56,8 @@ explore: email {
   }
   join: subscriber_newsletters {
     type: left_outer
-    sql_on: ${email_send_job_newsletter_bridge.newsletter_id} = ${subscriber_newsletters.newsletter_id} ;;
+    sql_on: ${newsletter_lookup.newsletter_id} = ${subscriber_newsletters.newsletter_id} ;;
     relationship: many_to_one
-  }
-  join:  email_opens {
-    type: left_outer
-    sql_on:  ${email.event_type} = 'Open'
-        and ${email.client_id} = ${email_opens.client_id}
-        and ${email.send_id} = ${email_opens.send_id}
-        and ${email.subscriber_id} = ${email_opens.subscriber_id}
-        and ${email.list_id} = ${email_opens.list_id}
-        and ${email.batch_id} = ${email_opens.batch_id}
-        and ${email.triggered_send_external_id} = ${email_opens.triggered_send_external_id};;
-    relationship: one_to_many
-    }
-  join:  email_clicks {
-    type: left_outer
-    sql_on:  ${email.event_type} = 'Click'
-        and ${email.client_id} = ${email_clicks.client_id}
-        and ${email.send_id} = ${email_clicks.send_id}
-        and ${email.subscriber_id} = ${email_clicks.subscriber_id}
-        and ${email.list_id} = ${email_clicks.list_id}
-        and ${email.batch_id} = ${email_clicks.batch_id};;
-    relationship: one_to_many
-  }
-  join:  email_unsubs {
-    type: left_outer
-    sql_on: ${email.event_type} = 'Unsubscribe'
-        and ${email.client_id} = ${email_unsubs.client_id}
-        and ${email.send_id} = ${email_unsubs.send_id}
-        and ${email.subscriber_id} = ${email_unsubs.subscriber_id}
-        and ${email.list_id} = ${email_unsubs.list_id}
-        and ${email.batch_id} = ${email_unsubs.batch_id};;
-    relationship: one_to_many
-  }
-  join:  email_bounces {
-    type: left_outer
-    sql_on: ${email.event_type} = 'Bounce'
-        and ${email.client_id} = ${email_bounces.client_id}
-        and ${email.send_id} = ${email_bounces.send_id}
-        and ${email.subscriber_id} = ${email_bounces.subscriber_id}
-        and ${email.list_id} = ${email_bounces.list_id};;
-    relationship: one_to_many
-  }
-  join:  email_complaints {
-    type: left_outer
-    sql_on:  ${email.event_type} = 'SpamComplaint'
-        and ${email.client_id} = ${email_complaints.client_id}
-        and ${email.send_id} = ${email_complaints.send_id}
-        and ${email.subscriber_id} = ${email_complaints.subscriber_id}
-        and ${email.list_id} = ${email_complaints.list_id}
-        and ${email.batch_id} = ${email_complaints.batch_id};;
-    relationship: one_to_many
   }
   join: sender_profile {
     type: left_outer

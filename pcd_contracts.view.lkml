@@ -215,13 +215,24 @@ view: pcd_contracts {
     sql: ${TABLE}.frequency ;;
   }
 
+  dimension: is_active {
+    type: yesno
+    sql:  case when ${start_date} >= coalesce(${pcd_current.innactive_date},current_date) then false
+               when ${calendar_date.calendar_date} >= coalesce(${pcd_current.innactive_date},current_date) then false
+               when ${contract_status} is null then true
+               when ${contract_status} not in ('2','3','6') then true
+               else false
+           end ;;
+  }
+
   measure: contracts {
-    type: count
+    type: number
+    sql: count(distinct case when ${is_active} then ${contract_id} end) ;;
   }
 
   measure: unique_contracts {
     type: count_distinct
-    sql: ${TABLE}.account_id ;;
+    sql: ${contract_id} ;;
   }
 
   measure: price {

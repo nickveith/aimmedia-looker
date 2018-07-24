@@ -10,11 +10,13 @@ view: email_send_job_newsletter_bridge {
 
   dimension: send_id {
     type: number
+    hidden:  yes
     sql: ${TABLE}.send_id ;;
   }
 
   dimension: newsletter_id {
     type: string
+    hidden:  yes
     sql: UPPER(${TABLE}.newsletter_id) ;;
   }
 

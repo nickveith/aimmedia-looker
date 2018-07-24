@@ -97,8 +97,7 @@ view: pcd_current {
 
   dimension: subscription_status {
     type: string
-    sql: CASE WHEN  ${TABLE}."trailer status low" = '1' AND ${is_stale} = True then 'EXPIRED'
-              WHEN  ${TABLE}."trailer status low" = '0' THEN 'PENDING'
+    sql: CASE WHEN  ${TABLE}."trailer status low" = '0' THEN 'PENDING'
               WHEN  ${TABLE}."trailer status low" = '1' THEN 'ACTIVE'
               WHEN  ${TABLE}."trailer status low" = '2' THEN 'CANCEL-REFUND'
               WHEN  ${TABLE}."trailer status low" = '3' THEN 'CANCEL-DUPLICATE SALE'
@@ -108,6 +107,11 @@ view: pcd_current {
               WHEN  ${TABLE}."trailer status low" = '7' THEN 'EXPIRED'
               ELSE NULL
               END;;
+  }
+
+  dimension: innactive_date {
+    type: date
+    sql: CASE WHEN ${subscription_status} NOT IN ('PENDING','ACTIVE') THEN ${week_ending} END ;;
   }
 
   dimension: subcriber_type {
@@ -245,6 +249,11 @@ view: pcd_current {
   measure: actives {
     type: number
     sql: count(distinct case when ${subscription_status} = 'ACTIVE' and ${is_subscriber} = True then ${TABLE}."match code" end) ;;
+  }
+
+  measure: active_contracts {
+    type: number
+    sql: count(distinct case when ${subscription_status} = 'ACTIVE' and ${is_subscriber} = True and ${active_contracts.is_active} then ${active_contracts.contract_id} end) ;;
   }
 
   measure: expired {

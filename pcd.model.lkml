@@ -34,6 +34,12 @@ explore: contracts {
   view_label: "Contracts"
   description: "Active contracts by date"
   persist_with: monthly
+  join: calendar_date {
+    from:  calendar_date
+    type:  inner
+    sql_on: ${contracts.calendar_date} = ${calendar_date.calendar_date} ;;
+    relationship: one_to_one
+  }
   join: brand {
     from: aim_brand
     type:  left_outer
@@ -96,35 +102,48 @@ explore: contracts {
 }
 
 explore: contracts_over_time {
-  from: calendar_date
+  from: pcd_issues
   label: "Expirations (Over Time)"
   description: "Active contracts by date"
   persist_with: monthly
-  always_filter: {
-    filters: {
-      field: day_of_month
-      value: "1"
-      }
-  }
-  join: pcd_issues {
+  join: calendar_date {
     type: inner
-    sql_on: ${contracts_over_time.day_of_month} = 1
-        and ${pcd_issues.date_onsale_date} >= dateadd(months, -6 - 12, ${contracts_over_time.calendar_date})
-        and ${pcd_issues.date_onsale_date} <  dateadd(months, -6   , ${contracts_over_time.calendar_date}) ;;
-    relationship: one_to_many
+    sql_on: ${calendar_date.is_last_day_of_month} = True
+        and ${contracts_over_time.date_onsale_date} >= dateadd(months, -6 - 12, ${calendar_date.calendar_date})
+        and ${contracts_over_time.date_onsale_date} <  dateadd(months, -6   , ${calendar_date.calendar_date}) ;;
+    relationship: many_to_one
   }
   join: pcd_publisher {
     type: inner
-    sql_on: ${pcd_publisher.client_code} = ${pcd_issues.client_code}
-      and ${pcd_publisher.pub_code} =  ${pcd_issues.pub_code} ;;
+    sql_on: ${pcd_publisher.client_code} = ${contracts_over_time.client_code}
+      and ${pcd_publisher.pub_code} =  ${contracts_over_time.pub_code} ;;
+    relationship: many_to_one
+  }
+  join: pcd_current {
+    view_label: "PCD File"
+    type: inner
+    sql_on: ${pcd_publisher.client_code} = ${pcd_current.client_code}
+      and ${pcd_publisher.pub_code} =  ${pcd_current.pub_code} ;;
+    relationship: one_to_many
+  }
+  join: active_contracts {
+    from:  pcd_contracts
+    type: left_outer
+    sql_on: ${pcd_current.client_code} = ${active_contracts.client_code}
+        AND ${pcd_current.pub_code} = ${active_contracts.pub_code}
+        AND ${pcd_current.account_id} = ${active_contracts.account_id}
+        AND ${calendar_date.calendar_date} >= ${active_contracts.start_date}
+        and ${calendar_date.calendar_date} <  ${active_contracts.expiration_date}
+        and ${calendar_date.calendar_year} >= 2008
+        and ${calendar_date.calendar_year} <= 2028;;
     relationship: many_to_one
   }
   join: expirations {
     from:  pcd_expirations
     type: left_outer
-    sql_on: ${pcd_issues.issue} = ${expirations.expiration_issue}
-        and ${pcd_issues.client_code} = ${expirations.client_code}
-        and ${pcd_issues.pub_code} = ${expirations.pub_code};;
+    sql_on: ${contracts_over_time.issue} = ${expirations.expiration_issue}
+        and ${contracts_over_time.client_code} = ${expirations.client_code}
+        and ${contracts_over_time.pub_code} = ${expirations.pub_code};;
     relationship: one_to_many
   }
   join: renewals {
@@ -171,6 +190,21 @@ explore: current {
   label: "Subscribers (Current)"
   description: "Current subscriber status"
   persist_with: monthly
+  join: calendar_date {
+    from:  calendar_date
+    type: left_outer
+    sql_on: ${calendar_date.calendar_date} = current_date  ;;
+    relationship: many_to_one
+  }
+  join: active_contracts {
+    from:  pcd_contracts
+    type: left_outer
+    sql_on: ${pcd_publisher.client_code} = ${active_contracts.client_code}
+        AND ${pcd_publisher.pub_code} = ${active_contracts.pub_code}
+        AND ${calendar_date.calendar_date} >= ${active_contracts.start_date}
+        and ${calendar_date.calendar_date} <  ${active_contracts.expiration_date};;
+    relationship: many_to_one
+  }
   join: pcd_current {
     view_label: "PCD File"
     type: inner
@@ -235,21 +269,35 @@ explore: current {
 }
 
 explore: print_pub_overlap {
-  from: pcd_current
-  view_name:  pcd_current
+  from: pcd_publisher
+  view_name:  pcd_publisher
   view_label: "Publication"
   hidden: yes
   persist_with: monthly
-  join: pcd_publisher {
+  join: calendar_date {
+    from:  calendar_date
+    type: left_outer
+    sql_on: ${calendar_date.calendar_date} = current_date  ;;
+    relationship: many_to_one
+  }
+  join: active_contracts {
+    from:  pcd_contracts
+    type: left_outer
+    sql_on: ${pcd_publisher.client_code} = ${active_contracts.client_code}
+        AND ${pcd_publisher.pub_code} = ${active_contracts.pub_code}
+        AND ${calendar_date.calendar_date} >= ${active_contracts.start_date}
+        and ${calendar_date.calendar_date} <  ${active_contracts.expiration_date};;
+    relationship: one_to_many
+  }
+  join: pcd_current {
     view_label: "Publication"
     type: inner
     sql_on: ${pcd_publisher.client_code} = ${pcd_current.client_code}
       and ${pcd_publisher.pub_code} =  ${pcd_current.pub_code}
+      and ${pcd_publisher.active} = True
       and ${pcd_current.subscription_status} = 'ACTIVE'
-      and ${pcd_current.subcriber_type} != '3'
-      and ${pcd_publisher.active} = True;;
-    relationship: many_to_one
-    fields: [pcd_publisher.group, pcd_publisher.publication, pcd_publisher.active]
+      and ${pcd_current.subcriber_type} != '3';;
+    relationship: one_to_many
   }
   join: pcd_subscriber_overlap {
     from: pcd_subscriber_overlap
@@ -266,8 +314,8 @@ explore: print_pub_overlap {
     sql_on: ${pcd_subscriber_overlap.client_code} = ${overlap_publisher.client_code}
       and ${pcd_subscriber_overlap.pub_code} =  ${overlap_publisher.pub_code}
       and ${pcd_subscriber_overlap.subscription_status} = 'ACTIVE'
-      and ${pcd_subscriber_overlap.subcriber_type} != '3'
-      and ${overlap_publisher.active} = True;;
+      and ${overlap_publisher.active} = True
+      and ${pcd_subscriber_overlap.subcriber_type} != '3';;
     relationship: many_to_one
     fields: [overlap_publisher.group, overlap_publisher.publication, overlap_publisher.active]
   }
