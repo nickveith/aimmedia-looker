@@ -160,66 +160,79 @@ view: email_event {
   dimension: id {
     primary_key: yes
     type: string
+    hidden: yes
     sql: ${TABLE}.event_id ;;
   }
 
   dimension: client_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.client_id ;;
   }
 
   dimension: send_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.send_id ;;
   }
 
   dimension: subscriber_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.subscriber_id ;;
   }
 
   dimension: list_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.list_id ;;
   }
 
   dimension: send_date {
     type: date
+    hidden: yes
     sql: ${TABLE}.event_date::date ;;
   }
 
   dimension: send_datetime {
     type: date_time
+    hidden: yes
     sql: ${TABLE}.event_date ;;
   }
 
   dimension: event_date {
     type: date
+    hidden: yes
     sql: ${TABLE}.event_date::date ;;
   }
 
   dimension: event_datetime {
     type: date_time
+    hidden: yes
     sql: ${TABLE}.event_date ;;
   }
 
   dimension: event_type {
     type: string
+    hidden: yes
     sql: ${TABLE}.event_type ;;
   }
 
   dimension: batch_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.batch_id ;;
   }
 
   dimension: triggered_send_external_id {
     type: string
+    hidden: yes
     sql: ${TABLE}.triggered_send_external_id ;;
   }
 
   dimension: campaign_id {
     type: string
+    hidden: yes
     sql: ${TABLE}.campaign_id ;;
   }
 
