@@ -382,12 +382,12 @@ view: email_event {
 
   measure: unsubs {
     type: count_distinct
-    sql: case when ${event_type} = 'Unsub' then ${id} end  ;;
+    sql: case when ${event_type} = 'Unsubscribe' then ${id} end  ;;
   }
 
   measure: unsubs_unique {
     type: count_distinct
-    sql: case when ${event_type} = 'Unsub' then ${client_id}||'|'||${send_id}||'|'||${batch_id}||'|'||${client_id}||'|'||${subscriber_id} end  ;;
+    sql: case when ${event_type} = 'Unsubscribe' then ${client_id}||'|'||${send_id}||'|'||${batch_id}||'|'||${client_id}||'|'||${subscriber_id} end  ;;
   }
 
   measure: unsub_rate {
