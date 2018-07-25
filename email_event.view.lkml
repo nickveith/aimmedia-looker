@@ -191,13 +191,13 @@ view: email_event {
   dimension: send_date {
     type: date
     hidden: yes
-    sql: ${TABLE}.event_date::date ;;
+    sql: ${TABLE}.send_date::date ;;
   }
 
   dimension: send_datetime {
     type: date_time
     hidden: yes
-    sql: ${TABLE}.event_date ;;
+    sql: ${TABLE}.send_date ;;
   }
 
   dimension: event_date {

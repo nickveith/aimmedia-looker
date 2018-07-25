@@ -25,60 +25,63 @@ view: email_summary {
   # Define your dimensions and measures here, like this:
   dimension: email_summary_pk {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.send_id || ' ' || ${TABLE}.list_id   ;;
   }
 
   dimension: send_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.send_id ;;
   }
 
   dimension: list_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.list_id ;;
   }
 
-  measure: total_sends {
+  measure: sends {
     type: sum
     sql: ${TABLE}.total_sends ;;
   }
 
-  measure: total_opens {
+  measure: opens {
     type: sum
     sql: ${TABLE}.total_opens ;;
   }
 
-  measure: total_clicks {
+  measure: clicks {
     type: sum
     sql: ${TABLE}.total_clicks ;;
   }
 
-  measure: total_bounces {
+  measure: bounces {
     type: sum
     sql: ${TABLE}.total_bounces ;;
   }
 
-  measure: total_unsubs {
+  measure: unsubs {
     type: sum
     sql: ${TABLE}.total_unsubs ;;
   }
-  measure: total_unique_opens {
+  measure: opens_unique {
     type: sum
     sql: ${TABLE}.total_unique_opens ;;
   }
 
-  measure: total_unique_clicks {
+  measure: clicks_unique {
     type: sum
     sql: ${TABLE}.total_unique_clicks ;;
   }
 
-  measure: total_unique_bounces {
+  measure: bounces_unique {
     type: sum
     sql: ${TABLE}.total_unique_bounces ;;
   }
 
-  measure: total_unique_unsubs {
+  measure: unsubs_unique {
     type: sum
     sql: ${TABLE}.total_unique_unsubs ;;
   }

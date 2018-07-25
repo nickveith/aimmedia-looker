@@ -13,6 +13,7 @@ view: aim_brand {
 
   dimension: brand_id {
     type: number
+    hidden: yes
     sql: ${TABLE}."BRAND_ID" ;;
   }
 
