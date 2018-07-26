@@ -96,7 +96,7 @@ view: email_summary {
 
   measure: spam_complaints_unique {
     type: sum
-    sql: ${TABLE}.total_unqiue_spam_complaints ;;
+    sql: ${TABLE}.total_unique_spam_complaints ;;
   }
 
   # EMAIL_OPENS #################################################################
