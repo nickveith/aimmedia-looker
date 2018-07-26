@@ -19,7 +19,7 @@ persist_with: daily
 
 explore: email_detail {
   from: email_event
-  view_label: "[Measures] Email Event - Measueres and Metrics"
+  view_label: "[Measures] Email Event"
   description: "For detailed reporting on specific email events (sends, opens, clicks, bounce, spam, unsub). One row per event per user per send. Only use this if you really need that level of detail."
   join: event_date {
     view_label: "[Attributes] Date of Event"
@@ -27,9 +27,34 @@ explore: email_detail {
     type:  inner
     sql_on: ${email_detail.event_date} = ${event_date.calendar_date};;
     relationship: many_to_one
+    fields: [event_date.calendar_date
+            ,event_date.calendar_week
+            ,event_date.calendar_month
+            ,event_date.calendar_month_name
+            ,event_date.calendar_year
+            ,event_date.calendar_day_of_month
+            ,event_date.calendar_month_num
+            ,event_date.is_last_day_of_month
+            ]
   }
   join: send_date {
     view_label: "[Attributes] Date Sent"
+    from: calendar_date
+    type:  inner
+    sql_on: ${email_detail.send_date} = ${send_date.calendar_date} ;;
+    relationship: many_to_one
+    fields: [send_date.calendar_date
+            ,send_date.calendar_week
+            ,send_date.calendar_month
+            ,send_date.calendar_month_name
+            ,send_date.calendar_year
+            ,send_date.calendar_day_of_month
+            ,send_date.calendar_month_num
+            ,send_date.is_last_day_of_month
+            ]
+  }
+  join: send_date_pop {
+    view_label: "[ZZZ - BI Only] Date Sent POP"
     from: calendar_date
     type:  inner
     sql_on: ${email_detail.send_date} = ${send_date.calendar_date} ;;
@@ -51,7 +76,13 @@ explore: email_detail {
     view_label: "[Attributes] Newsletter (List)"
     type:  left_outer
     sql_on: ${email_send_job_newsletter_bridge.newsletter_id} = ${newsletter_lookup.newsletter_id};;
-    relationship: one_to_many
+    relationship: many_to_one
+    fields: [newsletter_lookup.description
+            ,newsletter_lookup.newsletter_id
+            ,newsletter_lookup.list_type
+            ,newsletter_lookup.newsletter
+            ,newsletter_lookup.preference_code
+            ,newsletter_lookup.public]
   }
   join: sender_profile {
     type: left_outer
@@ -65,7 +96,7 @@ explore: email_detail {
     type: left_outer
     sql_on: ${sender_profile.brand_id} = ${brand.brand_id} ;;
     relationship: many_to_one
-    fields: [brand.brand_name, brand.active]
+    fields: [brand.brand_name, brand.brand_is_active]
   }
   join: group {
     from: aim_group
@@ -120,6 +151,12 @@ explore: email_summary {
     type:  left_outer
     sql_on: ${email_send_job_newsletter_bridge.newsletter_id} = ${newsletter_lookup.newsletter_id};;
     relationship: one_to_many
+    fields: [newsletter_lookup.description
+      ,newsletter_lookup.newsletter_id
+      ,newsletter_lookup.list_type
+      ,newsletter_lookup.newsletter
+      ,newsletter_lookup.preference_code
+      ,newsletter_lookup.public]
   }
   join: sender_profile {
     type: left_outer

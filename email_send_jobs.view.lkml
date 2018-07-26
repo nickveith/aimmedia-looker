@@ -3,11 +3,13 @@ view: send_jobs {
 
   dimension: additional {
     type: string
+    hidden: yes
     sql: ${TABLE}.ADDITIONAL ;;
   }
 
   dimension: client_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.CLIENT_ID ;;
   }
 
@@ -28,11 +30,13 @@ view: send_jobs {
 
   dimension: is_multipart {
     type: yesno
+    hidden: yes
     sql: ${TABLE}.IS_MULTIPART ;;
   }
 
   dimension: job_status {
     type: string
+    hidden: yes
     sql: ${TABLE}.JOB_STATUS ;;
   }
 
@@ -43,21 +47,25 @@ view: send_jobs {
 
   dimension: scheduled_time {
     type: date_time
+    hidden: yes
     sql: ${TABLE}.SCHEDULED_TIME ;;
   }
 
   dimension: send_definition_external_key {
     type: string
+    hidden: yes
     sql: ${TABLE}.SEND_DEFINITION_EXTERNAL_KEY ;;
   }
 
   dimension: send_id {
     type: number
+    hidden: yes
     sql: ${TABLE}.SEND_ID ;;
   }
 
   dimension: sent_time {
     type: date_time
+    hidden: yes
     sql: ${TABLE}.SENT_TIME ;;
   }
 
@@ -68,7 +76,13 @@ view: send_jobs {
 
   dimension: triggered_send_external_key {
     type: string
+    hidden: yes
     sql: ${TABLE}.TRIGGERED_SEND_EXTERNAL_KEY ;;
+  }
+
+  dimension: is_triggered_send {
+    type: yesno
+    sql: ${triggered_send_external_key} is not null;;
   }
 
   dimension: email_thumbnail {

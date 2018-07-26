@@ -1,7 +1,7 @@
 view: aim_brand {
   sql_table_name: PUBLIC.AIM_BRAND ;;
 
-  dimension: active {
+  dimension: brand_is_active {
     type: yesno
     sql: ${TABLE}."ACTIVE" ;;
   }

@@ -3,26 +3,31 @@ view: newsletter_lookup {
 
   dimension: associated_print_title {
     type: string
+    hidden:  yes
     sql: ${TABLE}.ASSOCIATED_PRINT_TITLE ;;
   }
 
   dimension: associated_website {
     type: string
+    hidden:  yes
     sql: ${TABLE}.ASSOCIATED_WEBSITE ;;
   }
 
   dimension: brand_code {
     type: string
+    hidden:  yes
     sql: ${TABLE}.BRAND_CODE ;;
   }
 
   dimension: bu_code {
     type: string
+    hidden:  yes
     sql: ${TABLE}.BU_CODE ;;
   }
 
   dimension: group {
     type: string
+    hidden:  yes
     sql: case when ${bu_code} = 'OG' then 'Outdoor Group'
               when ${bu_code} = 'MG' then 'Marine Group'
               when ${bu_code} = 'HL' then 'Healthy Living Group'
@@ -35,11 +40,13 @@ view: newsletter_lookup {
 
   dimension: business_unit {
     type: string
+    hidden:  yes
     sql: CASE WHEN ${TABLE}.BUSINESS_UNIT = 'HG' then 'home' else lower(trim(${TABLE}.BUSINESS_UNIT)) end;;
   }
 
   dimension: de_external_key {
     type: string
+    hidden:  yes
     sql: ${TABLE}.DE_EXTERNAL_KEY ;;
   }
 
@@ -50,26 +57,31 @@ view: newsletter_lookup {
 
   dimension: id_index {
     type: string
+    hidden:  yes
     sql: ${TABLE}.ID_INDEX ;;
   }
 
   dimension: import_date {
     type: string
+    hidden:  yes
     sql: ${TABLE}.IMPORT_DATE ;;
   }
 
   dimension: list_id {
     type: string
+    hidden:  yes
     sql: ${TABLE}.LIST_ID ;;
   }
 
   dimension: list_number {
     type: number
+    hidden:  yes
     sql: ${TABLE}.LIST_NUMBER ;;
   }
 
   dimension: list_or_data_extension {
     type: string
+    hidden:  yes
     sql: ${TABLE}.LIST_OR_DATA_EXTENSION ;;
   }
 
@@ -91,6 +103,7 @@ view: newsletter_lookup {
 
   dimension: pcd_abbreviation {
     type: string
+    hidden:  yes
     sql: ${TABLE}.PCD_ABBREVIATION ;;
   }
 
@@ -101,6 +114,7 @@ view: newsletter_lookup {
 
   dimension: pub_list_id {
     type: number
+    hidden:  yes
     sql: ${TABLE}.PUB_LIST_ID ;;
   }
 
