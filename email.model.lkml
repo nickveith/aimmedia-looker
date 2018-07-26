@@ -132,6 +132,7 @@ explore: email_summary {
   }
   join:  send_jobs {
     type: left_outer
+    view_label: "[Attributes] Email"
     sql_on: ${email_summary.send_id} = ${send_jobs.send_id};;
     relationship: many_to_one
   }
@@ -141,6 +142,15 @@ explore: email_summary {
     type:  inner
     sql_on: ${send_jobs.sent_time}::date = ${send_date.calendar_date} ;;
     relationship: many_to_one
+    fields: [send_date.calendar_date
+      ,send_date.calendar_week
+      ,send_date.calendar_month
+      ,send_date.calendar_month_name
+      ,send_date.calendar_year
+      ,send_date.calendar_day_of_month
+      ,send_date.calendar_month_num
+      ,send_date.is_last_day_of_month
+    ]
   }
   join: email_send_job_newsletter_bridge {
     type:  left_outer
@@ -149,6 +159,7 @@ explore: email_summary {
   }
   join: newsletter_lookup {
     type:  left_outer
+    view_label: "[Attributes] Newsletter (List)"
     sql_on: ${email_send_job_newsletter_bridge.newsletter_id} = ${newsletter_lookup.newsletter_id};;
     relationship: one_to_many
     fields: [newsletter_lookup.description
@@ -166,12 +177,14 @@ explore: email_summary {
   }
   join: brand {
     from: aim_brand
+    view_label: "[Attributes] Brand & Group"
     type: left_outer
     sql_on: ${sender_profile.brand_id} = ${brand.brand_id} ;;
     relationship: many_to_one
   }
   join: group {
     from: aim_group
+    view_label: "[Attributes] Brand & Group"
     type: left_outer
     sql_on: ${sender_profile.group_id} = ${group.id} ;;
     relationship: many_to_one
@@ -196,10 +209,12 @@ explore: newsletter_summary {
   }
   join:  send_jobs {
     type: left_outer
+    view_label: "[Attributes] Email"
     sql_on: ${email_send_job_newsletter_bridge.send_id} = ${send_jobs.send_id};;
     relationship: many_to_one
   }
   join: newsletter_lookup {
+    view_label: "[Attributes] Newsletter (List)"
     type:  left_outer
     sql_on: ${newsletter_summary.newsletter_id} = ${newsletter_lookup.newsletter_id};;
     relationship: one_to_many
@@ -212,12 +227,14 @@ explore: newsletter_summary {
   }
   join: brand {
     from: aim_brand
+    view_label: "[Attributes] Brand & Group"
     type: left_outer
     sql_on: ${sender_profile.brand_id} = ${brand.brand_id} ;;
     relationship: many_to_one
   }
   join: group {
     from: aim_group
+    view_label: "[Attributes] Brand & Group"
     type: left_outer
     sql_on: ${sender_profile.group_id} = ${group.id} ;;
     relationship: many_to_one
