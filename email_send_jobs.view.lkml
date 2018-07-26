@@ -77,7 +77,7 @@ view: send_jobs {
   dimension: triggered_send_external_key {
     type: string
     hidden: yes
-    sql: ${TABLE}.TRIGGERED_SEND_EXTERNAL_KEY ;;
+    sql: nullif(${TABLE}.TRIGGERED_SEND_EXTERNAL_KEY,'') ;;
   }
 
   dimension: is_triggered_send {
