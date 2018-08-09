@@ -57,7 +57,7 @@ explore: email_detail {
     view_label: "[ZZZ - BI Only] Date Sent POP"
     from: calendar_date
     type:  inner
-    sql_on: ${email_detail.send_date} = ${send_date.calendar_date} ;;
+    sql_on: ${email_detail.send_date} = ${send_date_pop.calendar_date} ;;
     relationship: many_to_one
   }
   join:  send_jobs {
@@ -152,6 +152,13 @@ explore: email_summary {
       ,send_date.is_last_day_of_month
     ]
   }
+  join: send_date_pop {
+    view_label: "[ZZZ - BI Only] Date Sent POP"
+    from: calendar_date
+    type:  inner
+    sql_on: ${send_jobs.sent_time}::date = ${send_date_pop.calendar_date} ;;
+    relationship: many_to_one
+  }
   join: email_send_job_newsletter_bridge {
     type:  left_outer
     sql_on: ${send_jobs.send_id} = ${email_send_job_newsletter_bridge.send_id} ;;
@@ -200,6 +207,13 @@ explore: newsletter_summary {
     from: calendar_date
     type:  inner
     sql_on: ${newsletter_summary.daydate}::date = ${send_date.calendar_date} ;;
+    relationship: many_to_one
+  }
+  join: send_date_pop {
+    view_label: "[ZZZ - BI Only] Date Sent POP"
+    from: calendar_date
+    type:  inner
+    sql_on: ${newsletter_summary.daydate}::date = ${send_date_pop.calendar_date} ;;
     relationship: many_to_one
   }
   join: email_send_job_newsletter_bridge {
