@@ -35,6 +35,7 @@ explore: analytics {
   join: report_date {
     from: calendar_date
     sql_on: ${reporting.report_date} = ${report_date.calendar_date};;
+    type:  inner
     fields: [report_date.calendar_date
       ,report_date.calendar_week
       ,report_date.calendar_month
