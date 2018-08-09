@@ -35,17 +35,35 @@ explore: analytics {
   join: report_date {
     from: calendar_date
     sql_on: ${reporting.report_date} = ${report_date.calendar_date};;
-    relationship: one_to_one
+    fields: [report_date.calendar_date
+      ,report_date.calendar_week
+      ,report_date.calendar_month
+      ,report_date.calendar_month_name
+      ,report_date.calendar_year
+      ,report_date.calendar_day_of_month
+      ,report_date.calendar_month_num
+      ,report_date.is_last_day_of_month
+      ,report_date.period_end
+      ,report_date.period_start
+    ]
+    relationship: many_to_one
+  }
+  join: report_date_pop {
+    view_label: "[ZZZ - BI Only] Date POP"
+    from: calendar_date
+    type:  inner
+    sql_on: ${reporting.report_date} = ${report_date_pop.calendar_date} ;;
+    relationship: many_to_one
   }
   join: brand {
     from: aim_brand
     sql_on: ${profile.id} = ${brand.ga_property} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
   join: group {
     from: aim_group
     sql_on: ${brand.group_id} = ${group.id} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
   always_filter: {
     filters: {
@@ -72,17 +90,24 @@ explore: analytics_monthly {
   join: report_date {
     from: calendar_date
     sql_on: ${reporting.month_begin} = ${report_date.calendar_date};;
+    relationship: many_to_one
+  }
+  join: report_date_pop {
+    view_label: "[ZZZ - BI Only] Date POP"
+    from: calendar_date
+    type:  inner
+    sql_on: ${reporting.month_begin} = ${report_date_pop.calendar_date} ;;
     relationship: one_to_one
   }
   join: brand {
     from: aim_brand
     sql_on: ${profile.id} = ${brand.ga_property} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
   join: group {
     from: aim_group
     sql_on: ${brand.group_id} = ${group.id} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
 }
 
@@ -103,17 +128,24 @@ explore: analytics_by_channel {
   join: report_date {
     from: calendar_date
     sql_on: ${reporting.report_date} = ${report_date.calendar_date};;
-    relationship: one_to_one
+    relationship: many_to_one
+  }
+  join: report_date_pop {
+    view_label: "[ZZZ - BI Only] Date POP"
+    from: calendar_date
+    type:  inner
+    sql_on: ${reporting.report_date} = ${report_date_pop.calendar_date} ;;
+    relationship: many_to_one
   }
   join: brand {
     from: aim_brand
     sql_on: ${profile.id} = ${brand.ga_property} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
   join: group {
     from: aim_group
     sql_on: ${brand.group_id} = ${group.id} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
 }
 
@@ -134,16 +166,23 @@ explore: analytics_unique {
   join: report_date {
     from: calendar_date
     sql_on: ${users.daydate_date} = ${report_date.calendar_date};;
-    relationship: one_to_one
+    relationship: many_to_one
+  }
+  join: report_date_pop {
+    view_label: "[ZZZ - BI Only] Date POP"
+    from: calendar_date
+    type:  inner
+    sql_on: ${users.daydate_date} = ${report_date_pop.calendar_date} ;;
+    relationship: many_to_one
   }
   join: brand {
     from: aim_brand
     sql_on: ${profile.id} = ${brand.ga_property} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
   join: group {
     from: aim_group
     sql_on: ${brand.group_id} = ${group.id} ;;
-    relationship: one_to_one
+    relationship: many_to_one
   }
 }

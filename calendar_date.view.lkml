@@ -122,4 +122,9 @@ view: calendar_date {
       end
     ;;
   }
+
+  filter: date_filter {
+    type: date
+    description: "For use on GA dyanmic selection look"
   }
+}
