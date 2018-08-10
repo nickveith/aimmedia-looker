@@ -242,6 +242,12 @@ view: pcd_contracts {
     sql: ${contract_price} ;;
   }
 
+  measure: revenue {
+    type: sum
+    value_format_name: usd
+    sql: ${contract_price} ;;
+  }
+
   measure: average_order_price {
     type: number
     value_format_name: usd
