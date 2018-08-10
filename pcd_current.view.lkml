@@ -31,14 +31,20 @@ view: pcd_current {
 
   dimension: client_code {
     type: string
-    hidden: no
+    hidden: yes
     sql: ${TABLE}."client-18" ;;
   }
 
   dimension: pub_code {
     type: string
-    hidden:  no
+    hidden:  yes
     sql: ${TABLE}."pub-18" ;;
+  }
+
+  dimension: stateprovince {
+    type: string
+    map_layer_name: us_states
+    sql: ${TABLE}."state/province" ;;
   }
 
   dimension_group: original_start_date {
