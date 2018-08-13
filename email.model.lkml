@@ -301,3 +301,22 @@ explore: newsletters {
     relationship: many_to_one
   }
 }
+explore: aim_optouts {
+#   persist_with: default
+  from: optouts_master
+  description: "Information on OptOuts by Email and Newsletter_ID"
+  view_label: "OptOuts (OptOuts_Master)"
+  join:  newsletter_lookup {
+    type: left_outer
+    view_label: "Newsletter (Newsletter_Lookup)"
+    sql_on: lower(${aim_optouts.newsletter_id}) = lower(${newsletter_lookup.newsletter_id});;
+    relationship: many_to_one
+  }
+  join: brand {
+    from: aim_brand
+    view_label: "[Attributes] Brand & Group"
+    type: left_outer
+    sql_on: ${newsletter_lookup.brand_code} = ${brand.brand_code} ;;
+    relationship: many_to_one
+ }
+}

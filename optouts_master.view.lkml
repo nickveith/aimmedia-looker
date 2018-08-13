@@ -8,7 +8,7 @@ view: optouts_master {
 
   dimension: email_address {
     type: string
-    sql: ${TABLE}.email_address ;;
+    sql: lower(${TABLE}.email_address) ;;
   }
 
   dimension_group: event {
@@ -23,7 +23,7 @@ view: optouts_master {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}.EventDate ;;
+    sql: ${TABLE}.Event_Date ;;
   }
 
   dimension: job_id {
