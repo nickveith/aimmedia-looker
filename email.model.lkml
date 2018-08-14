@@ -319,4 +319,18 @@ explore: aim_optouts {
     sql_on: ${newsletter_lookup.brand_code} = ${brand.brand_code} ;;
     relationship: many_to_one
  }
+  join: list_subscribers {
+    from: list_subscribers
+    view_label: "Business Unit Subscribers"
+    type: left_outer
+    sql_on: ${aim_optouts.email_address} = ${list_subscribers.subscriber_key} ;;
+    relationship: many_to_many
+  }
+  join: all_subscribers {
+    from: list_subscribers
+    view_label: "AIM Parent Subscribers"
+    type: left_outer
+    sql_on: ${aim_optouts.email_address} = ${all_subscribers.email_address} ;;
+    relationship: many_to_many
+  }
 }
