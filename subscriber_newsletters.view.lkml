@@ -65,5 +65,4 @@ view: subscriber_newsletters {
     type: number
     sql:  count(distinct ${subscriber_key});;
   }
-
 }

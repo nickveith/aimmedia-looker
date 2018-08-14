@@ -304,8 +304,8 @@ explore: newsletters {
 explore: aim_optouts {
 #   persist_with: default
   from: optouts_master
-  description: "Information on OptOuts by Email and Newsletter_ID"
-  view_label: "OptOuts (OptOuts_Master)"
+  description: "Information on Optouts by Email and Newsletter_ID"
+  view_label: "Optouts (OptOuts_Master)"
   join:  newsletter_lookup {
     type: left_outer
     view_label: "Newsletter (Newsletter_Lookup)"
@@ -318,19 +318,15 @@ explore: aim_optouts {
     type: left_outer
     sql_on: ${newsletter_lookup.brand_code} = ${brand.brand_code} ;;
     relationship: many_to_one
- }
-  join: list_subscribers {
-    from: list_subscribers
-    view_label: "Business Unit Subscribers"
-    type: left_outer
-    sql_on: ${aim_optouts.email_address} = ${list_subscribers.subscriber_key} ;;
-    relationship: many_to_many
-  }
-  join: all_subscribers {
-    from: list_subscribers
-    view_label: "AIM Parent Subscribers"
-    type: left_outer
-    sql_on: ${aim_optouts.email_address} = ${all_subscribers.email_address} ;;
-    relationship: many_to_many
   }
 }
+explore: list_subscribers {
+    from:  list_subscribers
+    description: "Information on Business Unit Level Optouts"
+    view_label: "Business Unit Unsubscribes"
+}
+explore: all_subscribers {
+  from:  all_subscribers
+  description: "Information on AIM Parent Level Optouts"
+  view_label: "AIM Parent Unsubscribes"
+  }

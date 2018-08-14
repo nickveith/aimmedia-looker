@@ -127,4 +127,10 @@ view: newsletter_lookup {
     sql: {% condition overlap_brand_code %} newsletters.brand_code {% endcondition %} AND {% condition overlap_brand_code %} newsletter_lookup2.brand_code {% endcondition %};;
   }
 
+  measure: newsletters {
+    type: number
+    sql: count(${TABLE}.NEWSLETTER) ;;
+  }
+
+
 }
