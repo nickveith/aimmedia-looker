@@ -33,7 +33,7 @@ view: list_subscribers {
 
   dimension: email_address {
     type: string
-    sql: ${TABLE}.EMAIL_ADDRESS ;;
+    sql: lower(${TABLE}.EMAIL_ADDRESS) ;;
   }
 
   dimension: list_id {

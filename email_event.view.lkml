@@ -238,7 +238,7 @@ view: email_event {
 
   dimension: email_address {
     type: string
-    sql: ${TABLE}.email_address ;;
+    sql: lower(${TABLE}.email_address) ;;
   }
 
   dimension: email_domain {
