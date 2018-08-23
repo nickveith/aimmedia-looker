@@ -1,5 +1,19 @@
 view: all_subscribers {
-  sql_table_name: PUBLIC.ALL_SUBSCRIBERS ;;
+
+  derived_table: {
+    sql: select sub.*
+    , case when i.medium = 'scrub' then 'InfoGroup Scrub' when i.medium = 'append' then 'InfoGroup Append' else 'House File' end as subscriber_source
+ from PUBLIC.ALL_SUBSCRIBERS  sub
+ left join (select email_address
+                 , max(snl.medium) as medium
+                 , max(1) as infogroup
+              from PUBLIC.SUBSCRIBER_NEWSLETTERS_LOG snl
+            where snl.source = 'infogroup'
+              and snl.medium in ('scrub','append')
+            group by 1
+            ) i on (lower(sub.EMAIL_ADDRESS) = lower(i.email_address))
+            ;;
+  }
 
   dimension: bounce_count {
     type: string
@@ -76,6 +90,11 @@ view: all_subscribers {
     sql: ${TABLE}.SUBSCRIBER_TYPE ;;
   }
 
+  dimension: subscriber_source {
+    type: string
+    sql: ${TABLE}.subscriber_source;;
+  }
+
   dimension_group: unsub {
     type: time
     timeframes: [
@@ -91,7 +110,7 @@ view: all_subscribers {
     sql: ${TABLE}.UNSUB_DATE ;;
   }
 
-  measure: count {
+    measure: count {
     type: count
     drill_fields: []
   }
