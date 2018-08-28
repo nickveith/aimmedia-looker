@@ -18,7 +18,7 @@ You should have questions after looking at these - Why is email send volume down
 
 Healthy Living: [Yoga Journal](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Yoga%20Journal){:target="_blank"}, [Oxygen](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Oxygen){:target="_blank"}, [Clean Eating](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Clean%20Eating){:target="_blank"}
 
-Outdoor: [Backpacker](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Backpacker){:target="_blank"}, [SKI](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=SKI){:target="_blank"}, [Climbing](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Climbing){:target="_blank"}
+Outdoor: [Backpacker](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Backpacker){:target="_blank"}, [SKI](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=SKI){:target="_blank"}, [Climbing](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Climbing){:target="_blank"}, [SNEWS](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=SNEWS){:target="_blank"}
 
 Equine: [EQUUS](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=EQUUS){:target="_blank"}, [Horse&Rider](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Horse%20&%20Rider){:target="_blank"}, [Dressage Today](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Dressage%20Today%Online){:target="_blank"}
 
