@@ -97,4 +97,9 @@ view: aim_brand {
     sql: ${TABLE}."YOUTUBE_HANDLE" ;;
   }
 
+  dimension: cds_magazine_abbreviation {
+    type: string
+    sql: ${TABLE}.cds_magazine_abbreviation ;;
+  }
+
 }

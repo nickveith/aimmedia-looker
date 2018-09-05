@@ -1,5 +1,13 @@
 view: cds_issues {
-  sql_table_name: PUBLIC.CDS_ISSUES ;;
+  derived_table: {
+    sql: select magazine_abbreviation
+              , issue_number
+              , onsale_date
+              , onsale_date as from_date
+              , lead(onsale_date) over (partition by magazine_abbreviation order by onsale_date) as until_date
+           from cds_issues
+          order by onsale_date ;;
+    }
 
   dimension_group: cover {
     type: time
@@ -45,6 +53,17 @@ view: cds_issues {
     type: string
     sql: ${TABLE}."MAGAZINE_ABBREVIATION" ;;
   }
+
+  dimension: from_date {
+    type: date
+    sql: ${TABLE}.from_date;;
+  }
+
+  dimension: until_date {
+    type: date
+    sql: ${TABLE}.until_date;;
+  }
+
 
   dimension_group: onsale {
     type: time
