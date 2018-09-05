@@ -16,6 +16,8 @@ These monthly dashboards give an overview of brand performance. They are designe
 
 You should have questions after looking at these - Why is email send volume down? or Where did that spike in site traffic come from? To answer these questions use the channel specific dashboards below.
 
+Wa have included a few brands from each group below, but if you do not see your brand, click [here](https://aimmedia.looker.com/dashboards/18){:target="_blank"} to add your brand filter by clicking into the filter option at the top where is says 'Brand Filter is any value' and select your brand from the dropdown by clicking into the box, then selecting 'Run' on the top-right.
+
 Healthy Living: [Yoga Journal](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Yoga%20Journal){:target="_blank"}, [Oxygen](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Oxygen){:target="_blank"}, [Clean Eating](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Clean%20Eating){:target="_blank"}
 
 Outdoor: [Backpacker](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Backpacker){:target="_blank"}, [SKI](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=SKI){:target="_blank"}, [Climbing](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=Climbing){:target="_blank"}, [SNEWS](https://aimmedia.looker.com/dashboards/18?Brand%20Filter=SNEWS){:target="_blank"}
