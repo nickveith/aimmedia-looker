@@ -31,8 +31,8 @@ view: cds_subscription_issues {
     sql: ${TABLE}."ORDER_NUMBER" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
+  measure: subscribers {
+    type: count_distinct
+    sql: ${TABLE}.account_number ;;
   }
 }

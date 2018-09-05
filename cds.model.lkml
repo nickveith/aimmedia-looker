@@ -14,7 +14,7 @@ explore: subscriptions {
   view_label: "Subscriptions"
   description: "Active subscriptions by date"
   join: cds_issues {
-    from:  cds_issues
+    from:  cds_issues_vw
     type:  inner
     sql_on: ${subscriptions.magazine_abbreviation} = ${cds_issues.magazine_abbreviation}
         and ${subscriptions.issue_number} = ${cds_issues.issue_number};;

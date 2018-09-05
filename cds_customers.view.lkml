@@ -193,6 +193,7 @@ view: cds_customers {
 
   dimension: province {
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}."PROVINCE" ;;
   }
 

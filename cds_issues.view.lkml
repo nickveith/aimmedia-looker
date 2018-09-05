@@ -1,4 +1,4 @@
-view: cds_issues {
+view: cds_issues_vw {
   derived_table: {
     sql: select magazine_abbreviation
               , issue_number
