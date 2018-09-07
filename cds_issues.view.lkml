@@ -5,6 +5,7 @@ view: cds_issues_vw {
               , onsale_date
               , onsale_date as from_date
               , lead(onsale_date) over (partition by magazine_abbreviation order by onsale_date) as until_date
+              , count(1) over (partition by  magazine_abbreviation, date_trunc(‘year’, cover_date)) as frequency
            from cds_issues
           order by onsale_date ;;
     }
@@ -80,9 +81,9 @@ view: cds_issues_vw {
     sql: ${TABLE}."ONSALE_DATE" ;;
   }
 
-  measure: frequency {
+  dimension: frequency {
     type: number
-    sql: count(1) over (partition by  magazine_abbreviation, date_trunc('year', cover_date)) / count(1) ;;
+    sql: ${TABLE}.frequency ;;
   }
 
   measure: count {
