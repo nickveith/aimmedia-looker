@@ -1,5 +1,10 @@
 view: send_jobs {
-  sql_table_name: PUBLIC.EMAIL_SEND_JOBS ;;
+  derived_table: {
+    sql:  select j.*
+               , m.newsletter_id
+             from PUBLIC.EMAIL_SEND_JOBS j
+             left join email_send_nls_map m on (j.send_id = m .send_id);;
+  }
 
   dimension: additional {
     type: string
@@ -16,6 +21,11 @@ view: send_jobs {
   dimension: email_name {
     type: string
     sql: ${TABLE}.EMAIL_NAME ;;
+  }
+
+  dimension: newsletter_id {
+    type: string
+    sql: ${TABLE}.newsletter_id;;
   }
 
   dimension: from_email {

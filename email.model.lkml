@@ -75,7 +75,10 @@ explore: email_detail {
   join: newsletter_lookup {
     view_label: "[Attributes] Newsletter (List)"
     type:  left_outer
-    sql_on: ${email_send_job_newsletter_bridge.newsletter_id} = ${newsletter_lookup.newsletter_id};;
+    sql_on: case when ${send_jobs.newsletter_id} = ${newsletter_lookup.newsletter_id} then True
+                 when ${email_send_job_newsletter_bridge.newsletter_id} = ${newsletter_lookup.newsletter_id} then True
+                else False
+                end;;
     relationship: many_to_one
     fields: [newsletter_lookup.description
             ,newsletter_lookup.newsletter_id
@@ -119,6 +122,12 @@ explore: email_detail {
     sql_on: ${email_send_job_newsletter_bridge.newsletter_id} = ${email_newsletter_summary.newsletter_id}
         and ${email_send_job_newsletter_bridge.newsletter_id} is not null ;;
     relationship: one_to_many
+  }
+  join: all_subscribers {
+    view_label: "[Attributes] Email Subscriber"
+    type:  left_outer
+    sql_on: ${email_detail.subscriber_id} = ${all_subscribers.subscriber_id} ;;
+    relationship: many_to_one
   }
 }
 
