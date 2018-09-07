@@ -331,11 +331,11 @@ explore: aim_optouts {
 }
 explore: list_subscribers {
     from:  list_subscribers
-    description: "Information on Business Unit Level Optouts"
-    view_label: "Business Unit Unsubscribes"
+    description: "Information on Business Unit Level Status"
+    view_label: "Business Unit Status"
 }
 explore: all_subscribers {
   from:  all_subscribers
-  description: "Information on AIM Parent Level Optouts"
-  view_label: "AIM Parent Unsubscribes"
+  description: "Information on AIM Parent Level Status"
+  view_label: "AIM Parent Status"
   }
