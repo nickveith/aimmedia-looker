@@ -249,6 +249,14 @@ view: cds_orders {
     sql: ${TABLE}."TAX_VALUE" ;;
   }
 
+  measure: cds_average_order_price {
+    type: number
+    value_format_name: usd
+    sql: case when coalesce(${gross_value_for_agency_order},0) = 0 then 0
+              else sum(${gross_value_for_agency_order}/(case when coalesce(${order_term},0) = 0 then 1 else ${order_term} end)*${cds_issues.frequency} / count(1)
+          end ;;
+  }
+
   measure: count {
     type: count
     drill_fields: []

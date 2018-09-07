@@ -80,6 +80,11 @@ view: cds_issues_vw {
     sql: ${TABLE}."ONSALE_DATE" ;;
   }
 
+  measure: frequency {
+    type: number
+    sql: count(1) over (partition by  magazine_abbreviation, date_trunc('year', cover_date)) / count(1) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: []
