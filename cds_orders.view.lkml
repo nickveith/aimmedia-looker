@@ -254,9 +254,9 @@ view: cds_orders {
   measure: cds_average_order_price {
     type: number
     value_format_name: usd
-    sql: case when ( ${order_term} * ${cds_issues.frequency} ) = 0 then 0
+    sql: case when sum( ${order_term} * ${cds_issues.frequency} ) = 0 then 0
               else ${gross_value_for_agency_order}
-                 / ( ${order_term} * ${cds_issues.frequency} )
+                 / sum( ${order_term} * ${cds_issues.frequency} )
           end ;;
   }
 
