@@ -20,7 +20,6 @@ explore: subscriptions {
         and ${subscriptions.issue_number} = ${cds_issues.issue_number};;
     relationship: many_to_one
   }
-
   join: calendar_date {
     from: calendar_date
     type: inner
@@ -35,9 +34,8 @@ explore: subscriptions {
     sql_on: ${subscriptions.account_number} = ${cds_orders.account_number}
         and ${subscriptions.magazine_abbreviation} = ${cds_orders.magazine_abbreviation}
         and ${subscriptions.order_number} = ${cds_orders.order_number};;
-    relationship: one_to_many
+    relationship: many_to_one
   }
-
   join: cds_subscriptions {
     from: cds_subscriptions
     type: left_outer
@@ -46,24 +44,23 @@ explore: subscriptions {
         and ${subscriptions.issue_number} = ${cds_subscriptions.start_issue};;
         relationship: many_to_one
   }
-
   join: cds_pub  {
     from:  cds_pub
     type: left_outer
     sql_on: ${subscriptions.magazine_abbreviation} = ${cds_pub.magazine_abbreviation} ;;
-    relationship: one_to_many
+    relationship: many_to_many
   }
   join: cds_customers {
     from: cds_customers
     type: left_outer
     sql_on: ${subscriptions.account_number} = ${cds_customers.account_number};;
-    relationship: one_to_one
+    relationship: many_to_one
   }
   join: aim_brand {
     from: aim_brand
     type: left_outer
     sql_on:  ${subscriptions.magazine_abbreviation} = ${aim_brand.cds_magazine_abbreviation};;
-    relationship: one_to_one
+    relationship: many_to_one
   }
 
 }

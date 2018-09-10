@@ -251,13 +251,9 @@ view: cds_subscriptions {
     sql: ${TABLE}."TIMES_SUBSCRIBER_RENEWED" ;;
   }
 
+
   dimension: zipcode {
     type: zipcode
     sql: ${TABLE}."ZIPCODE" ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: []
   }
 }

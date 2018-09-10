@@ -5,7 +5,7 @@ view: cds_issues_vw {
               , onsale_date
               , onsale_date as from_date
               , lead(onsale_date) over (partition by magazine_abbreviation order by onsale_date) as until_date
-              , count(1) over (partition by  magazine_abbreviation, date_trunc(‘year’, cover_date)) as frequency
+              , count(1) over (partition by  magazine_abbreviation, date_trunc("year", cover_date)) as frequency
            from cds_issues
           order by onsale_date ;;
     }

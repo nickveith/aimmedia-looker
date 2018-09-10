@@ -35,4 +35,5 @@ view: cds_subscription_issues {
     type: count_distinct
     sql: ${TABLE}.account_number ;;
   }
+
 }

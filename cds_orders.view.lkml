@@ -75,8 +75,8 @@ view: cds_orders {
     sql: ${TABLE}."FILE_DATE" ;;
   }
 
-  dimension: gross_value_for_agency_order {
-    type: number
+  measure: gross_value_for_agency_order {
+    type: sum
     sql: ${TABLE}."GROSS_VALUE_FOR_AGENCY_ORDER" ;;
   }
 
@@ -211,7 +211,9 @@ view: cds_orders {
 
   dimension: order_term {
     type: number
-    sql: ${TABLE}."ORDER_TERM" ;;
+    sql: case when coalesce(${TABLE}."ORDER_TERM",0) = 0 then 1
+              else ${TABLE}."ORDER_TERM"
+          end ;;
   }
 
   dimension: prior_expiration {
@@ -252,13 +254,10 @@ view: cds_orders {
   measure: cds_average_order_price {
     type: number
     value_format_name: usd
-    sql: case when coalesce(${gross_value_for_agency_order},0) = 0 then 0
-              else sum(${gross_value_for_agency_order}/(case when coalesce(${order_term},0) = 0 then 1 else ${order_term} end)*${cds_issues.frequency} / count(1)
+    sql: case when ( ${cds_orders.order_term} * ${cds_issues.frequency} ) = 0 then 0
+              else ${cds_orders.gross_value_for_agency_order}
+                 / ( ${cds_orders.order_term} * ${cds_issues.frequency} )
           end ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
-  }
 }
