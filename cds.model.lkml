@@ -26,7 +26,7 @@ explore: subscriptions {
     sql_on: ${cds_issues.from_date} <= ${calendar_date.calendar_date}
         and ${cds_issues.until_date} > ${calendar_date.calendar_date}
         and ${calendar_date.is_last_day_of_month} = True;;
-    relationship: many_to_many
+    relationship: many_to_one
   }
   join: cds_orders {
     from: cds_orders
@@ -48,7 +48,7 @@ explore: subscriptions {
     from:  cds_pub
     type: left_outer
     sql_on: ${subscriptions.magazine_abbreviation} = ${cds_pub.magazine_abbreviation} ;;
-    relationship: many_to_many
+    relationship: many_to_one
   }
   join: cds_customers {
     from: cds_customers
